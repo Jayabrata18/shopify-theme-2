@@ -1,5 +1,3 @@
-
-
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
@@ -22,238 +20,939 @@
   }
 {% endjavascript %}
 
-{% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<results-list
-  class="section product-grid-container color-{{ section.settings.color_scheme }}"
-  style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
-  section-id="{{ section.id }}"
-  infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
->
-  {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+<div class="urbnmyth-collection-page">
+  <div class="urbnmyth-collection-container">
 
-  <div
-    class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
-  >
-    {% content_for 'block',
-      type: 'filters',
-      id: 'filters',
-      results: collection,
-      results_size: collection.products_count
-    %}
+    <!-- CHANGE 1: Hero image at the top -->
+    <div class="urbnmyth-hero-banner">
+      <img
+        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80"
+        alt="URBNMYTH Collection"
+        class="urbnmyth-hero-img"
+        loading="eager"
+      >
+      <div class="urbnmyth-hero-overlay">
+        <h1 class="urbnmyth-hero-title">SHOP ALL</h1>
+      </div>
+    </div>
 
-    {% assign products_per_page = 24 %}
+    <!-- CHANGE 2: Removed products count + total items — only title remains -->
+    <div class="urbnmyth-collection-header">
+      <h1 class="urbnmyth-collection-title">SHOP ALL</h1>
+    </div>
 
-    {% if section.settings.enable_infinite_scroll == false %}
-      {% assign products_per_page = section.settings.products_per_page %}
-    {% endif %}
+    <!-- CHANGE 3: Toolbar — removed label text and grey background -->
+    <div class="urbnmyth-toolbar">
 
-    {% paginate collection.products by products_per_page %}
-      {% capture children %}
-        {% for product in collection.products %}
-          <li
-            id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-            data-page="{{ paginate.current_page }}"
-            data-product-id="{{ product.id }}"
-            ref="cards[]"
-          >
-            {% # theme-check-disable %}
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-            {% # theme-check-enable %}
-          </li>
-        {% endfor %}
-      {% endcapture %}
+      <div class="urbnmyth-sort-group">
+        <!-- label removed -->
+        <div class="urbnmyth-sort-select-wrap">
+          <select id="urbnmyth-sort-select" class="urbnmyth-sort-select" onchange="urbnmythSort(this.value)">
+            <option value="manual"            {% if collection.sort_by == 'manual' %}selected{% endif %}>FEATURED</option>
+            <option value="best-selling"      {% if collection.sort_by == 'best-selling' %}selected{% endif %}>BEST SELLING</option>
+            <option value="created-descending"{% if collection.sort_by == 'created-descending' %}selected{% endif %}>NEWEST</option>
+            <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>OLDEST</option>
+            <option value="price-ascending"   {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>PRICE: LOW → HIGH</option>
+            <option value="price-descending"  {% if collection.sort_by == 'price-descending' %}selected{% endif %}>PRICE: HIGH → LOW</option>
+            <option value="title-ascending"   {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A → Z</option>
+            <option value="title-descending"  {% if collection.sort_by == 'title-descending' %}selected{% endif %}>Z → A</option>
+          </select>
+          <svg class="urbnmyth-sort-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
 
-      {% render 'product-grid',
-        section: section,
-        children: children,
-        products: collection.products,
-        paginate: paginate,
-        enable_infinite_scroll: section.settings.enable_infinite_scroll
-      %}
-    {% endpaginate %}
+      <div class="urbnmyth-row-group">
+        <!-- label removed -->
+        <div class="urbnmyth-row-btns">
+          <button class="urbnmyth-row-btn active" data-cols="2" onclick="urbnmythSetCols(2, this)" title="2 columns">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="9" height="20" rx="1"/><rect x="13" y="2" width="9" height="20" rx="1"/>
+            </svg>
+          </button>
+          <button class="urbnmyth-row-btn" data-cols="3" onclick="urbnmythSetCols(3, this)" title="3 columns">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="5" height="20" rx="1"/><rect x="9.5" y="2" width="5" height="20" rx="1"/><rect x="17" y="2" width="5" height="20" rx="1"/>
+            </svg>
+          </button>
+          <button class="urbnmyth-row-btn" data-cols="4" onclick="urbnmythSetCols(4, this)" title="4 columns">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2"  y="2" width="4" height="20" rx="1"/>
+              <rect x="8"  y="2" width="4" height="20" rx="1"/>
+              <rect x="14" y="2" width="4" height="20" rx="1"/>
+              <rect x="20" y="2" width="4" height="20" rx="1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /toolbar -->
+
+    <!-- Products Grid -->
+    <div class="urbnmyth-products-section">
+      {% paginate collection.products by 24 %}
+        <div class="urbnmyth-products-grid urbnmyth-cols-2" id="urbnmyth-grid">
+          {% assign display_products = collection.products %}
+          {% assign is_filtered = false %}
+
+          {% for filter in collection.filters %}
+            {% if filter.active_values.size > 0 %}
+              {% assign is_filtered = true %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% if display_products.size == 0 and is_filtered == false %}
+            {% assign display_products = collections.all.products %}
+          {% endif %}
+
+          {% for product in display_products limit: 12 %}
+            {% assign image_urls = '' %}
+            {% for image in product.images limit: 5 %}
+              {% assign image_urls = image_urls | append: image | image_url: width: 600 | append: '||' %}
+            {% endfor %}
+
+            <!-- CHANGE 8: Order is image → name → price → sizes (sizes are clickable buttons) -->
+            <div class="urbnmyth-product-card">
+
+              <!-- 1) Product Image -->
+              <a href="{{ product.url }}"
+                 class="urbnmyth-product-image"
+                 data-images="{{ image_urls }}"
+                 data-current="0">
+
+                {% if product.featured_image %}
+                  <img class="urbnmyth-img-primary"
+                       src="{{ product.featured_image | image_url: width: 600 }}"
+                       alt="{{ product.title }}"
+                       width="600"
+                       height="{{ 600 | divided_by: product.featured_image.aspect_ratio | round }}"
+                       loading="lazy">
+                  <img class="urbnmyth-img-secondary"
+                       src="{{ product.featured_image | image_url: width: 600 }}"
+                       alt="{{ product.title }}"
+                       width="600"
+                       height="{{ 600 | divided_by: product.featured_image.aspect_ratio | round }}"
+                       loading="lazy"
+                       aria-hidden="true">
+                {% else %}
+                  <div class="urbnmyth-product-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                  </div>
+                {% endif %}
+
+                <!-- Sale / New Badge -->
+                {% if product.compare_at_price > product.price %}
+                  <div class="urbnmyth-sale-badge">SALE</div>
+                {% elsif product.tags contains 'new' %}
+                  <div class="urbnmyth-new-badge">NEW</div>
+                {% endif %}
+
+                <!-- CHANGE 4: Top-left actions — icon only by default, label shows on hover -->
+                <div class="urbnmyth-top-actions">
+                  <button class="urbnmyth-action-btn urbnmyth-quickview-btn"
+                          title="Quick View"
+                          onclick="urbnmythQuickView(event, '{{ product.url }}')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span class="urbnmyth-btn-label">QUICK VIEW</span>
+                  </button>
+                  <button class="urbnmyth-action-btn urbnmyth-wishlist-btn"
+                          title="Add to Wishlist"
+                          onclick="urbnmythToggleWishlist(event, '{{ product.id }}', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    <span class="urbnmyth-btn-label">WISHLIST</span>
+                  </button>
+                </div>
+
+                <!-- CHANGE 7: Quick Add button — white bg, black text/border -->
+                <div class="urbnmyth-hover-add">
+                  <button class="urbnmyth-hover-add-btn"
+                          onclick="urbnmythQuickAddToCart(event, '{{ product.selected_or_first_available_variant.id }}', this)"
+                          {% unless product.available %}disabled{% endunless %}>
+                    {% if product.available %}
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                      </svg>
+                      QUICK ADD
+                    {% else %}
+                      SOLD OUT
+                    {% endif %}
+                  </button>
+                </div>
+
+              </a>
+
+              <!-- 2) Product Info: name → price → sizes -->
+              <div class="urbnmyth-product-info">
+
+                <!-- Name -->
+                <a href="{{ product.url }}" class="urbnmyth-product-title">
+                  {{ product.title }}
+                </a>
+
+                <!-- Price -->
+                <div class="urbnmyth-product-price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="urbnmyth-price-sale">{{ product.price | money }}</span>
+                    <span class="urbnmyth-price-compare">{{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span class="urbnmyth-price-regular">{{ product.price | money }}</span>
+                  {% endif %}
+                </div>
+
+                <!-- CHANGE 8: Sizes — clickable buttons, selecting highlights active size -->
+                {% assign size_option_index = nil %}
+                {% for option in product.options %}
+                  {% if option == 'Size' or option == 'size' or option == 'SIZE' %}
+                    {% assign size_option_index = forloop.index0 %}
+                  {% endif %}
+                {% endfor %}
+
+                {% if size_option_index != nil %}
+                  <div class="urbnmyth-sizes" data-product-id="{{ product.id }}">
+                    {% assign shown_sizes = '' %}
+                    {% for variant in product.variants %}
+                      {% if variant.available %}
+                        {% assign size_val = variant.options[size_option_index] %}
+                        {% unless shown_sizes contains size_val %}
+                          <!-- CHANGE 8: button instead of span, stores variant id for add-to-cart -->
+                          <button
+                            class="urbnmyth-size-chip"
+                            data-variant-id="{{ variant.id }}"
+                            data-size="{{ size_val }}"
+                            onclick="urbnmythSelectSize(event, this)"
+                          >{{ size_val }}</button>
+                          {% assign shown_sizes = shown_sizes | append: size_val | append: ',' %}
+                        {% endunless %}
+                      {% endif %}
+                    {% endfor %}
+                    {% if shown_sizes == '' %}
+                      <span class="urbnmyth-size-chip urbnmyth-size-sold">SOLD OUT</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+              </div>
+            </div>
+          {% else %}
+            <div class="urbnmyth-empty-state" style="grid-column: 1 / -1;">
+              <div class="urbnmyth-empty-content">
+                <div class="urbnmyth-empty-icon">
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                </div>
+                {% if is_filtered %}
+                  <h3 class="urbnmyth-empty-title">NO PRODUCTS FOUND</h3>
+                  <p class="urbnmyth-empty-subtitle">Try adjusting your filters or browse all products.</p>
+                  <button onclick="clearAllFilters()" class="urbnmyth-clear-filters-btn">CLEAR ALL FILTERS</button>
+                {% else %}
+                  <h3 class="urbnmyth-empty-title">COMING SOON</h3>
+                  <p class="urbnmyth-empty-subtitle">Fresh streetwear drops are on the way! Stay tuned for new arrivals.</p>
+                  <a href="/collections/all" class="urbnmyth-shop-btn">
+                    <span>BROWSE COLLECTION</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if paginate.pages > 1 %}
+          <div class="urbnmyth-pagination">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" class="urbnmyth-pagination-btn urbnmyth-pagination-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                PREV
+              </a>
+            {% endif %}
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <a href="{{ part.url }}" class="urbnmyth-pagination-btn">{{ part.title }}</a>
+              {% else %}
+                <span class="urbnmyth-pagination-current">{{ part.title }}</span>
+              {% endif %}
+            {% endfor %}
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" class="urbnmyth-pagination-btn urbnmyth-pagination-next">
+                NEXT
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
   </div>
-</results-list>
+</div>
+
+<style>
+/* ─── Base ─────────────────────────────────────────────── */
+.urbnmyth-collection-page {
+  background: #fff;
+  min-height: 100vh;
+  padding: 0 20px 60px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.urbnmyth-collection-container { max-width: 1400px; margin: 0 auto; }
+
+/* ─── CHANGE 1: Hero Banner ─────────────────────────────── */
+.urbnmyth-hero-banner {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 420px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.urbnmyth-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+.urbnmyth-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 40px 60px;
+}
+.urbnmyth-hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1;
+}
+
+/* ─── CHANGE 2: Header — no count ──────────────────────── */
+.urbnmyth-collection-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 24px;
+  padding: 30px 0 20px;
+  border-bottom: 3px solid #000;
+}
+.urbnmyth-collection-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+/* ─── CHANGE 3: Toolbar — transparent, no grey, no labels ─ */
+.urbnmyth-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 36px;
+  padding: 14px 0;
+  background: transparent;   /* removed grey */
+  border: none;              /* removed border */
+}
+.urbnmyth-sort-group,
+.urbnmyth-row-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* urbnmyth-sort-label still exists for any other use but is removed from toolbar HTML */
+.urbnmyth-sort-label {
+  display: none; /* hide if somehow rendered */
+}
+.urbnmyth-sort-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.urbnmyth-sort-select {
+  appearance: none;
+  background: #fff;
+  border: 2px solid #000;
+  padding: 10px 40px 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #000;
+  font-family: inherit;
+  outline: none;
+  transition: background 0.2s;
+}
+.urbnmyth-sort-select:hover { background: #f0f0f0; }
+.urbnmyth-sort-arrow {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  color: #000;
+}
+
+/* ─── Row / Column Buttons ──────────────────────────────── */
+.urbnmyth-row-btns { display: flex; gap: 4px; }
+.urbnmyth-row-btn {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 2px solid #ddd;
+  cursor: pointer; color: #aaa; transition: all 0.2s ease;
+}
+.urbnmyth-row-btn:hover { border-color: #000; color: #000; }
+.urbnmyth-row-btn.active { background: #000; border-color: #000; color: #fff; }
+
+/* ─── Grid & Column Variants ────────────────────────────── */
+.urbnmyth-products-section { margin-top: 0; }
+.urbnmyth-products-grid { display: grid; gap: 30px; transition: gap 0.3s; }
+.urbnmyth-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.urbnmyth-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.urbnmyth-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ─── Product Card ──────────────────────────────────────── */
+.urbnmyth-product-card {
+  background: #fff;
+  border: none;
+  /* CHANGE 6: removed hover transform (no bigger animation on hover) */
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Product Image ─────────────────────────────────────── */
+.urbnmyth-product-image {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.45;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.urbnmyth-img-primary,
+.urbnmyth-img-secondary {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* CHANGE 6: removed transform from transition so hover doesn't scale */
+  transition: opacity 0.6s ease;
+}
+.urbnmyth-img-primary  { opacity: 1;  z-index: 1; }
+.urbnmyth-img-secondary { opacity: 0; z-index: 2; }
+
+/* CHANGE 5: on hover secondary fades in (JS also cycles every 3s) */
+/* CHANGE 6: removed scale(1.06) on primary — no grow animation */
+.urbnmyth-product-card:hover .urbnmyth-img-secondary { opacity: 1; }
+
+.urbnmyth-product-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: #ddd;
+}
+
+/* ─── Badges ─────────────────────────────────────────────── */
+.urbnmyth-sale-badge,
+.urbnmyth-new-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #000;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+/* ─── CHANGE 4: Top-left actions — icon only, label on hover ── */
+.urbnmyth-top-actions {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.urbnmyth-product-card:hover .urbnmyth-top-actions {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+.urbnmyth-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0;                  /* no gap when label hidden */
+  padding: 8px;            /* icon-only padding */
+  background: #fff;
+  border: 1.5px solid #000;
+  color: #000;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease, gap 0.2s ease;
+  line-height: 1;
+  overflow: hidden;
+}
+
+/* CHANGE 4: Label hidden by default, slides in on button hover */
+.urbnmyth-btn-label {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.25s ease, margin-left 0.25s ease;
+  margin-left: 0;
+  display: inline-block;
+}
+.urbnmyth-action-btn:hover .urbnmyth-btn-label {
+  max-width: 100px;
+  opacity: 1;
+  margin-left: 6px;
+}
+.urbnmyth-action-btn:hover {
+  background: #000;
+  color: #fff;
+  padding: 7px 11px;
+}
+.urbnmyth-wishlist-btn.urbnmyth-wishlisted svg { fill: #000; }
+.urbnmyth-wishlisted { background: #000 !important; color: #fff !important; }
+
+/* ─── CHANGE 7: Quick Add — white button ─────────────────── */
+.urbnmyth-hover-add {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.urbnmyth-product-card:hover .urbnmyth-hover-add {
+  transform: translateY(0);
+}
+
+.urbnmyth-hover-add-btn {
+  width: 100%;
+  padding: 14px;
+  background: #fff;
+  color: #000;
+  border: none;             /* no border */
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.urbnmyth-hover-add-btn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+.urbnmyth-hover-add-btn:disabled {
+  background: #eee;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* ─── CHANGE 8: Product Info — name → price → sizes ─────── */
+.urbnmyth-product-info { padding: 16px 4px 20px; }
+
+.urbnmyth-product-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  line-height: 1.4;
+  letter-spacing: 0.4px;
+  transition: opacity 0.2s;
+}
+.urbnmyth-product-title:hover { opacity: 0.55; }
+
+.urbnmyth-product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-wrap: wrap;
+}
+.urbnmyth-price-sale    { color: #000; }
+.urbnmyth-price-compare { font-size: 0.95rem; color: #999; text-decoration: line-through; font-weight: 600; }
+.urbnmyth-price-regular { color: #000; }
+
+/* ─── CHANGE 8: Size buttons (clickable, selectable) ─────── */
+.urbnmyth-sizes {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0;
+}
+.urbnmyth-size-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1.5px solid #ccc;
+  color: #444;
+  background: #fff;
+  line-height: 1.4;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.urbnmyth-size-chip:hover {
+  border-color: #000;
+  color: #000;
+}
+/* selected state */
+.urbnmyth-size-chip.urbnmyth-size-selected {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+.urbnmyth-size-chip.urbnmyth-size-sold {
+  border-color: #e0e0e0;
+  color: #bbb;
+  cursor: default;
+}
+
+/* ─── Empty State ────────────────────────────────────────── */
+.urbnmyth-empty-state { text-align: center; padding: 80px 20px; }
+.urbnmyth-empty-content { max-width: 500px; margin: 0 auto; }
+.urbnmyth-empty-icon  { margin-bottom: 30px; }
+.urbnmyth-empty-icon svg { color: #ddd; }
+.urbnmyth-empty-title { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; color: #000; }
+.urbnmyth-empty-subtitle { font-size: 1.1rem; color: #666; margin-bottom: 30px; line-height: 1.6; font-weight: 500; }
+.urbnmyth-clear-filters-btn,
+.urbnmyth-shop-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 32px; background: #000; color: #fff;
+  text-decoration: none; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; border: 2px solid #000;
+  transition: all 0.3s ease; font-size: 0.9rem; cursor: pointer; font-family: inherit;
+}
+.urbnmyth-clear-filters-btn:hover,
+.urbnmyth-shop-btn:hover { background: #fff; color: #000; transform: translateY(-2px); }
+
+/* ─── Pagination ─────────────────────────────────────────── */
+.urbnmyth-pagination {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; margin-top: 60px; padding-top: 40px;
+  border-top: 2px solid #e0e0e0; flex-wrap: wrap;
+}
+.urbnmyth-pagination-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 18px; background: #fff; color: #000;
+  border: 2px solid #000; text-decoration: none;
+  font-weight: 700; font-size: 0.85rem;
+  transition: all 0.25s ease; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.urbnmyth-pagination-btn:hover { background: #000; color: #fff; transform: translateY(-1px); }
+.urbnmyth-pagination-current {
+  padding: 11px 18px; background: #000; color: #fff;
+  border: 2px solid #000; font-weight: 700; font-size: 0.85rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .urbnmyth-cols-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .urbnmyth-cols-3,
+  .urbnmyth-cols-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .urbnmyth-collection-page { padding: 0 15px 40px; }
+  .urbnmyth-hero-banner { height: 260px; }
+  .urbnmyth-hero-title { font-size: 2.5rem; }
+  .urbnmyth-hero-overlay { padding: 24px 30px; }
+  .urbnmyth-collection-title { font-size: 2rem; }
+  .urbnmyth-toolbar { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .urbnmyth-cols-2,
+  .urbnmyth-cols-3,
+  .urbnmyth-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .urbnmyth-products-grid { gap: 18px; }
+  .urbnmyth-top-actions { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .urbnmyth-hover-add   { transform: translateY(0); }
+}
+@media (max-width: 480px) {
+  .urbnmyth-hero-banner { height: 200px; }
+  .urbnmyth-hero-title { font-size: 1.8rem; }
+  .urbnmyth-collection-title { font-size: 1.6rem; }
+  .urbnmyth-cols-2,
+  .urbnmyth-cols-3,
+  .urbnmyth-cols-4 { grid-template-columns: 1fr; }
+  .urbnmyth-product-title { font-size: 0.9rem; }
+  .urbnmyth-product-price { font-size: 1rem; }
+  .urbnmyth-empty-title   { font-size: 1.5rem; }
+}
+</style>
+
+<script>
+/* ── Sort ─────────────────────────────────────────────────── */
+function urbnmythSort(value) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('sort_by', value);
+  window.location.href = url.toString();
+}
+
+/* ── Column toggle ────────────────────────────────────────── */
+function urbnmythSetCols(n, btn) {
+  const grid = document.getElementById('urbnmyth-grid');
+  if (!grid) return;
+  grid.className = grid.className.replace(/urbnmyth-cols-\d/g, '').trim() + ' urbnmyth-cols-' + n;
+  document.querySelectorAll('.urbnmyth-row-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  try { localStorage.setItem('urbnmyth_cols', n); } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  /* restore saved column preference */
+  try {
+    const saved = localStorage.getItem('urbnmyth_cols');
+    if (saved) {
+      const btn = document.querySelector('[data-cols="' + saved + '"]');
+      if (btn) urbnmythSetCols(Number(saved), btn);
+    }
+  } catch(e) {}
+
+  /* ── Image cycling every 3s on hover ───────────────────── */
+  document.querySelectorAll('.urbnmyth-product-image').forEach(function (imageWrap) {
+    const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
+    if (rawImages.length < 2) return;
+
+    const primary   = imageWrap.querySelector('.urbnmyth-img-primary');
+    const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+    if (!primary || !secondary) return;
+
+    // Pre-load all images so cycling is instant
+    rawImages.forEach(function(src) {
+      const img = new Image(); img.src = src;
+    });
+
+    let cycleTimer = null;
+    let cycleIndex = 0;
+    // track which layer is currently "on top"
+    let primaryOnTop = true;
+
+    function showImage(src) {
+      if (primaryOnTop) {
+        // fade secondary in over primary
+        secondary.src = src;
+        secondary.style.opacity = '1';
+        primary.style.opacity   = '0';
+        primaryOnTop = false;
+      } else {
+        // fade primary in over secondary
+        primary.src = src;
+        primary.style.opacity   = '1';
+        secondary.style.opacity = '0';
+        primaryOnTop = true;
+      }
+    }
+
+    function nextImage() {
+      cycleIndex = (cycleIndex + 1) % rawImages.length;
+      showImage(rawImages[cycleIndex]);
+    }
+
+    imageWrap.addEventListener('mouseenter', function () {
+      // immediately show second image
+      cycleIndex = 1;
+      primaryOnTop = true; // primary is currently showing, so showImage will use secondary
+      showImage(rawImages[1]);
+      // then cycle every 3s
+      cycleTimer = setInterval(nextImage, 3000);
+    });
+
+    imageWrap.addEventListener('mouseleave', function () {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
+      // reset: show first image on primary
+      primary.src             = rawImages[0];
+      primary.style.opacity   = '1';
+      secondary.style.opacity = '0';
+      primaryOnTop = true;
+      cycleIndex = 0;
+    });
+  });
+
+  /* ── Wishlist state restore ─────────────────────────────── */
+  try {
+    const wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+    wl.forEach(function (id) {
+      const btn = document.querySelector('.urbnmyth-wishlist-btn[data-product-id="' + id + '"]');
+      if (btn) btn.classList.add('urbnmyth-wishlisted');
+    });
+  } catch(e) {}
+});
+
+/* ── CHANGE 8: Size selection — highlights clicked button ─── */
+function urbnmythSelectSize(event, btn) {
+  event.preventDefault();
+  event.stopPropagation();
+  // deselect siblings in same product's size row
+  const sizeContainer = btn.closest('.urbnmyth-sizes');
+  if (sizeContainer) {
+    sizeContainer.querySelectorAll('.urbnmyth-size-chip').forEach(function(chip) {
+      chip.classList.remove('urbnmyth-size-selected');
+    });
+  }
+  btn.classList.add('urbnmyth-size-selected');
+  // store selected variant on the card for quick add
+  const card = btn.closest('.urbnmyth-product-card');
+  if (card) {
+    const quickAddBtn = card.querySelector('.urbnmyth-hover-add-btn');
+    if (quickAddBtn && btn.dataset.variantId) {
+      quickAddBtn.dataset.variantId = btn.dataset.variantId;
+      // update onclick to use selected variant
+      quickAddBtn.setAttribute(
+        'onclick',
+        "urbnmythQuickAddToCart(event, '" + btn.dataset.variantId + "', this)"
+      );
+    }
+  }
+}
+
+/* ── Quick Add ────────────────────────────────────────────── */
+function urbnmythQuickAddToCart(event, variantId, button) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const originalHTML = button.innerHTML;
+  button.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> ADDING...';
+  button.disabled = true;
+
+  const formData = new FormData();
+  formData.append('id', variantId);
+  formData.append('quantity', 1);
+
+  fetch('/cart/add.js', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(() => {
+      button.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> ADDED!';
+      setTimeout(() => { window.location.href = '/cart'; }, 600);
+    })
+    .catch(() => {
+      button.innerHTML = 'ERROR — TRY AGAIN';
+      button.style.background = '#dc3545';
+      button.style.color = '#fff';
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.disabled = false;
+        button.style.background = '';
+        button.style.color = '';
+      }, 2000);
+    });
+}
+
+/* ── Quick View ───────────────────────────────────────────── */
+function urbnmythQuickView(event, productUrl) {
+  event.preventDefault();
+  event.stopPropagation();
+  window.open(productUrl + '?quickview=1', '_blank', 'noopener');
+}
+
+/* ── Wishlist Toggle ──────────────────────────────────────── */
+function urbnmythToggleWishlist(event, productId, btn) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  try {
+    let wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+    const idx = wl.indexOf(String(productId));
+
+    if (idx === -1) {
+      wl.push(String(productId));
+      btn.classList.add('urbnmyth-wishlisted');
+      const span = btn.querySelector('.urbnmyth-btn-label');
+      if (span) { span.textContent = 'SAVED'; }
+    } else {
+      wl.splice(idx, 1);
+      btn.classList.remove('urbnmyth-wishlisted');
+      const span = btn.querySelector('.urbnmyth-btn-label');
+      if (span) { span.textContent = 'WISHLIST'; }
+    }
+
+    localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
+  } catch(e) {}
+}
+
+/* ── Clear Filters ────────────────────────────────────────── */
+function clearAllFilters() {
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+  [...params.keys()].filter(k => k.startsWith('filter.') || k === 'sort_by')
+                    .forEach(k => params.delete(k));
+  window.location.href = url.pathname + (params.toString() ? '?' + params.toString() : '');
+}
+</script>
 
 {% schema %}
 {
-  "name": "t:names.collection_container",
-  "enabled_on": {
-    "templates": ["collection"]
-  },
+  "name": "URBNMYTH Collection",
   "settings": [
-    {
-      "type": "select",
-      "id": "layout_type",
-      "label": "t:settings.type",
-      "options": [
-        {
-          "value": "grid",
-          "label": "t:options.grid"
-        },
-        {
-          "value": "organic",
-          "label": "t:options.editorial"
-        }
-      ],
-      "default": "grid"
-    },
-    {
-      "type": "select",
-      "id": "product_card_size",
-      "label": "t:settings.card_size",
-      "options": [
-        {
-          "value": "small",
-          "label": "t:options.small"
-        },
-        {
-          "value": "medium",
-          "label": "t:options.medium"
-        },
-        {
-          "value": "large",
-          "label": "t:options.large"
-        },
-        {
-          "value": "extra-large",
-          "label": "t:options.extra_large"
-        }
-      ],
-      "default": "medium",
-      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
-    },
-    {
-      "type": "select",
-      "id": "mobile_product_card_size",
-      "label": "t:settings.mobile_card_size",
-      "options": [
-        {
-          "value": "small",
-          "label": "t:options.small"
-        },
-        {
-          "value": "large",
-          "label": "t:options.large"
-        }
-      ],
-      "default": "small"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_infinite_scroll",
-      "label": "t:settings.auto_load_products",
-      "default": true
-    },
     {
       "type": "range",
       "id": "products_per_page",
-      "label": "t:settings.products_per_page",
       "min": 8,
-      "max": 36,
-      "step": 4,
-      "default": 24,
-      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.layout"
-    },
-    {
-      "type": "select",
-      "id": "product_grid_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "centered",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "centered"
+      "max": 48,
+      "step": 8,
+      "label": "Products per page",
+      "default": 24
     },
     {
       "type": "checkbox",
-      "id": "full_width_on_mobile",
-      "label": "t:settings.full_width_on_mobile",
-      "default": true,
-      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
-    },
-    {
-      "type": "range",
-      "id": "columns_gap_horizontal",
-      "label": "t:settings.horizontal_gap",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "columns_gap_vertical",
-      "label": "t:settings.vertical_gap",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "t:settings.left_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "t:settings.right_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:content.section_layout"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 8
+      "id": "show_collection_count",
+      "label": "Show collection count",
+      "default": true
     }
-  ],
-  "presets": []
+  ]
 }
 {% endschema %}
