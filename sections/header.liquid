@@ -1,0 +1,642 @@
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --urbn-black: #111111;
+    --urbn-white: #ffffff;
+    --urbn-gray-100: #f5f4f2;
+    --urbn-gray-200: #e8e6e2;
+    --urbn-gray-400: #9a9792;
+    --urbn-nav-h: 64px;
+    --urbn-menu-w: 320px;
+  }
+
+  .urbn-announcement {
+    background: var(--urbn-black);
+    color: var(--urbn-white);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .urbn-nav {
+    background: var(--urbn-white);
+    height: var(--urbn-nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--urbn-gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .urbn-nav-left,
+  .urbn-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+  .urbn-nav-right { justify-content: flex-end; }
+
+  .urbn-nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .urbn-nav-center a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .urbn-nav-center img {
+    height: 38px;
+    width: auto;
+    display: block;
+  }
+  .urbn-brand-fallback {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 22px;
+    letter-spacing: 0.3em;
+    color: var(--urbn-black);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .urbn-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    color: var(--urbn-black);
+    position: relative;
+    padding: 0;
+    text-decoration: none;
+  }
+  .urbn-icon-btn:hover { background: var(--urbn-gray-100); }
+  .urbn-icon-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--urbn-black);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ── HAMBURGER ANIMATION ── */
+  .urbn-burger {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+  .urbn-burger span {
+    display: block;
+    height: 1.6px;
+    background: var(--urbn-black);
+    border-radius: 2px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.25s ease,
+                width 0.3s ease;
+    transform-origin: center;
+  }
+  .urbn-burger span:nth-child(1) { width: 22px; }
+  .urbn-burger span:nth-child(2) { width: 16px; }
+  .urbn-burger span:nth-child(3) { width: 22px; }
+
+  .urbn-burger.is-open span:nth-child(1) {
+    transform: translateY(6.6px) rotate(45deg);
+    width: 22px;
+  }
+  .urbn-burger.is-open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .urbn-burger.is-open span:nth-child(3) {
+    transform: translateY(-6.6px) rotate(-45deg);
+    width: 22px;
+  }
+
+  .urbn-cart-wrap { position: relative; display: flex; align-items: center; }
+  .urbn-cart-badge {
+    position: absolute;
+    top: 5px; right: 5px;
+    background: var(--urbn-black);
+    color: var(--urbn-white);
+    font-size: 8px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .urbn-cart-badge[data-count="0"] { display: none; }
+
+  .urbn-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 200;
+    pointer-events: none;
+    transition: background 0.35s ease;
+  }
+  .urbn-overlay.is-open {
+    background: rgba(0,0,0,0.45);
+    pointer-events: all;
+  }
+
+  .urbn-slide-menu {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--urbn-menu-w);
+    max-width: 85vw;
+    height: 100%;
+    background: var(--urbn-white);
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .urbn-slide-menu.is-open { transform: translateX(0); }
+
+  .urbn-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+    height: var(--urbn-nav-h);
+    border-bottom: 1px solid var(--urbn-gray-200);
+    flex-shrink: 0;
+  }
+
+  .urbn-menu-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0 24px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .urbn-menu-section-label {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--urbn-gray-400);
+    text-transform: uppercase;
+    padding: 20px 24px 8px;
+  }
+
+  .urbn-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 24px;
+    text-decoration: none;
+    color: var(--urbn-black);
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .urbn-menu-item:hover,
+  .urbn-menu-item:focus { background: var(--urbn-gray-100); outline: none; }
+  .urbn-menu-item:active { background: var(--urbn-gray-200); }
+
+  .urbn-menu-icon {
+    width: 38px; height: 38px;
+    background: var(--urbn-gray-100);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .urbn-menu-item:hover .urbn-menu-icon { background: var(--urbn-gray-200); }
+  .urbn-menu-icon svg {
+    width: 18px; height: 18px;
+    stroke: var(--urbn-black);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .urbn-menu-text { flex: 1; }
+  .urbn-menu-text span {
+    display: block;
+    font-size: 15px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: var(--urbn-black);
+    letter-spacing: 0.02em;
+  }
+  .urbn-menu-text small {
+    display: block;
+    font-size: 11px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: var(--urbn-gray-400);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  .urbn-menu-arrow svg {
+    width: 16px; height: 16px;
+    stroke: var(--urbn-gray-400);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .urbn-menu-divider {
+    height: 1px;
+    background: var(--urbn-gray-200);
+    margin: 8px 24px;
+  }
+
+  .urbn-menu-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--urbn-gray-200);
+    flex-shrink: 0;
+  }
+  .urbn-menu-footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .urbn-menu-footer-links a {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--urbn-gray-400);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .urbn-menu-footer-links a:hover { color: var(--urbn-black); }
+
+  @media (max-width: 480px) {
+    :root { --urbn-nav-h: 58px; }
+    .urbn-announcement { font-size: 10px; letter-spacing: 0.1em; padding: 7px 12px; }
+    .urbn-nav-center img { height: 32px; }
+    .urbn-brand-fallback { font-size: 18px; }
+    .urbn-icon-btn { width: 36px; height: 36px; }
+    .urbn-icon-btn svg { width: 20px; height: 20px; }
+  }
+</style>
+
+{% if section.settings.announcement_text != blank %}
+  <div class="urbn-announcement">{{ section.settings.announcement_text }}</div>
+{% endif %}
+
+<nav class="urbn-nav" role="navigation" aria-label="Main navigation">
+
+  <div class="urbn-nav-left">
+    <button class="urbn-icon-btn" id="urbn-burger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="urbn-slide-menu">
+      <div class="urbn-burger" id="urbn-burger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <button class="urbn-icon-btn" aria-label="Search" id="urbn-search-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="urbn-nav-center">
+    <a href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url }}" alt="{{ shop.name }}" width="160" height="38" loading="eager">
+      {%- else -%}
+        <img
+          src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/URBNMYTH_word_mark_1.svg?v=1778783944"
+          alt="{{ shop.name }}"
+          width="160"
+          height="38"
+          loading="eager"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+        >
+        <span class="urbn-brand-fallback" style="display:none;">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div class="urbn-nav-right">
+    {%- if shop.customer_accounts_enabled -%}
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="urbn-icon-btn" aria-label="{%- if customer -%}My Account{%- else -%}Log in{%- endif -%}">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </a>
+    {%- endif -%}
+    <div class="urbn-cart-wrap">
+      <a href="{{ routes.cart_url }}" class="urbn-icon-btn" aria-label="Cart ({{ cart.item_count }} items)">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+      </a>
+      <span class="urbn-cart-badge" data-count="{{ cart.item_count }}" aria-hidden="true">{{ cart.item_count }}</span>
+    </div>
+  </div>
+
+</nav>
+
+<div class="urbn-overlay" id="urbn-overlay" aria-hidden="true"></div>
+
+<aside class="urbn-slide-menu" id="urbn-slide-menu" aria-label="Site navigation" aria-hidden="true" role="dialog" aria-modal="true">
+
+  <div class="urbn-menu-header">
+    <button class="urbn-icon-btn" id="urbn-close-btn" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="urbn-menu-body">
+
+    <p class="urbn-menu-section-label">Shop</p>
+
+    <a href="{{ section.settings.tshirt_url | default: '/collections/t-shirts' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.86H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.86l.58-3.57a2 2 0 00-1.34-2.23z"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>T-Shirts</span>
+        <small>Graphic, plain &amp; oversized</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <a href="{{ section.settings.polo_url | default: '/collections/polo' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6l4-4h2s0 4 3 4 3-4 3-4h2l4 4-3 3-1-1v9a1 1 0 01-1 1H7a1 1 0 01-1-1V8L5 9 3 6z"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Polo</span>
+        <small>Classic &amp; textured fits</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <a href="{{ section.settings.shirts_url | default: '/collections/shirts' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6l3-4h3v2a3 3 0 006 0V2h3l3 4v4h-3v10a1 1 0 01-1 1H7a1 1 0 01-1-1V10H3V6z"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Shirts</span>
+        <small>Casual &amp; resort styles</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <div class="urbn-menu-divider"></div>
+
+    <a href="{{ section.settings.trousers_url | default: '/collections/trousers' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 2h16l-2 12-4 8h-4L6 14 4 2z"/>
+          <line x1="12" y1="2" x2="12" y2="14"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Trousers</span>
+        <small>Slim, straight &amp; relaxed</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <a href="{{ section.settings.joggers_url | default: '/collections/joggers' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 2h14l-2 11-3 9H10L7 13 5 2z"/>
+          <line x1="12" y1="2" x2="12" y2="13"/>
+          <line x1="5" y1="7" x2="19" y2="7"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Joggers</span>
+        <small>Comfort &amp; street fits</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <a href="{{ section.settings.shorts_url | default: '/collections/shorts' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 2h14l-1 8-3 6H9L6 10 5 2z"/>
+          <line x1="12" y1="2" x2="12" y2="10"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Shorts</span>
+        <small>Athletic &amp; everyday</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <div class="urbn-menu-divider"></div>
+
+    <p class="urbn-menu-section-label">Account</p>
+
+    <a href="{{ section.settings.wishlist_url | default: '/pages/wishlist' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Wishlist</span>
+        <small>Your saved items</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+    <div class="urbn-menu-divider"></div>
+
+    <p class="urbn-menu-section-label">Support</p>
+
+    <a href="{{ section.settings.returns_url | default: '/pages/returns' }}" class="urbn-menu-item">
+      <div class="urbn-menu-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <polyline points="1 4 1 10 7 10"/>
+          <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+        </svg>
+      </div>
+      <div class="urbn-menu-text">
+        <span>Return / Exchange</span>
+        <small>Easy 7-day returns</small>
+      </div>
+      <div class="urbn-menu-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+
+  </div>
+
+  <div class="urbn-menu-footer">
+    <div class="urbn-menu-footer-links">
+      <a href="{{ section.settings.about_url | default: '/pages/about' }}">About</a>
+      <a href="{{ section.settings.contact_url | default: '/pages/contact' }}">Contact</a>
+      {%- if section.settings.instagram_url != blank -%}
+        <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+</aside>
+
+<script>
+(function () {
+  var burgerBtn  = document.getElementById('urbn-burger-btn');
+  var burgerIcon = document.getElementById('urbn-burger-icon');
+  var closeBtn   = document.getElementById('urbn-close-btn');
+  var overlay    = document.getElementById('urbn-overlay');
+  var menu       = document.getElementById('urbn-slide-menu');
+
+  function openMenu() {
+    menu.classList.add('is-open');
+    overlay.classList.add('is-open');
+    burgerIcon.classList.add('is-open');
+    menu.setAttribute('aria-hidden', 'false');
+    overlay.setAttribute('aria-hidden', 'false');
+    burgerBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    burgerIcon.classList.remove('is-open');
+    menu.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    burgerBtn.focus();
+  }
+
+  burgerBtn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "URBNMYTH Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement bar text",
+      "default": "Free shipping on orders above ₹2,000 · New Collection Out Now"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (leave blank to use default SVG)"
+    },
+    {
+      "type": "header",
+      "content": "Menu Links"
+    },
+    {
+      "type": "url",
+      "id": "tshirt_url",
+      "label": "T-Shirts URL"
+    },
+    {
+      "type": "url",
+      "id": "polo_url",
+      "label": "Polo URL"
+    },
+    {
+      "type": "url",
+      "id": "shirts_url",
+      "label": "Shirts URL"
+    },
+    {
+      "type": "url",
+      "id": "trousers_url",
+      "label": "Trousers URL"
+    },
+    {
+      "type": "url",
+      "id": "joggers_url",
+      "label": "Joggers URL"
+    },
+    {
+      "type": "url",
+      "id": "shorts_url",
+      "label": "Shorts URL"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist URL"
+    },
+    {
+      "type": "url",
+      "id": "returns_url",
+      "label": "Returns & Exchange URL"
+    },
+    {
+      "type": "header",
+      "content": "Footer Links"
+    },
+    {
+      "type": "url",
+      "id": "about_url",
+      "label": "About URL"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "URBNMYTH Header"
+    }
+  ]
+}
+{% endschema %}
