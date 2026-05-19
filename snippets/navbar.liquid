@@ -1,0 +1,370 @@
+{%- style -%}
+/* ===== Core ===== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+  background: transparent;
+  animation: slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateY(-100%);
+}
+@keyframes slideDown { to { transform: translateY(0); } }
+.navbar.scrolled {
+  background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.navbar-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+@media (min-width: 640px)  { .navbar-container { padding: 0 1.5rem; } }
+@media (min-width: 1024px) { .navbar-container { padding: 0 2rem; } }
+
+/* ===== Inner layout — 3 zones: left | center | right ===== */
+.navbar-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 4.5rem;
+}
+@media (min-width: 640px) { .navbar-inner { height: 5.5rem; } }
+
+.navbar-left  { display: flex; align-items: center; gap: 0.25rem; justify-content: flex-start; }
+.navbar-right { display: flex; align-items: center; gap: 0.25rem; justify-content: flex-end; }
+
+/* ===== Logo ===== */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  /* subtle pulse on load */
+  animation: logoPulse 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+@keyframes logoPulse {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.navbar-logo img {
+  height: 2.2rem;
+  display: block;
+  transition: filter 0.3s ease, transform 0.4s ease;
+  filter: brightness(1);
+}
+@media (min-width: 640px) { .navbar-logo img { height: 2.8rem; } }
+@media (min-width: 1024px) { .navbar-logo img { height: 3.2rem; } }
+.navbar-logo:hover img {
+  filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.35));
+  transform: scale(1.05);
+}
+
+/* ===== Icon buttons ===== */
+.icon-btn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  padding: 0.5rem;
+  transition: color 0.3s, transform 0.25s;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+}
+.icon-btn:hover { color: #fff; transform: scale(1.1); }
+.icon-btn svg { width: 1.1rem; height: 1.1rem; }
+@media (min-width: 640px) { .icon-btn svg { width: 1.3rem; height: 1.3rem; } }
+
+/* Cart badge */
+.cart-count {
+  position: absolute; top: 0; right: 0;
+  width: 1rem; height: 1rem;
+  background: var(--color-accent, #e5c07b);
+  color: var(--color-accent-foreground, #000);
+  font-size: 0.5625rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-weight: 700; line-height: 1;
+}
+
+/* Search + Profile — hide on mobile */
+.icon-btn.desktop-only { display: none; }
+@media (min-width: 1024px) { .icon-btn.desktop-only { display: flex; } }
+
+/* ===== Sidebar overlay (hamburger menu) ===== */
+.sidebar-backdrop {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.sidebar-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  z-index: 70;
+  width: min(22rem, 88vw);
+  background: #0a0a0a;
+  display: flex; flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-y: auto;
+}
+.sidebar.open { transform: translateX(0); }
+
+/* Sidebar header */
+.sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 1.5rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-header-logo img { height: 1.8rem; }
+.sidebar-close {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.6); padding: 0.4rem;
+  transition: color 0.2s, transform 0.3s;
+  display: flex; align-items: center;
+}
+.sidebar-close:hover { color: #fff; transform: rotate(90deg); }
+.sidebar-close svg { width: 1.1rem; height: 1.1rem; }
+
+/* Section label */
+.sidebar-section-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 1.4rem 1.5rem 0.5rem;
+  font-weight: 700;
+}
+
+/* Collection links */
+.sidebar-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color 0.25s, border-color 0.25s, background 0.25s, padding-left 0.25s;
+  font-weight: 600;
+}
+.sidebar-link:hover {
+  color: #fff;
+  border-left-color: var(--color-accent, #e5c07b);
+  background: rgba(255,255,255,0.04);
+  padding-left: 1.8rem;
+}
+.sidebar-link svg { width: 0.85rem; height: 0.85rem; opacity: 0.4; }
+
+/* Track order button */
+.sidebar-track-btn {
+  margin: 1.4rem 1.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.8);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer; font-family: inherit;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.sidebar-track-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.6);
+  color: #fff;
+}
+.sidebar-track-btn svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
+
+/* Divider */
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin: 0 1.5rem;
+}
+
+/* Stagger animation for sidebar links */
+.sidebar-link, .sidebar-track-btn {
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: color 0.25s, border-color 0.25s, background 0.25s, padding-left 0.25s,
+              opacity 0.35s ease, transform 0.35s ease;
+}
+.sidebar.open .sidebar-link,
+.sidebar.open .sidebar-track-btn {
+  opacity: 1;
+  transform: translateX(0);
+}
+.sidebar.open .sidebar-link:nth-child(1)  { transition-delay: 0.08s; }
+.sidebar.open .sidebar-link:nth-child(2)  { transition-delay: 0.13s; }
+.sidebar.open .sidebar-link:nth-child(3)  { transition-delay: 0.18s; }
+.sidebar.open .sidebar-link:nth-child(4)  { transition-delay: 0.23s; }
+.sidebar.open .sidebar-link:nth-child(5)  { transition-delay: 0.28s; }
+.sidebar.open .sidebar-link:nth-child(6)  { transition-delay: 0.33s; }
+.sidebar.open .sidebar-track-btn          { transition-delay: 0.38s; }
+{%- endstyle -%}
+
+<!-- Sidebar backdrop -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="{{ routes.root_url }}" class="sidebar-header-logo" id="sidebarLogoLink">
+      <img
+        src="https://media.base44.com/images/public/user_6991d413f4af2dd5366a233f/8ce446e3e_URBNMYTHwordmark1.svg"
+        alt="{{ shop.name }}"
+        height="28"
+      >
+    </a>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Collections section -->
+  <p class="sidebar-section-label">Collections</p>
+
+  {%- for collection in collections -%}
+    <a href="{{ collection.url }}" class="sidebar-link" data-close-sidebar>
+      {{ collection.title }}
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  {%- else -%}
+    <!-- Fallback static links if collections object isn't available in this context -->
+    <a href="/collections/all" class="sidebar-link" data-close-sidebar>
+      All Products
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="/collections/new-arrivals" class="sidebar-link" data-close-sidebar>
+      New Arrivals
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="/collections/best-sellers" class="sidebar-link" data-close-sidebar>
+      Best Sellers
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  {%- endfor -%}
+
+  <hr class="sidebar-divider">
+
+  <!-- Track Order -->
+  <a href="/pages/track-order" class="sidebar-track-btn" data-close-sidebar>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+    </svg>
+    Track Order
+  </a>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-container">
+    <div class="navbar-inner">
+
+      <!-- Left: hamburger -->
+      <div class="navbar-left">
+        <button class="icon-btn" id="menuToggle" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Center: logo -->
+      <a href="{{ routes.root_url }}" class="navbar-logo">
+        <img
+          src="https://media.base44.com/images/public/user_6991d413f4af2dd5366a233f/8ce446e3e_URBNMYTHwordmark1.svg"
+          alt="{{ shop.name }}"
+          width="auto"
+          height="48"
+        >
+      </a>
+
+      <!-- Right: search (desktop only) + profile (desktop only) + cart -->
+      <div class="navbar-right">
+        <!-- Search — desktop only -->
+        <button class="icon-btn desktop-only" aria-label="Search" id="searchToggle">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <!-- Profile — desktop only -->
+        <a href="{{ routes.account_url }}" class="icon-btn desktop-only" aria-label="Account">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+
+        <!-- Cart — always visible -->
+        <a href="{{ routes.cart_url }}" class="icon-btn" aria-label="Cart">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          {%- if cart.item_count > 0 -%}
+            <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<script>
+(function () {
+  const navbar   = document.getElementById('navbar');
+  const sidebar  = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const toggle   = document.getElementById('menuToggle');
+  const closeBtn = document.getElementById('sidebarClose');
+
+  /* ── Scroll → scrolled class ── */
+  function onScroll() {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Sidebar open / close ── */
+  function openSidebar() {
+    sidebar.classList.add('open');
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+  backdrop.addEventListener('click', closeSidebar);
+
+  /* Close when any sidebar link is clicked */
+  sidebar.querySelectorAll('[data-close-sidebar]').forEach(function (el) {
+    el.addEventListener('click', closeSidebar);
+  });
+
+  /* Escape key */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSidebar();
+  });
+})();
+</script>
