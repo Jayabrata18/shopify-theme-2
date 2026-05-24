@@ -10,12 +10,21 @@
   transform: translateY(-100%);
 }
 @keyframes slideDown { to { transform: translateY(0); } }
+
+/* scrolled = dark bg → icons white */
 .navbar.scrolled {
   background: rgba(0,0,0,0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
+
+/* white-bg = light bg → icons black */
+.navbar.white-bg {
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+}
+
 .navbar-container {
   max-width: 80rem;
   margin: 0 auto;
@@ -24,25 +33,24 @@
 @media (min-width: 640px)  { .navbar-container { padding: 0 1.5rem; } }
 @media (min-width: 1024px) { .navbar-container { padding: 0 2rem; } }
 
-/* ===== Inner layout — 3 zones: left | center | right ===== */
+/* ===== Inner: 3 zones ===== */
 .navbar-inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  height: 4.5rem;
+  /* height scales with viewport height */
+  height: clamp(3.5rem, 8vh, 5rem);
 }
-@media (min-width: 640px) { .navbar-inner { height: 5.5rem; } }
+@media (min-width: 640px)  { .navbar-inner { height: clamp(4rem, 9vh, 5.5rem); } }
+@media (min-width: 1024px) { .navbar-inner { height: clamp(4.5rem, 10vh, 6rem); } }
 
 .navbar-left  { display: flex; align-items: center; gap: 0.25rem; justify-content: flex-start; }
 .navbar-right { display: flex; align-items: center; gap: 0.25rem; justify-content: flex-end; }
 
 /* ===== Logo ===== */
 .navbar-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   text-decoration: none;
-  /* subtle pulse on load */
   animation: logoPulse 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   opacity: 0;
 }
@@ -52,48 +60,87 @@
   100% { opacity: 1; transform: scale(1); }
 }
 .navbar-logo img {
-  height: 2.2rem;
+  /* fluid logo: scales with viewport width */
+  height: clamp(1.6rem, 4vw, 3rem);
   display: block;
   transition: filter 0.3s ease, transform 0.4s ease;
-  filter: brightness(1);
+  filter: brightness(10);    /* white logo by default (transparent bg) */
 }
-@media (min-width: 640px) { .navbar-logo img { height: 2.8rem; } }
-@media (min-width: 1024px) { .navbar-logo img { height: 3.2rem; } }
+/* When white-bg, invert logo to dark */
+.navbar.white-bg .navbar-logo img {
+  filter: brightness(0);
+}
 .navbar-logo:hover img {
   filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.35));
   transform: scale(1.05);
+}
+.navbar.white-bg .navbar-logo:hover img {
+  filter: brightness(0) drop-shadow(0 0 6px rgba(0,0,0,0.2));
 }
 
 /* ===== Icon buttons ===== */
 .icon-btn {
   background: none; border: none; cursor: pointer;
-  color: rgba(255,255,255,0.8);
-  padding: 0.5rem;
-  transition: color 0.3s, transform 0.25s;
+  /* fluid padding using viewport units */
+  padding: clamp(0.35rem, 1vw, 0.65rem);
+  transition: color 0.25s, transform 0.25s, background 0.25s;
   position: relative;
   display: flex; align-items: center; justify-content: center;
   text-decoration: none;
+  border-radius: 50%;
+  /* default: transparent navbar → white icons */
+  color: rgba(255,255,255,0.85);
 }
-.icon-btn:hover { color: #fff; transform: scale(1.1); }
-.icon-btn svg { width: 1.1rem; height: 1.1rem; }
-@media (min-width: 640px) { .icon-btn svg { width: 1.3rem; height: 1.3rem; } }
+.icon-btn:hover {
+  color: #fff;
+  transform: scale(1.12);
+  background: rgba(255,255,255,0.08);
+}
+
+/* fluid icon size: grows with viewport */
+.icon-btn svg {
+  width:  clamp(1.1rem, 2.5vw, 1.6rem);
+  height: clamp(1.1rem, 2.5vw, 1.6rem);
+  display: block;
+}
+
+/* ── White-bg state: icons become black ── */
+.navbar.white-bg .icon-btn {
+  color: rgba(0,0,0,0.75);
+}
+.navbar.white-bg .icon-btn:hover {
+  color: #000;
+  background: rgba(0,0,0,0.06);
+}
+
+/* ── Scrolled (dark) state: icons white ── */
+.navbar.scrolled .icon-btn {
+  color: rgba(255,255,255,0.85);
+}
+.navbar.scrolled .icon-btn:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
 
 /* Cart badge */
 .cart-count {
-  position: absolute; top: 0; right: 0;
-  width: 1rem; height: 1rem;
+  position: absolute;
+  top: clamp(0rem, 0.3vw, 0.1rem);
+  right: clamp(0rem, 0.3vw, 0.1rem);
+  width:  clamp(0.85rem, 1.8vw, 1.1rem);
+  height: clamp(0.85rem, 1.8vw, 1.1rem);
   background: var(--color-accent, #e5c07b);
   color: var(--color-accent-foreground, #000);
-  font-size: 0.5625rem;
+  font-size: clamp(0.45rem, 1vw, 0.6rem);
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%; font-weight: 700; line-height: 1;
 }
 
-/* Search + Profile — hide on mobile */
+/* Search + Profile — desktop only */
 .icon-btn.desktop-only { display: none; }
 @media (min-width: 1024px) { .icon-btn.desktop-only { display: flex; } }
 
-/* ===== Sidebar overlay (hamburger menu) ===== */
+/* ===== Sidebar backdrop ===== */
 .sidebar-backdrop {
   position: fixed; inset: 0; z-index: 60;
   background: rgba(0,0,0,0.55);
@@ -103,6 +150,7 @@
 }
 .sidebar-backdrop.open { opacity: 1; pointer-events: auto; }
 
+/* ===== Sidebar ===== */
 .sidebar {
   position: fixed; top: 0; left: 0; bottom: 0;
   z-index: 70;
@@ -115,7 +163,6 @@
 }
 .sidebar.open { transform: translateX(0); }
 
-/* Sidebar header */
 .sidebar-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.4rem 1.5rem 1.2rem;
@@ -131,28 +178,21 @@
 .sidebar-close:hover { color: #fff; transform: rotate(90deg); }
 .sidebar-close svg { width: 1.1rem; height: 1.1rem; }
 
-/* Section label */
 .sidebar-section-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  padding: 1.4rem 1.5rem 0.5rem;
-  font-weight: 700;
+  font-size: 0.6rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+  padding: 1.4rem 1.5rem 0.5rem; font-weight: 700;
 }
 
-/* Collection links */
 .sidebar-link {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.85rem 1.5rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  transition: color 0.25s, border-color 0.25s, background 0.25s, padding-left 0.25s;
+  font-size: 0.85rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.75);
+  text-decoration: none; border-left: 2px solid transparent;
   font-weight: 600;
+  transition: color 0.25s, border-color 0.25s, background 0.25s, padding-left 0.25s,
+              opacity 0.35s ease, transform 0.35s ease;
 }
 .sidebar-link:hover {
   color: #fff;
@@ -162,7 +202,6 @@
 }
 .sidebar-link svg { width: 0.85rem; height: 0.85rem; opacity: 0.4; }
 
-/* Track order button */
 .sidebar-track-btn {
   margin: 1.4rem 1.5rem;
   display: flex; align-items: center; justify-content: center; gap: 0.6rem;
@@ -172,9 +211,9 @@
   color: rgba(255,255,255,0.8);
   font-size: 0.75rem; font-weight: 700;
   letter-spacing: 0.15em; text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer; font-family: inherit;
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  text-decoration: none; cursor: pointer; font-family: inherit;
+  transition: background 0.25s, border-color 0.25s, color 0.25s,
+              opacity 0.35s ease, transform 0.35s ease;
 }
 .sidebar-track-btn:hover {
   background: rgba(255,255,255,0.06);
@@ -183,25 +222,16 @@
 }
 .sidebar-track-btn svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
 
-/* Divider */
 .sidebar-divider {
-  border: none;
-  border-top: 1px solid rgba(255,255,255,0.07);
-  margin: 0 1.5rem;
+  border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 0 1.5rem;
 }
 
-/* Stagger animation for sidebar links */
+/* Stagger animation */
 .sidebar-link, .sidebar-track-btn {
-  opacity: 0;
-  transform: translateX(-16px);
-  transition: color 0.25s, border-color 0.25s, background 0.25s, padding-left 0.25s,
-              opacity 0.35s ease, transform 0.35s ease;
+  opacity: 0; transform: translateX(-16px);
 }
 .sidebar.open .sidebar-link,
-.sidebar.open .sidebar-track-btn {
-  opacity: 1;
-  transform: translateX(0);
-}
+.sidebar.open .sidebar-track-btn { opacity: 1; transform: translateX(0); }
 .sidebar.open .sidebar-link:nth-child(1)  { transition-delay: 0.08s; }
 .sidebar.open .sidebar-link:nth-child(2)  { transition-delay: 0.13s; }
 .sidebar.open .sidebar-link:nth-child(3)  { transition-delay: 0.18s; }
@@ -209,6 +239,38 @@
 .sidebar.open .sidebar-link:nth-child(5)  { transition-delay: 0.28s; }
 .sidebar.open .sidebar-link:nth-child(6)  { transition-delay: 0.33s; }
 .sidebar.open .sidebar-track-btn          { transition-delay: 0.38s; }
+
+/* ===== Search bar (desktop) ===== */
+.navbar-search-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 45;
+  background: #fff;
+  border-bottom: 2px solid #000;
+  padding: 0 2rem;
+  display: flex; align-items: center; gap: 1rem;
+  height: 0; overflow: hidden;
+  transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.navbar-search-bar.open {
+  height: clamp(3.5rem, 8vh, 5rem);
+}
+.navbar-search-input {
+  flex: 1; border: none; outline: none;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-family: inherit; background: transparent; color: #000;
+}
+.navbar-search-input::placeholder { color: #aaa; }
+.navbar-search-close {
+  background: none; border: none; cursor: pointer;
+  color: #000; display: flex; align-items: center;
+  transition: transform 0.3s;
+}
+.navbar-search-close:hover { transform: rotate(90deg); }
+.navbar-search-close svg {
+  width: clamp(1rem, 2vw, 1.4rem);
+  height: clamp(1rem, 2vw, 1.4rem);
+}
 {%- endstyle -%}
 
 <!-- Sidebar backdrop -->
@@ -217,12 +279,10 @@
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <a href="{{ routes.root_url }}" class="sidebar-header-logo" id="sidebarLogoLink">
+    <a href="{{ routes.root_url }}" class="sidebar-header-logo">
       <img
         src="https://media.base44.com/images/public/user_6991d413f4af2dd5366a233f/8ce446e3e_URBNMYTHwordmark1.svg"
-        alt="{{ shop.name }}"
-        height="28"
-      >
+        alt="{{ shop.name }}" height="28">
     </a>
     <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -231,7 +291,6 @@
     </button>
   </div>
 
-  <!-- Collections section -->
   <p class="sidebar-section-label">Collections</p>
 
   {%- for collection in collections -%}
@@ -240,7 +299,6 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   {%- else -%}
-    <!-- Fallback static links if collections object isn't available in this context -->
     <a href="/collections/all" class="sidebar-link" data-close-sidebar>
       All Products
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -257,13 +315,25 @@
 
   <hr class="sidebar-divider">
 
-  <!-- Track Order -->
   <a href="/pages/track-order" class="sidebar-track-btn" data-close-sidebar>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
     </svg>
     Track Order
   </a>
+</div>
+
+<!-- Search bar (slides down on desktop) -->
+<div class="navbar-search-bar" id="navSearchBar">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.2rem;height:1.2rem;flex-shrink:0;">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <input class="navbar-search-input" id="navSearchInput" type="search" placeholder="Search products...">
+  <button class="navbar-search-close" id="navSearchClose" aria-label="Close search">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
 </div>
 
 <!-- Navbar -->
@@ -286,22 +356,18 @@
       <a href="{{ routes.root_url }}" class="navbar-logo">
         <img
           src="https://media.base44.com/images/public/user_6991d413f4af2dd5366a233f/8ce446e3e_URBNMYTHwordmark1.svg"
-          alt="{{ shop.name }}"
-          width="auto"
-          height="48"
-        >
+          alt="{{ shop.name }}" width="auto" height="48">
       </a>
 
-      <!-- Right: search (desktop only) + profile (desktop only) + cart -->
+      <!-- Right: search (desktop) + profile (desktop) + cart -->
       <div class="navbar-right">
-        <!-- Search — desktop only -->
+
         <button class="icon-btn desktop-only" aria-label="Search" id="searchToggle">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
 
-        <!-- Profile — desktop only -->
         <a href="{{ routes.account_url }}" class="icon-btn desktop-only" aria-label="Account">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -309,7 +375,6 @@
           </svg>
         </a>
 
-        <!-- Cart — always visible -->
         <a href="{{ routes.cart_url }}" class="icon-btn" aria-label="Cart">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -320,28 +385,66 @@
             <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
           {%- endif -%}
         </a>
-      </div>
 
+      </div>
     </div>
   </div>
 </nav>
 
 <script>
 (function () {
-  const navbar   = document.getElementById('navbar');
-  const sidebar  = document.getElementById('sidebar');
-  const backdrop = document.getElementById('sidebarBackdrop');
-  const toggle   = document.getElementById('menuToggle');
-  const closeBtn = document.getElementById('sidebarClose');
+  var navbar    = document.getElementById('navbar');
+  var sidebar   = document.getElementById('sidebar');
+  var backdrop  = document.getElementById('sidebarBackdrop');
+  var toggle    = document.getElementById('menuToggle');
+  var closeBtn  = document.getElementById('sidebarClose');
+  var searchBtn = document.getElementById('searchToggle');
+  var searchBar = document.getElementById('navSearchBar');
+  var searchInp = document.getElementById('navSearchInput');
+  var searchClose = document.getElementById('navSearchClose');
 
-  /* ── Scroll → scrolled class ── */
+  /* ── Detect page background colour and pick icon colour ── */
+  function detectBg() {
+    /* Sample the element directly under the navbar (skipping the navbar itself) */
+    var h = navbar.getBoundingClientRect().height;
+    /* Use the computed bg of <main> or <body> as reference */
+    var main = document.querySelector('main') || document.body;
+    var bg = window.getComputedStyle(main).backgroundColor;
+
+    /* Parse rgb */
+    var m = bg.match(/\d+/g);
+    if (m) {
+      /* Perceived luminance (0–255) */
+      var lum = 0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2];
+      if (lum > 160) {
+        /* Light page background AND not scrolled → white navbar, black icons */
+        if (!navbar.classList.contains('scrolled')) {
+          navbar.classList.add('white-bg');
+        }
+      } else {
+        navbar.classList.remove('white-bg');
+      }
+    }
+  }
+
+  /* ── Scroll handler ── */
   function onScroll() {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+      navbar.classList.remove('white-bg');
+    } else {
+      navbar.classList.remove('scrolled');
+      detectBg();   /* re-check page bg when near top */
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 
-  /* ── Sidebar open / close ── */
+  /* Run on load + after images/fonts settle */
+  detectBg();
+  onScroll();
+  window.addEventListener('load', function () { detectBg(); onScroll(); });
+
+  /* ── Sidebar ── */
   function openSidebar() {
     sidebar.classList.add('open');
     backdrop.classList.add('open');
@@ -352,19 +455,58 @@
     backdrop.classList.remove('open');
     document.body.style.overflow = '';
   }
-
   toggle.addEventListener('click', openSidebar);
   closeBtn.addEventListener('click', closeSidebar);
   backdrop.addEventListener('click', closeSidebar);
-
-  /* Close when any sidebar link is clicked */
   sidebar.querySelectorAll('[data-close-sidebar]').forEach(function (el) {
     el.addEventListener('click', closeSidebar);
   });
-
-  /* Escape key */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeSidebar();
+    if (e.key === 'Escape') { closeSidebar(); closeSearch(); }
   });
+
+  /* ── Search bar (desktop) ── */
+  function openSearch() {
+    searchBar.classList.add('open');
+    /* push navbar down */
+    navbar.style.top = searchBar.getBoundingClientRect().height + 'px';
+    setTimeout(function () { searchInp.focus(); }, 350);
+  }
+  function closeSearch() {
+    searchBar.classList.remove('open');
+    navbar.style.top = '';
+    searchInp.value = '';
+  }
+  if (searchBtn) searchBtn.addEventListener('click', function () {
+    searchBar.classList.contains('open') ? closeSearch() : openSearch();
+  });
+  if (searchClose) searchClose.addEventListener('click', closeSearch);
+
+  /* Handle search submit → redirect to Shopify search */
+  if (searchInp) {
+    searchInp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && searchInp.value.trim()) {
+        window.location.href = '/search?q=' + encodeURIComponent(searchInp.value.trim());
+      }
+    });
+  }
+
+  /* ── Viewport-aware icon sizing via CSS custom property ── */
+  function setViewportProps() {
+    /* expose vw/vh as CSS vars so clamp() can react to orientation changes */
+    document.documentElement.style.setProperty('--vw', window.innerWidth + 'px');
+    document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+  }
+  setViewportProps();
+  window.addEventListener('resize', function () {
+    setViewportProps();
+    detectBg();
+    onScroll();
+  });
+  /* Orientation change on mobile */
+  window.addEventListener('orientationchange', function () {
+    setTimeout(function () { setViewportProps(); detectBg(); onScroll(); }, 300);
+  });
+
 })();
 </script>
