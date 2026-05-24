@@ -1,4 +1,5 @@
 {% assign product_form_id = 'product-form-' | append: section.id %}
+{%- assign sv = product.selected_or_first_available_variant -%}
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
@@ -7,10 +8,18 @@
 
 /* ── Navbar offset ─────────────────────────────────────── */
 .urbnmyth-product-page {
-  padding-top: 80px; /* pushes content below fixed navbar */
+  padding-top: 80px;
   background: #fff;
   font-family: 'Open Sans';
 }
+
+/* ══════════════════════════════════════════════════════════
+   BREADCRUMB
+══════════════════════════════════════════════════════════ */
+.pdp-breadcrumb { padding: 12px 40px; font-size: 0.78rem; color: #888; border-bottom: 1px solid #f0f0f0; }
+.pdp-breadcrumb a { color: #888; text-decoration: none; }
+.pdp-breadcrumb a:hover { color: #000; text-decoration: underline; }
+.pdp-breadcrumb span { margin: 0 6px; }
 
 /* ══════════════════════════════════════════════════════════
    DESKTOP: 60 / 40 SPLIT
@@ -25,7 +34,7 @@
 /* ── LEFT: Gallery (60%) ─────────────────────────────── */
 .product-gallery {
   display: grid;
-  grid-template-columns: 80px 1fr; /* thumbnails 20% | hero 80% of 60% */
+  grid-template-columns: 80px 1fr;
   gap: 0;
   position: sticky;
   top: 80px;
@@ -80,20 +89,18 @@
 /* ── RIGHT: Details (40%) ─────────────────────────────── */
 .product-details {
   display: flex;
-  flex-direction: column;   /* all children stack vertically */
+  flex-direction: column;
   align-items: stretch;
   padding: 40px 36px 60px;
   overflow-y: auto;
   border-left: 1px solid #e8e8e8;
 }
-/* Every direct child is full-width block — no accidental flex rows */
 .product-details > * {
   display: block;
   width: 100%;
   max-width: 100%;
   float: none;
 }
-/* product-form and its inner form also stack vertically */
 .product-details product-form,
 .product-details product-form > form {
   display: flex;
@@ -114,7 +121,12 @@
   color: #000;
 }
 
-/* Price — flex internally but sits as a block row in the column */
+/* Inline rating row */
+.pdp-rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; cursor: pointer; }
+.pdp-rating-stars { color: #f5c842; font-size: 1rem; letter-spacing: 1px; }
+.pdp-rating-count { font-size: 0.8rem; color: #888; text-decoration: underline; }
+
+/* Price */
 .detail-price-block {
   display: flex !important;
   align-items: baseline;
@@ -151,6 +163,15 @@
   margin-bottom: 20px;
 }
 
+/* Stock badge */
+.pdp-stock-badge { display: flex; align-items: center; gap: 7px; font-size: 0.83rem; font-family: 'Open Sans', sans-serif; margin-bottom: 16px; color: #333; }
+.pdp-stock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.pdp-stock-badge--instock .pdp-stock-dot { background: #22c55e; }
+.pdp-stock-badge--soldout .pdp-stock-dot { background: #ef4444; }
+
+/* Short description */
+.pdp-short-desc { font-size: 0.87rem; line-height: 1.65; color: #666; margin-bottom: 20px; font-family: 'Open Sans', sans-serif; }
+
 /* Divider */
 .detail-divider {
   border: none;
@@ -158,14 +179,13 @@
   margin: 20px 0;
 }
 
-/* Description */
-.detail-description {
-  font-size: 0.9rem;
-  line-height: 1.75;
-  color: #555;
-  margin-bottom: 24px;
-}
-.detail-description p { margin-bottom: 8px; }
+/* Color swatches */
+.pdp-swatches-wrap { margin-bottom: 22px; }
+.pdp-swatches-label { font-family: 'Oswald', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; color: #000; }
+.pdp-swatches-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.pdp-swatch { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #ddd; cursor: pointer; transition: transform 0.18s ease; position: relative; }
+.pdp-swatch:hover { transform: scale(1.15); }
+.pdp-swatch--active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000; border-color: transparent; }
 
 /* Section label */
 .detail-section-label {
@@ -202,7 +222,7 @@
   display: flex !important;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   width: 100%;
 }
 .detail-size-btn {
@@ -229,7 +249,10 @@
   text-decoration: line-through;
 }
 
-/* Quantity — flex internally, rendered as inline-block so it doesn't stretch full-width */
+/* Low stock warning */
+.pdp-stock-warning { font-size: 0.8rem; color: #d97706; font-family: 'Open Sans', sans-serif; margin-top: 0; margin-bottom: 18px; font-weight: 600; }
+
+/* Quantity */
 .detail-qty-row {
   display: inline-flex !important;
   align-items: center;
@@ -257,41 +280,34 @@
   font-family: 'Oswald', sans-serif;
 }
 
-/* Action row — horizontal grid internally, block in the vertical column */
-.detail-action-row {
-  display: grid !important;
-  grid-template-columns: 1fr auto auto;
-  gap: 8px;
-  margin-bottom: 28px;
-  align-items: stretch;
-  width: 100%;
+/* Full-width Add to Cart */
+.detail-add-btn-full {
+  width: 100%; padding: 15px 20px;
+  background: #000; color: #fff; border: 2px solid #000;
+  font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.25s, color 0.25s; margin-bottom: 10px;
 }
-.detail-add-btn {
-  padding: 14px 20px;
-  background: #000; color: #fff;
-  border: 2px solid #000;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.95rem; font-weight: 700;
-  letter-spacing: 1.2px; text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.25s, color 0.25s;
-}
-.detail-add-btn:hover:not(:disabled) { background: #fff; color: #000; }
-.detail-add-btn:disabled { background: #ccc; border-color: #ccc; color: #888; cursor: not-allowed; }
+.detail-add-btn-full:hover:not(:disabled) { background: #fff; color: #000; }
+.detail-add-btn-full:disabled { background: #ccc; border-color: #ccc; color: #888; cursor: not-allowed; }
 
-.detail-wishlist-btn,
-.detail-share-btn {
-  width: 48px; height: 100%;
-  background: #fff; border: 2px solid #000;
-  cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-  transition: background 0.2s, color 0.2s;
-  color: #000;
+/* Buy Now button */
+.pdp-buy-now-btn {
+  width: 100%; padding: 14px 20px;
+  background: #fff; color: #000; border: 2px solid #000;
+  font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s; margin-bottom: 20px;
 }
-.detail-wishlist-btn:hover,
-.detail-share-btn:hover { background: #000; color: #fff; }
-.detail-wishlist-btn svg,
-.detail-share-btn svg { pointer-events: none; }
+.pdp-buy-now-btn:hover:not(:disabled) { background: #f5f5f5; }
+.pdp-buy-now-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Icon row */
+.pdp-icon-row { display: flex; gap: 24px; padding-top: 18px; border-top: 1px solid #e0e0e0; margin-bottom: 28px; }
+.pdp-icon-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: 'Open Sans', sans-serif; font-size: 0.8rem; color: #555; transition: color 0.2s; padding: 0; }
+.pdp-icon-btn:hover { color: #000; }
+.pdp-icon-btn.pdp-wishlisted { color: #000; }
+.pdp-icon-btn.pdp-wishlisted svg { fill: #000; }
 
 /* Accordion */
 .detail-accordion { border-top: 1px solid #e0e0e0; margin-top: 4px; }
@@ -326,6 +342,24 @@
 .accordion-body-inner p { margin-bottom: 8px; }
 .accordion-body-inner ul { padding-left: 18px; }
 .accordion-body-inner li { margin-bottom: 6px; }
+
+/* ══════════════════════════════════════════════════════════
+   DESCRIPTION SECTION (below fold)
+══════════════════════════════════════════════════════════ */
+.pdp-desc-section { padding: 64px 40px; border-top: 1px solid #e8e8e8; }
+.pdp-desc-section-inner { max-width: 1400px; margin: 0 auto; }
+.pdp-desc-heading { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid #000; display: inline-block; }
+.pdp-desc-body { font-size: 0.92rem; line-height: 1.85; color: #444; max-width: 860px; }
+.pdp-desc-body p { margin-bottom: 10px; }
+.pdp-desc-body ul { padding-left: 20px; margin-bottom: 10px; }
+.pdp-desc-body li { margin-bottom: 6px; }
+
+/* ══════════════════════════════════════════════════════════
+   COMPLETE THE LOOK SECTION
+══════════════════════════════════════════════════════════ */
+.pdp-look-section { padding: 64px 40px; border-top: 1px solid #e8e8e8; background: #fafafa; }
+.pdp-look-inner { max-width: 1400px; margin: 0 auto; }
+.pdp-look-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
 /* ══════════════════════════════════════════════════════════
    REVIEWS
@@ -602,15 +636,12 @@
    RESPONSIVE — MOBILE
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-
-  /* ── Full-page single column on mobile ── */
   .product-split {
     grid-template-columns: 1fr;
     display: flex;
     flex-direction: column;
   }
 
-  /* Gallery always on top */
   .product-gallery {
     order: 0;
     display: flex;
@@ -620,11 +651,10 @@
     width: 100%;
   }
 
-  /* Hero: horizontal swipe */
   .gallery-hero {
     order: 1;
     width: 100%;
-    height: 100vw;          /* square crop on mobile */
+    height: 100vw;
     max-height: 520px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -644,7 +674,6 @@
     display: block;
   }
 
-  /* Thumbnail strip below hero */
   .gallery-thumbs {
     order: 2;
     flex-direction: row;
@@ -663,7 +692,6 @@
     flex-shrink: 0;
   }
 
-  /* ── Details panel: flat vertical column, no left border ── */
   .product-details {
     order: 1;
     display: flex;
@@ -674,33 +702,28 @@
     width: 100%;
   }
 
-  /* Mobile order via CSS order property:
-     1. product name
-     2. price + tax note
-     3. size picker
-     4. add-to-cart row (buy button)
-     5. everything else (qty, description, accordions)
-  */
   .detail-product-name        { order: 1; font-size: 1.4rem; margin-bottom: 10px; }
-  .detail-price-block         { order: 2; }
-  .detail-tax-note            { order: 3; margin-bottom: 16px; }
-  .detail-divider             { order: 4; margin: 12px 0; }
-  /* description pushed below buy button on mobile */
-  .detail-description         { order: 8; margin-top: 16px; margin-bottom: 16px; }
-  /* size section wrapper */
-  .detail-size-section-wrap   { order: 5; }
-  /* quantity row pushed below buy button */
-  .detail-section-label-qty   { order: 9; }
-  .detail-qty-row             { order: 10; margin-bottom: 20px; }
-  /* buy button row — comes right after size */
-  .detail-form-wrap           { order: 6; }
-  /* accordion — last */
-  .detail-accordion           { order: 11; }
+  .pdp-rating-row             { order: 2; }
+  .detail-price-block         { order: 3; }
+  .detail-tax-note            { order: 4; margin-bottom: 12px; }
+  .pdp-stock-badge-wrap       { order: 5; }
+  .pdp-short-desc             { order: 6; margin-top: 8px; }
+  .detail-divider             { order: 7; margin: 12px 0; }
+  .pdp-swatches-wrap          { order: 8; }
+  .detail-size-section-wrap   { order: 9; }
+  .detail-section-label-qty   { order: 10; }
+  .detail-qty-row             { order: 11; margin-bottom: 20px; }
+  .detail-form-wrap           { order: 12; }
+  .pdp-icon-row               { order: 13; }
+  .detail-accordion           { order: 14; }
 
-  .detail-action-row { grid-template-columns: 1fr auto auto; }
   .reviews-section { padding: 60px 16px; }
   .products-section { padding: 60px 16px; }
   .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .pdp-look-grid { grid-template-columns: repeat(2, 1fr); }
+  .pdp-desc-section { padding: 48px 16px; }
+  .pdp-look-section { padding: 48px 16px; }
+  .pdp-breadcrumb { padding: 10px 16px; }
 }
 
 @media (max-width: 480px) {
@@ -715,6 +738,17 @@
 
 <div class="urbnmyth-product-page">
 
+  <!-- Breadcrumb -->
+  <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    {%- if product.collections.size > 0 -%}
+      <a href="{{ product.collections.first.url }}">{{ product.collections.first.title | escape }}</a>
+      <span>›</span>
+    {%- endif -%}
+    {{ product.title | escape }}
+  </nav>
+
   <!-- ═══════════════════════════════════════════════════
        PRODUCT SPLIT: 60% Gallery | 40% Details
   ════════════════════════════════════════════════════ -->
@@ -723,7 +757,7 @@
     <!-- LEFT: Gallery -->
     <div class="product-gallery" id="productGallery">
 
-      <!-- Thumbnail strip (20% of 60%) -->
+      <!-- Thumbnail strip -->
       <div class="gallery-thumbs" id="galleryThumbs">
         {%- for media in product.media limit: 8 -%}
           <div class="thumb-item{% if forloop.first %} active{% endif %}"
@@ -736,7 +770,7 @@
         {%- endfor -%}
       </div>
 
-      <!-- Hero image (80% of 60%) -->
+      <!-- Hero image -->
       <div class="gallery-hero" id="galleryHero">
         {%- if product.media.size > 0 -%}
           {%- for media in product.media limit: 8 -%}
@@ -760,12 +794,18 @@
     <!-- RIGHT: Details -->
     <div class="product-details">
 
-      <!-- Product name -->
+      <!-- 1. Product title -->
       <h1 class="detail-product-name">{{ product.title | escape }}</h1>
 
-      <!-- Price -->
+      <!-- 2. Inline star rating row -->
+      <div class="pdp-rating-row" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior:'smooth'})">
+        <span class="pdp-rating-stars">★★★★★</span>
+        <span style="font-family:'Oswald',sans-serif;font-size:0.85rem;font-weight:600;" id="pdpInlineRating">4.6</span>
+        <span class="pdp-rating-count" id="pdpInlineReviewCount">4 reviews</span>
+      </div>
+
+      <!-- 3. Price block -->
       <div class="detail-price-block" id="pdpPriceBlock">
-        {%- assign sv = product.selected_or_first_available_variant -%}
         {%- if sv.compare_at_price > sv.price -%}
           <span class="detail-price-sale">{{ sv.price | money }}</span>
           <span class="detail-price-compare">{{ sv.compare_at_price | money }}</span>
@@ -776,18 +816,39 @@
           <span class="detail-price-regular">{{ sv.price | money }}</span>
         {%- endif -%}
       </div>
+
+      <!-- 4. Tax note -->
       <p class="detail-tax-note">Price incl. of all taxes</p>
 
-      <hr class="detail-divider">
-
-      <!-- Description -->
-      {%- if product.description != blank -%}
-        <div class="detail-description">{{ product.description }}</div>
+      <!-- 5. Stock badge -->
+      {%- if section.settings.show_stock_badge -%}
+        <div class="pdp-stock-badge-wrap" id="pdpStockBadgeWrap">
+          {%- render 'pdp-stock-badge', variant: sv -%}
+        </div>
       {%- endif -%}
 
-      <!-- Size -->
+      <!-- 6. Short description -->
+      {%- assign short_desc = '' -%}
+      {%- if product.metafields.descriptors.subtitle.value != blank -%}
+        {%- assign short_desc = product.metafields.descriptors.subtitle.value -%}
+      {%- elsif product.description != blank -%}
+        {%- assign short_desc = product.description | strip_html | truncate: 130 -%}
+      {%- endif -%}
+      {%- if short_desc != blank -%}
+        <p class="pdp-short-desc">{{ short_desc }}</p>
+      {%- endif -%}
+
+      <!-- 7. Divider -->
+      <hr class="detail-divider">
+
+      <!-- 8. Color swatches -->
+      {%- if section.settings.show_color_swatches -%}
+        {%- render 'pdp-color-swatches', product: product -%}
+      {%- endif -%}
+
+      <!-- 9. Size selector -->
       {%- unless product.has_only_default_variant -%}
-        <div class="detail-size-section-wrap" style="margin-bottom:24px;">
+        <div class="detail-size-section-wrap" style="margin-bottom:4px;">
           <div class="detail-size-header">
             <span class="detail-section-label">SELECT SIZE</span>
             <button class="detail-size-chart-btn" onclick="pdpOpenModal('sizeModal')">SIZE CHART</button>
@@ -805,10 +866,17 @@
               >{{ variant.title }}</button>
             {%- endfor -%}
           </div>
+          <p class="pdp-stock-warning" id="pdpStockWarning" style="display:none;">
+            {%- if sv.inventory_quantity > 0 and sv.inventory_quantity <= section.settings.low_stock_threshold -%}
+              Only {{ sv.inventory_quantity }} left in stock
+            {%- else -%}
+              Low stock — order soon
+            {%- endif -%}
+          </p>
         </div>
       {%- endunless -%}
 
-      <!-- Quantity -->
+      <!-- 10. Quantity stepper -->
       <span class="detail-section-label detail-section-label-qty">QUANTITY</span>
       <div class="detail-qty-row" style="margin-top:10px;">
         <button class="detail-qty-btn" onclick="pdpQty(-1)">−</button>
@@ -816,39 +884,56 @@
         <button class="detail-qty-btn" onclick="pdpQty(1)">+</button>
       </div>
 
-      <!-- Action row: Add to cart | Wishlist | Share -->
+      <!-- 11. Add to Cart form + 12. Buy Now -->
       <div class="detail-form-wrap">
-      <product-form>
-        <form action="{{ routes.cart_add_url }}" method="post" id="{{ product_form_id }}">
-          <input type="hidden" name="id" id="pdpVariantInput" value="{{ product.selected_or_first_available_variant.id }}">
-          <input type="hidden" name="quantity" id="pdpQtyHidden" value="1">
+        <product-form>
+          <form action="{{ routes.cart_add_url }}" method="post" id="{{ product_form_id }}">
+            <input type="hidden" name="id" id="pdpVariantInput" value="{{ sv.id }}">
+            <input type="hidden" name="quantity" id="pdpQtyHidden" value="1">
 
-          <div class="detail-action-row" style="margin-top:16px;">
-            <button type="submit" class="detail-add-btn" id="pdpAddBtn"
-                    {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+            <button type="submit" class="detail-add-btn-full" id="pdpAddBtn"
+                    {% if sv.available == false %}disabled{% endif %}>
               <span id="pdpBtnText">
-                {%- if product.selected_or_first_available_variant.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
+                {%- if sv.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
               </span>
             </button>
+          </form>
+        </product-form>
 
-            <button type="button" class="detail-wishlist-btn" title="Wishlist" onclick="pdpWishlist()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
+        {%- if section.settings.show_buy_now_btn -%}
+          <button class="pdp-buy-now-btn" id="pdpBuyNowBtn"
+                  onclick="pdpBuyNow()"
+                  {% if sv.available == false %}disabled{% endif %}>
+            {{ section.settings.buy_now_btn_text | default: 'Buy it Now' }}
+          </button>
+        {%- endif -%}
+      </div>
 
-            <button type="button" class="detail-share-btn" title="Share" onclick="pdpShare()">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-            </button>
-          </div>
-        </form>
-      </product-form>
-      </div><!-- /detail-form-wrap -->
+      <!-- 13. Icon row: Wishlist | Compare | Share -->
+      <div class="pdp-icon-row">
+        <button type="button" class="pdp-icon-btn" id="pdpWishlistBtn" title="Add to Wishlist" onclick="pdpWishlist()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          Wishlist
+        </button>
+        <button type="button" class="pdp-icon-btn" title="Compare" onclick="pdpCompare()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          Compare
+        </button>
+        <button type="button" class="pdp-icon-btn" title="Share" onclick="pdpShare()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          Share
+        </button>
+      </div>
 
-      <!-- Accordion -->
+      <!-- 14. Accordion -->
       <div class="detail-accordion">
 
         <div class="accordion-row">
@@ -858,7 +943,7 @@
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express delivery available at checkout.</p>
+              <p>{{ section.settings.shipping_text | default: 'Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express available at checkout.' }}</p>
             </div>
           </div>
         </div>
@@ -870,7 +955,7 @@
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with original tags.</p>
+              <p>{{ section.settings.returns_text | default: '7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with tags.' }}</p>
               <ul>
                 <li>Initiate within 7 days of delivery</li>
                 <li>Contact: contact.urbnmyth@gmail.com</li>
@@ -888,7 +973,7 @@
           <div class="accordion-body">
             <div class="accordion-body-inner">
               {{ product.description }}
-              <p style="margin-top:10px;">🇮🇳 Made in India — URBNMYTH Pvt. Ltd., Kolkata</p>
+              <p style="margin-top:10px;">Made in India — URBNMYTH Pvt. Ltd., Kolkata</p>
             </div>
           </div>
         </div>
@@ -897,6 +982,40 @@
 
     </div><!-- /details -->
   </div><!-- /split -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       DESCRIPTION SECTION (below fold)
+  ════════════════════════════════════════════════════ -->
+  {%- if product.description != blank -%}
+    <div class="pdp-desc-section">
+      <div class="pdp-desc-section-inner">
+        <h2 class="pdp-desc-heading">Description</h2>
+        <div class="pdp-desc-body">{{ product.description }}</div>
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  <!-- ═══════════════════════════════════════════════════
+       COMPLETE THE LOOK
+  ════════════════════════════════════════════════════ -->
+  {%- if section.settings.show_complete_the_look and section.settings.complete_the_look_collection != blank -%}
+    {%- assign look_collection = collections[section.settings.complete_the_look_collection] -%}
+    {%- if look_collection != blank and look_collection.products.size > 0 -%}
+      <div class="pdp-look-section">
+        <div class="pdp-look-inner">
+          <h2 class="section-heading">{{ section.settings.complete_the_look_heading | default: 'Complete the Look' }}</h2>
+          <div class="section-underline"></div>
+          <div class="pdp-look-grid">
+            {%- for lp in look_collection.products limit: 4 -%}
+              {%- render 'card-product-urbnmyth', product: lp -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
 
 
   <!-- ═══════════════════════════════════════════════════
@@ -921,7 +1040,6 @@
     </div>
 
     <div class="reviews-grid" id="reviewsList">
-      <!-- Seeded reviews -->
       {%- assign seeded_reviews = "Aarav Sharma|5|Dec 15 2025|Absolutely love this piece! Quality is top-notch and fit is perfect.|A,Priya Mehta|5|Dec 10 2025|Great streetwear brand! Quality exceeded expectations. Sizing is accurate.|P,Rohan Kumar|4|Dec 8 2025|Nice design and good material. Shipping took a bit longer than expected.|R,Sneha Patel|5|Dec 5 2025|Perfect addition to my wardrobe! Really happy with this purchase.|S" | split: "," -%}
       {%- for review in seeded_reviews -%}
         {%- assign rp = review | split: "|" -%}
@@ -1081,7 +1199,6 @@
 var pdpImageCount = {{ product.media.size }};
 
 function pdpSetImage(idx, thumb) {
-  /* hide all hero images */
   for (var i = 0; i < pdpImageCount; i++) {
     var el = document.getElementById('heroImg' + i);
     if (el) el.style.display = 'none';
@@ -1089,17 +1206,14 @@ function pdpSetImage(idx, thumb) {
   var target = document.getElementById('heroImg' + idx);
   if (target) target.style.display = 'block';
 
-  /* update thumb active state */
   document.querySelectorAll('.thumb-item').forEach(function(t) { t.classList.remove('active'); });
   if (thumb) thumb.classList.add('active');
 }
 
-/* Mobile: sync hero scroll → thumb highlight */
 document.addEventListener('DOMContentLoaded', function () {
   var hero = document.getElementById('galleryHero');
   if (!hero) return;
 
-  /* only on mobile the hero is a scroll container */
   hero.addEventListener('scroll', function () {
     var idx = Math.round(hero.scrollLeft / hero.clientWidth);
     document.querySelectorAll('.thumb-item').forEach(function(t, i) {
@@ -1107,7 +1221,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* thumb click on mobile scrolls hero */
   document.querySelectorAll('.thumb-item').forEach(function(t) {
     t.addEventListener('click', function () {
       var idx = parseInt(t.dataset.index);
@@ -1116,6 +1229,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  /* Check wishlist state */
+  try {
+    var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+    if (wl.indexOf('{{ product.id }}') !== -1) {
+      var wb = document.getElementById('pdpWishlistBtn');
+      if (wb) wb.classList.add('pdp-wishlisted');
+    }
+  } catch(e) {}
 
   /* Recently viewed */
   pdpTrackRecentlyViewed();
@@ -1128,7 +1250,6 @@ function pdpSelectSize(btn) {
 
   document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
 
-  /* Update price */
   var price = parseInt(btn.dataset.price);
   var compare = parseInt(btn.dataset.compare);
   var avail = btn.dataset.avail === 'true';
@@ -1153,6 +1274,26 @@ function pdpSelectSize(btn) {
     addBtn.disabled = true;
     btnTxt.textContent = 'SOLD OUT';
   }
+
+  /* Update Buy Now button state */
+  var buyBtn = document.getElementById('pdpBuyNowBtn');
+  if (buyBtn) { buyBtn.disabled = !avail; }
+
+  /* Update stock warning — hide when variant unavailable, show when available */
+  var warn = document.getElementById('pdpStockWarning');
+  if (warn) {
+    warn.style.display = avail ? 'block' : 'none';
+  }
+
+  /* Update stock badge wrapper if present */
+  var badgeWrap = document.getElementById('pdpStockBadgeWrap');
+  if (badgeWrap) {
+    if (avail) {
+      badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--instock"><span class="pdp-stock-dot"></span><span>In stock</span></div>';
+    } else {
+      badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--soldout"><span class="pdp-stock-dot"></span><span>Sold out</span></div>';
+    }
+  }
 }
 
 /* ══ Quantity ══════════════════════════════════════════════ */
@@ -1176,6 +1317,10 @@ document.addEventListener('DOMContentLoaded', function () {
     txt.textContent = 'ADDING...';
     btn.disabled = true;
 
+    /* Sync quantity hidden field before submit */
+    var qtyHidden = document.getElementById('pdpQtyHidden');
+    if (qtyHidden) qtyHidden.value = document.getElementById('pdpQtyInput').value;
+
     fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })
       .then(function(r) { return r.json(); })
       .then(function() {
@@ -1189,6 +1334,54 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   });
 });
+
+/* ══ Buy Now ═══════════════════════════════════════════════ */
+function pdpBuyNow() {
+  var btn = document.getElementById('pdpBuyNowBtn');
+  if (btn) { btn.textContent = 'Redirecting...'; btn.disabled = true; }
+  var fd = new FormData();
+  fd.append('id', document.getElementById('pdpVariantInput').value);
+  fd.append('quantity', parseInt(document.getElementById('pdpQtyInput').value) || 1);
+  fetch('/cart/add.js', { method: 'POST', body: fd })
+    .then(function() { window.location.href = '/checkout'; })
+    .catch(function() {
+      if (btn) {
+        btn.textContent = '{{ section.settings.buy_now_btn_text | default: "Buy it Now" }}';
+        btn.disabled = false;
+      }
+    });
+}
+
+/* ══ Color swatch selection ════════════════════════════════ */
+function pdpSelectColor(btn) {
+  document.querySelectorAll('.pdp-swatch').forEach(function(s) { s.classList.remove('pdp-swatch--active'); });
+  btn.classList.add('pdp-swatch--active');
+  var nameEl = document.getElementById('pdpColorName');
+  if (nameEl) nameEl.textContent = btn.dataset.color;
+  if (btn.dataset.variantId) {
+    document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
+    /* Update size buttons to reflect the variant for this color */
+    document.querySelectorAll('.detail-size-btn').forEach(function(s) {
+      if (s.dataset.variantId === btn.dataset.variantId) {
+        pdpSelectSize(s);
+      }
+    });
+  }
+}
+
+/* ══ Compare ═══════════════════════════════════════════════ */
+function pdpCompare() {
+  try {
+    var id = '{{ product.id }}';
+    var title = {{ product.title | json }};
+    var list = JSON.parse(localStorage.getItem('urbnmyth_compare') || '[]');
+    if (list.find(function(p) { return p.id === id; })) { alert('Already in compare list.'); return; }
+    if (list.length >= 4) { alert('You can compare up to 4 products. Remove one first.'); return; }
+    list.push({ id: id, title: title, url: window.location.pathname });
+    localStorage.setItem('urbnmyth_compare', JSON.stringify(list));
+    alert('Added to compare!');
+  } catch(e) {}
+}
 
 /* ══ Accordion ═════════════════════════════════════════════ */
 function pdpAccordion(btn) {
@@ -1211,8 +1404,14 @@ function pdpWishlist() {
   try {
     var id = '{{ product.id }}';
     var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
-    if (wl.indexOf(id) === -1) { wl.push(id); alert('Added to wishlist!'); }
-    else { alert('Already in wishlist.'); }
+    var btn = document.getElementById('pdpWishlistBtn');
+    if (wl.indexOf(id) === -1) {
+      wl.push(id);
+      if (btn) btn.classList.add('pdp-wishlisted');
+      alert('Added to wishlist!');
+    } else {
+      alert('Already in wishlist.');
+    }
     localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
   } catch(e) {}
 }
@@ -1286,8 +1485,14 @@ function pdpUpdateAvgRating() {
   var userSum = pdpUserReviews.reduce(function(a, r) { return a + r.rating; }, 0);
   var total = 4 + pdpUserReviews.length;
   var avg = ((seededSum + userSum) / total).toFixed(1);
-  document.getElementById('avgRating').textContent = avg;
-  document.getElementById('reviewTotal').textContent = total;
+  var avgEl = document.getElementById('avgRating');
+  var totalEl = document.getElementById('reviewTotal');
+  var inlineRating = document.getElementById('pdpInlineRating');
+  var inlineCount = document.getElementById('pdpInlineReviewCount');
+  if (avgEl) avgEl.textContent = avg;
+  if (totalEl) totalEl.textContent = total;
+  if (inlineRating) inlineRating.textContent = avg;
+  if (inlineCount) inlineCount.textContent = total + ' reviews';
 }
 function pdpLoadMore() { alert('No more reviews at this time.'); }
 
@@ -1321,7 +1526,6 @@ function pdpTrackRecentlyViewed() {
     list = list.slice(0, 6);
     localStorage.setItem(key, JSON.stringify(list));
 
-    /* render others */
     var others = list.filter(function(p) { return p.id !== current.id; });
     if (others.length === 0) return;
     var section = document.getElementById('recentlyViewedSection');
@@ -1349,6 +1553,84 @@ function pdpTrackRecentlyViewed() {
       "id": "exchange_policy_text",
       "label": "Exchange Policy Text",
       "default": "7-day exchange policy. No questions asked. No returns."
+    },
+    {
+      "type": "header",
+      "content": "Product panel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stock_badge",
+      "label": "Show stock badge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Low stock warning (units)",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "Show color swatches",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_now_btn",
+      "label": "Show Buy it Now button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "buy_now_btn_text",
+      "label": "Buy it Now text",
+      "default": "Buy it Now"
+    },
+    {
+      "type": "header",
+      "content": "Accordion"
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_text",
+      "label": "Shipping info",
+      "default": "Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express available at checkout."
+    },
+    {
+      "type": "textarea",
+      "id": "returns_text",
+      "label": "Returns & exchange",
+      "default": "7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with tags."
+    },
+    {
+      "type": "header",
+      "content": "Complete the Look"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_complete_the_look",
+      "label": "Show Complete the Look",
+      "default": false
+    },
+    {
+      "type": "collection",
+      "id": "complete_the_look_collection",
+      "label": "Collection to use"
+    },
+    {
+      "type": "text",
+      "id": "complete_the_look_heading",
+      "label": "Section heading",
+      "default": "Complete the Look"
     }
   ]
 }

@@ -279,9 +279,7 @@
 /* ─── Product Card ──────────────────────────────────────── */
 .urbnmyth-product-card {
   background: #fff;
-  border: none;
   position: relative;
-  overflow: hidden;
 }
 
 /* ─── Product Image ─────────────────────────────────────── */
@@ -289,9 +287,9 @@
   display: block;
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.45;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #eeebe7;
 }
 .urbnmyth-img-primary,
 .urbnmyth-img-secondary {
@@ -307,99 +305,122 @@
 .urbnmyth-product-placeholder {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
-  background: #f0f0f0; color: #ddd;
+  background: #eeebe7; color: #ccc;
 }
 
-/* ─── Badges ────────────────────────────────────────────── */
-.urbnmyth-sale-badge,
-.urbnmyth-new-badge {
-  position: absolute; top: 12px; right: 12px;
-  background: #000; color: #fff;
-  padding: 5px 10px; font-size: 0.65rem;
-  font-weight: 800; letter-spacing: 1px;
-  text-transform: uppercase; z-index: 10;
+/* ─── Top-left Badge ─────────────────────────────────────── */
+.urbnmyth-badge-tl {
+  position: absolute; top: 14px; left: 14px;
+  background: #fff; color: #1a1a1a;
+  padding: 6px 12px;
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.2px; z-index: 10;
+  line-height: 1; white-space: nowrap;
 }
 
-/* ─── Top-left Actions ──────────────────────────────────── */
-.urbnmyth-top-actions {
-  position: absolute; top: 12px; left: 12px;
-  display: flex; flex-direction: column; gap: 6px;
-  z-index: 20; opacity: 0; transform: translateX(-8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+/* ─── Right-side Action Buttons ──────────────────────────── */
+.urbnmyth-right-actions {
+  position: absolute; top: 14px; right: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 20;
+}
+.urbnmyth-circle-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1a1a1a;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+  flex-shrink: 0;
+  position: relative;
+  opacity: 0;
+  transform: translateX(14px);
   pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
 }
-.urbnmyth-product-card:hover .urbnmyth-top-actions {
-  opacity: 1; transform: translateX(0); pointer-events: all;
+.urbnmyth-product-card:hover .urbnmyth-circle-btn {
+  pointer-events: auto;
 }
-.urbnmyth-action-btn {
-  display: flex; align-items: center; gap: 0;
-  padding: 8px; background: #fff;
-  border: 1.5px solid #000; color: #000;
-  font-size: 0.62rem; font-weight: 800;
-  letter-spacing: 0.8px; text-transform: uppercase;
-  cursor: pointer; font-family: inherit;
-  white-space: nowrap; line-height: 1; overflow: hidden;
-  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
+.urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) {
+  opacity: 1; transform: translateX(0); transition-delay: 0ms;
 }
-.urbnmyth-btn-label {
-  max-width: 0; overflow: hidden; opacity: 0; margin-left: 0;
-  display: inline-block;
-  transition: max-width 0.25s ease, opacity 0.25s ease, margin-left 0.25s ease;
+.urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) {
+  opacity: 1; transform: translateX(0); transition-delay: 80ms;
 }
-.urbnmyth-action-btn:hover .urbnmyth-btn-label { max-width: 100px; opacity: 1; margin-left: 6px; }
-.urbnmyth-action-btn:hover { background: #000; color: #fff; padding: 7px 11px; }
-.urbnmyth-wishlist-btn.urbnmyth-wishlisted svg { fill: #000; }
-.urbnmyth-wishlisted { background: #000 !important; color: #fff !important; }
+.urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) {
+  opacity: 1; transform: translateX(0); transition-delay: 160ms;
+}
+.urbnmyth-circle-btn:hover { background: #f2f2f2; transform: translateX(0) scale(1.07); }
+.urbnmyth-wishlist-btn.urbnmyth-wishlisted svg { fill: #1a1a1a; }
 
-/* ─── Quick Add ─────────────────────────────────────────── */
+/* Tooltip — appears to the left of each button on hover */
+.urbnmyth-circle-btn::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%; transform: translateY(-50%);
+  background: #1a1a1a; color: #fff;
+  padding: 5px 10px;
+  font-size: 0.7rem; font-weight: 400;
+  letter-spacing: 0.3px; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.15s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.urbnmyth-circle-btn:hover::before { opacity: 1; }
+
+/* ─── Add To Cart bar ────────────────────────────────────── */
 .urbnmyth-hover-add {
   position: absolute; bottom: 0; left: 0; right: 0;
   z-index: 15; transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-top: 1px solid rgba(0,0,0,0.07);
 }
 .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
 .urbnmyth-hover-add-btn {
-  width: 100%; padding: 14px;
-  background: #fff; color: #000; border: none;
-  font-size: 0.8rem; font-weight: 800;
-  cursor: pointer; text-transform: uppercase;
-  letter-spacing: 1.2px; display: flex;
-  align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 20px 24px;
+  background: #fff; color: #1a1a1a; border: none;
+  font-size: 0.92rem; font-weight: 400;
+  cursor: pointer; letter-spacing: 0.3px;
+  display: flex; align-items: center; justify-content: center;
   font-family: inherit; transition: background 0.2s ease;
 }
-.urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f0f0f0; }
-.urbnmyth-hover-add-btn:disabled { background: #eee; color: #999; cursor: not-allowed; }
+.urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
+.urbnmyth-hover-add-btn:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; }
 
 /* ─── Product Info ──────────────────────────────────────── */
-.urbnmyth-product-info { padding: 16px 4px 20px; }
+.urbnmyth-product-info { padding: 14px 2px 20px; }
 .urbnmyth-product-title {
-  display: block; font-size: 0.95rem; font-weight: 800;
-  margin-bottom: 8px; text-transform: uppercase;
-  text-decoration: none; color: #000; line-height: 1.4;
-  letter-spacing: 0.4px; transition: opacity 0.2s;
+  display: block; font-size: 0.93rem; font-weight: 400;
+  margin-bottom: 6px;
+  text-decoration: none; color: #1a1a1a; line-height: 1.45;
+  letter-spacing: 0.1px; transition: opacity 0.2s;
 }
-.urbnmyth-product-title:hover { opacity: 0.55; }
+.urbnmyth-product-title:hover { opacity: 0.6; }
 .urbnmyth-product-price {
   display: flex; align-items: center; gap: 8px;
-  margin-bottom: 10px; font-weight: 800; font-size: 1.1rem; flex-wrap: wrap;
+  margin-bottom: 12px; font-weight: 400; font-size: 0.93rem; flex-wrap: wrap;
+  color: #1a1a1a;
 }
-.urbnmyth-price-sale    { color: #000; }
-.urbnmyth-price-compare { font-size: 0.95rem; color: #999; text-decoration: line-through; font-weight: 600; }
-.urbnmyth-price-regular { color: #000; }
+.urbnmyth-price-sale    { color: #1a1a1a; }
+.urbnmyth-price-compare { font-size: 0.85rem; color: #999; text-decoration: line-through; }
+.urbnmyth-price-regular { color: #1a1a1a; }
 
-/* ─── Size Buttons ──────────────────────────────────────── */
-.urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
+/* ─── Size Chips ──────────────────────────────────────────── */
+.urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 6px; }
 .urbnmyth-size-chip {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 5px 10px; font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.8px; text-transform: uppercase;
-  border: 1.5px solid #ccc; color: #444; background: #fff;
-  line-height: 1.4; cursor: pointer; font-family: inherit;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  min-width: 36px; padding: 5px 9px;
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.2px; text-transform: uppercase;
+  border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
+  line-height: 1; cursor: pointer; font-family: inherit;
+  transition: background 0.18s ease, color 0.18s ease;
 }
-.urbnmyth-size-chip:hover { border-color: #000; color: #000; }
-.urbnmyth-size-chip.urbnmyth-size-selected { background: #000; border-color: #000; color: #fff; }
-.urbnmyth-size-chip.urbnmyth-size-sold { border-color: #e0e0e0; color: #bbb; cursor: default; }
+.urbnmyth-size-chip:hover { background: #1a1a1a; color: #fff; }
+.urbnmyth-size-chip.urbnmyth-size-selected { background: #1a1a1a; color: #fff; }
+.urbnmyth-size-chip.urbnmyth-size-sold { border-color: #ddd; color: #bbb; cursor: default; }
 
 /* ─── Empty State ───────────────────────────────────────── */
 .urbnmyth-empty-state { text-align: center; padding: 80px 20px; }
@@ -456,8 +477,11 @@
   .urbnmyth-cols-3,
   .urbnmyth-cols-4 { grid-template-columns: repeat(2, 1fr); }
   .urbnmyth-products-grid { gap: 18px; }
-  .urbnmyth-top-actions { opacity: 1; transform: translateX(0); pointer-events: all; }
-  .urbnmyth-hover-add   { transform: translateY(0); }
+  .urbnmyth-circle-btn { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .urbnmyth-circle-btn:nth-child(1),
+  .urbnmyth-circle-btn:nth-child(2),
+  .urbnmyth-circle-btn:nth-child(3) { transition-delay: 0ms; }
+  .urbnmyth-hover-add { transform: translateY(0); }
 }
 @media (max-width: 480px) {
   .urbnmyth-hero-banner { height: 200px; }
@@ -500,7 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   } catch(e) {}
 
-  /* ── Image cycling every 3s on hover ───────────────────── */
+  /* ── Image swap on hover ────────────────────────────────── */
   document.querySelectorAll('.urbnmyth-product-image').forEach(function (imageWrap) {
     const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
     if (rawImages.length < 2) return;
@@ -511,44 +535,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     rawImages.forEach(function(src) { const img = new Image(); img.src = src; });
 
-    let cycleTimer = null;
-    let cycleIndex = 0;
-    let primaryOnTop = true;
-
-    function showImage(src) {
-      if (primaryOnTop) {
-        secondary.src = src;
-        secondary.style.opacity = '1';
-        primary.style.opacity   = '0';
-        primaryOnTop = false;
-      } else {
-        primary.src = src;
-        primary.style.opacity   = '1';
-        secondary.style.opacity = '0';
-        primaryOnTop = true;
-      }
-    }
-
-    function nextImage() {
-      cycleIndex = (cycleIndex + 1) % rawImages.length;
-      showImage(rawImages[cycleIndex]);
-    }
-
     imageWrap.addEventListener('mouseenter', function () {
-      cycleIndex = 1;
-      primaryOnTop = true;
-      showImage(rawImages[1]);
-      cycleTimer = setInterval(nextImage, 3000);
+      primary.style.opacity   = '0';
+      secondary.style.opacity = '1';
     });
 
     imageWrap.addEventListener('mouseleave', function () {
-      clearInterval(cycleTimer);
-      cycleTimer = null;
-      primary.src             = rawImages[0];
       primary.style.opacity   = '1';
       secondary.style.opacity = '0';
-      primaryOnTop = true;
-      cycleIndex = 0;
     });
   });
 
@@ -556,8 +550,9 @@ document.addEventListener('DOMContentLoaded', function () {
   try {
     const wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
     wl.forEach(function (id) {
-      const btn = document.querySelector('.urbnmyth-wishlist-btn[data-product-id="' + id + '"]');
-      if (btn) btn.classList.add('urbnmyth-wishlisted');
+      document.querySelectorAll('.urbnmyth-wishlist-btn[data-product-id="' + id + '"]').forEach(function(btn) {
+        btn.classList.add('urbnmyth-wishlisted');
+      });
     });
   } catch(e) {}
 });
@@ -617,6 +612,25 @@ function urbnmythQuickAddToCart(event, variantId, button) {
     });
 }
 
+/* ── Manual Image Cycle ───────────────────────────────────── */
+function urbnmythManualCycle(event, btn) {
+  event.preventDefault();
+  event.stopPropagation();
+  const imageWrap = btn.closest('.urbnmyth-product-image');
+  if (!imageWrap) return;
+  const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
+  if (rawImages.length < 2) return;
+  const primary   = imageWrap.querySelector('.urbnmyth-img-primary');
+  const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+  if (!primary || !secondary) return;
+  let idx = parseInt(imageWrap.dataset.manualIndex || '1', 10);
+  idx = (idx + 1) % rawImages.length;
+  imageWrap.dataset.manualIndex = idx;
+  secondary.src = rawImages[idx];
+  primary.style.opacity   = '0';
+  secondary.style.opacity = '1';
+}
+
 /* ── Quick View ───────────────────────────────────────────── */
 function urbnmythQuickView(event, productUrl) {
   event.preventDefault();
@@ -634,13 +648,9 @@ function urbnmythToggleWishlist(event, productId, btn) {
     if (idx === -1) {
       wl.push(String(productId));
       btn.classList.add('urbnmyth-wishlisted');
-      const span = btn.querySelector('.urbnmyth-btn-label');
-      if (span) span.textContent = 'SAVED';
     } else {
       wl.splice(idx, 1);
       btn.classList.remove('urbnmyth-wishlisted');
-      const span = btn.querySelector('.urbnmyth-btn-label');
-      if (span) span.textContent = 'WISHLIST';
     }
     localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
   } catch(e) {}

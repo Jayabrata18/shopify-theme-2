@@ -1,0 +1,67 @@
+{%- comment -%}
+  Snippet: pdp-color-swatches.liquid
+  Accepts: product — the product object
+  Renders circular color swatches for any option named Color, color, or Colour.
+  If no color option is found, renders nothing.
+{%- endcomment -%}
+
+{%- assign color_option_index = nil -%}
+{%- assign color_option_name = nil -%}
+
+{%- for option in product.options_with_values -%}
+  {%- assign opt_name_down = option.name | downcase -%}
+  {%- if opt_name_down == 'color' or opt_name_down == 'colour' -%}
+    {%- assign color_option_index = forloop.index0 -%}
+    {%- assign color_option_name = option.name -%}
+    {%- assign color_option_values = option.values -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if color_option_index != nil -%}
+  {%- assign selected_color = product.selected_or_first_available_variant.option1 -%}
+  {%- if color_option_index == 1 -%}
+    {%- assign selected_color = product.selected_or_first_available_variant.option2 -%}
+  {%- elsif color_option_index == 2 -%}
+    {%- assign selected_color = product.selected_or_first_available_variant.option3 -%}
+  {%- endif -%}
+
+  <div class="pdp-swatches-wrap">
+    <div class="pdp-swatches-label">
+      COLOR: <span id="pdpColorName">{{ selected_color }}</span>
+    </div>
+    <div class="pdp-swatches-row">
+      {%- for color_val in color_option_values -%}
+        {%- assign color_key = color_val | downcase | replace: ' ', '' -%}
+        {%- assign swatch_variant = nil -%}
+        {%- for variant in product.variants -%}
+          {%- assign variant_color = variant.option1 -%}
+          {%- if color_option_index == 1 -%}
+            {%- assign variant_color = variant.option2 -%}
+          {%- elsif color_option_index == 2 -%}
+            {%- assign variant_color = variant.option3 -%}
+          {%- endif -%}
+          {%- if variant_color == color_val and swatch_variant == nil -%}
+            {%- assign swatch_variant = variant -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign is_active = false -%}
+        {%- if color_val == selected_color -%}
+          {%- assign is_active = true -%}
+        {%- endif -%}
+
+        <button
+          type="button"
+          class="pdp-swatch{% if is_active %} pdp-swatch--active{% endif %}"
+          style="background-color: {{ color_key }};"
+          data-color="{{ color_val | escape }}"
+          data-variant-id="{{ swatch_variant.id }}"
+          title="{{ color_val | escape }}"
+          aria-label="{{ color_val | escape }}"
+          onclick="pdpSelectColor(this)"
+        ></button>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

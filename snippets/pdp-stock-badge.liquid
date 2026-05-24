@@ -1,0 +1,23 @@
+{%- comment -%}
+  Snippet: pdp-stock-badge.liquid
+  Accepts: variant — the currently selected variant object
+  Renders an inline stock badge with a colored dot.
+{%- endcomment -%}
+
+{%- if variant != blank -%}
+  {%- if variant.available -%}
+    <div class="pdp-stock-badge pdp-stock-badge--instock">
+      <span class="pdp-stock-dot"></span>
+      <span>In stock
+        {%- if section.settings.low_stock_threshold != blank and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.low_stock_threshold -%}
+          &nbsp;&mdash;&nbsp;Only {{ variant.inventory_quantity }} left
+        {%- endif -%}
+      </span>
+    </div>
+  {%- else -%}
+    <div class="pdp-stock-badge pdp-stock-badge--soldout">
+      <span class="pdp-stock-dot"></span>
+      <span>Sold out</span>
+    </div>
+  {%- endif -%}
+{%- endif -%}
