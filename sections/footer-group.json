@@ -11,6 +11,10 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "trust_bar": {
+      "type": "trust-bar",
+      "settings": {}
+    },
     "footer_WnX4aJ": {
       "type": "footer",
       "blocks": {
@@ -193,6 +197,7 @@
     }
   },
   "order": [
+    "trust_bar",
     "footer_WnX4aJ",
     "utilities"
   ]

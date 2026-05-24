@@ -1,0 +1,232 @@
+<section class="tb" id="tb-section">
+  <div class="tb__inner">
+
+    <!-- Free Shipping -->
+    <div class="tb__item" data-tb-delay="0">
+      <div class="tb__icon">
+        <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- box body -->
+          <polyline points="28,5 51,17 51,39 28,51 5,39 5,17 28,5" class="tb-path"/>
+          <!-- top ridge -->
+          <polyline points="16,11 28,17 40,11" class="tb-path"/>
+          <!-- vertical center -->
+          <line x1="28" y1="17" x2="28" y2="51" class="tb-path"/>
+          <!-- left diagonal -->
+          <line x1="5" y1="17" x2="28" y2="28" class="tb-path"/>
+          <!-- right diagonal -->
+          <line x1="51" y1="17" x2="28" y2="28" class="tb-path"/>
+        </svg>
+      </div>
+      <strong class="tb__title">{{ section.settings.item1_title | default: 'Free Shipping' }}</strong>
+      <span class="tb__sub">{{ section.settings.item1_sub | default: 'Available' }}</span>
+    </div>
+
+    <!-- Easy Returns -->
+    <div class="tb__item" data-tb-delay="150">
+      <div class="tb__icon">
+        <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- dashed ring -->
+          <circle cx="28" cy="28" r="22" stroke-dasharray="5 4" class="tb-path tb-ring"/>
+          <!-- return arrow arc -->
+          <path d="M 28 10 A 18 18 0 1 1 13 22" class="tb-path"/>
+          <!-- arrow head -->
+          <polyline points="8,18 13,22 18,17" class="tb-path"/>
+          <!-- mini box -->
+          <rect x="21" y="28" width="14" height="12" rx="1.5" class="tb-path"/>
+          <line x1="21" y1="33" x2="35" y2="33" class="tb-path"/>
+        </svg>
+      </div>
+      <strong class="tb__title">{{ section.settings.item2_title | default: 'Easy Returns' }}</strong>
+      <span class="tb__sub">{{ section.settings.item2_sub | default: 'Within 5 days' }}</span>
+    </div>
+
+    <!-- 100% Secure -->
+    <div class="tb__item" data-tb-delay="300">
+      <div class="tb__icon">
+        <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- card -->
+          <rect x="5" y="13" width="46" height="30" rx="3" class="tb-path"/>
+          <!-- chip line -->
+          <line x1="5" y1="21" x2="51" y2="21" class="tb-path"/>
+          <!-- lock body -->
+          <rect x="22" y="28" width="12" height="9" rx="1.5" class="tb-path"/>
+          <!-- lock shackle -->
+          <path d="M 25 28 V 24.5 A 3 3 0 0 1 31 24.5 V 28" class="tb-path"/>
+          <!-- keyhole dot -->
+          <circle cx="28" cy="33" r="1.4" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <strong class="tb__title">{{ section.settings.item3_title | default: '100% Secure' }}</strong>
+      <span class="tb__sub">{{ section.settings.item3_sub | default: 'Online Shopping' }}</span>
+    </div>
+
+    <!-- Consciously Crafted -->
+    <div class="tb__item" data-tb-delay="450">
+      <div class="tb__icon">
+        <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- hook -->
+          <path d="M 28 16 C 28 10 36 7 38 12" class="tb-path"/>
+          <!-- left arm -->
+          <line x1="28" y1="16" x2="6" y2="44" class="tb-path"/>
+          <!-- right arm -->
+          <line x1="28" y1="16" x2="50" y2="44" class="tb-path"/>
+          <!-- bar -->
+          <line x1="6" y1="44" x2="50" y2="44" class="tb-path"/>
+          <!-- left arrow -->
+          <polyline points="11,39 6,44 11,49" class="tb-path"/>
+          <!-- right arrow -->
+          <polyline points="45,39 50,44 45,49" class="tb-path"/>
+        </svg>
+      </div>
+      <strong class="tb__title">{{ section.settings.item4_title | default: 'Consciously Crafted' }}</strong>
+      <span class="tb__sub">{{ section.settings.item4_sub | default: 'In India' }}</span>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .tb {
+    background: #0d0d0d;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 3rem 1.5rem;
+  }
+
+  .tb__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 860px) {
+    .tb__inner { grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .tb__inner { grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; }
+    .tb { padding: 2.5rem 1rem; }
+  }
+
+  /* ── Item ─────────────────────────────────── */
+  .tb__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    color: #fff;
+    /* entry animation state */
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .tb__item.tb--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Icon ─────────────────────────────────── */
+  .tb__icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .tb__item:hover .tb__icon {
+    transform: translateY(-5px);
+  }
+
+  .tb__icon svg {
+    width: 100%;
+    height: 100%;
+    color: rgba(255,255,255,0.88);
+    transition: color 0.25s;
+  }
+
+  .tb__item:hover .tb__icon svg {
+    color: #fff;
+  }
+
+  /* SVG path draw animation */
+  .tb-path {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    transition: stroke-dashoffset 0s; /* reset */
+  }
+
+  .tb--visible .tb-path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Ring spins on hover */
+  .tb-ring {
+    transform-origin: 28px 28px;
+    transition: transform 0.6s ease, stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  .tb__item:hover .tb-ring {
+    transform: rotate(360deg);
+    stroke-dashoffset: 0 !important;
+  }
+
+  /* ── Text ─────────────────────────────────── */
+  .tb__title {
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+
+  .tb__sub {
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.01em;
+  }
+</style>
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.tb__item');
+  if (!items.length) return;
+
+  /* Staggered reveal on scroll into view */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var delay = parseInt(el.getAttribute('data-tb-delay') || '0', 10);
+      setTimeout(function () {
+        el.classList.add('tb--visible');
+      }, delay);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+
+  items.forEach(function (item) { io.observe(item); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [
+    { "type": "text", "id": "item1_title", "label": "Item 1 Title", "default": "Free Shipping" },
+    { "type": "text", "id": "item1_sub",   "label": "Item 1 Subtitle", "default": "Available" },
+    { "type": "text", "id": "item2_title", "label": "Item 2 Title", "default": "Easy Returns" },
+    { "type": "text", "id": "item2_sub",   "label": "Item 2 Subtitle", "default": "Within 5 days" },
+    { "type": "text", "id": "item3_title", "label": "Item 3 Title", "default": "100% Secure" },
+    { "type": "text", "id": "item3_sub",   "label": "Item 3 Subtitle", "default": "Online Shopping" },
+    { "type": "text", "id": "item4_title", "label": "Item 4 Title", "default": "Consciously Crafted" },
+    { "type": "text", "id": "item4_sub",   "label": "Item 4 Subtitle", "default": "In India" }
+  ],
+  "presets": [{ "name": "Trust Bar" }]
+}
+{% endschema %}

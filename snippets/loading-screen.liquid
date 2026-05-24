@@ -1,0 +1,197 @@
+{% unless request.design_mode %}
+<div id="ls-overlay" aria-hidden="true" role="presentation">
+  <canvas id="ls-canvas"></canvas>
+</div>
+
+<style>
+  #ls-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    background: #0d0d0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: opacity;
+  }
+  #ls-overlay.ls-fade {
+    transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+  }
+  #ls-canvas {
+    display: block;
+    width: min(52vw, 52vh);
+    height: min(52vw, 52vh);
+  }
+  body.ls-active {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+(function () {
+  var overlay = document.getElementById('ls-overlay');
+  var canvas  = document.getElementById('ls-canvas');
+  var ctx     = canvas.getContext('2d', { willReadFrequently: true });
+
+  document.body.classList.add('ls-active');
+
+  /* ── Config ───────────────────────────────── */
+  var SIZE          = 540;   // internal canvas resolution
+  var SNAKE_MS      = 2200;  // snake traversal duration
+  var HOLD_MS       = 350;   // pause after snake finishes
+  var GLOW_RADIUS   = 6;     // pixel-radius of snake head glow
+  var LOGO_R        = 196;   // final red R
+  var LOGO_G        = 30;    // final red G
+  var LOGO_B        = 30;    // final red B
+
+  canvas.width  = SIZE;
+  canvas.height = SIZE;
+
+  /* ── Load logo ────────────────────────────── */
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = '{{ "um-logo.jpg" | asset_url }}';
+  img.onerror = dismiss;
+
+  img.onload = function () {
+    /* Sample logo pixels into an offscreen canvas */
+    var off = document.createElement('canvas');
+    off.width = off.height = SIZE;
+    var oCtx = off.getContext('2d');
+    oCtx.drawImage(img, 0, 0, SIZE, SIZE);
+    var src = oCtx.getImageData(0, 0, SIZE, SIZE).data;
+
+    /* Collect logo pixels grouped by column (x) */
+    var cols = [];
+    for (var x = 0; x < SIZE; x++) cols.push([]);
+
+    for (var y = 0; y < SIZE; y++) {
+      for (var x = 0; x < SIZE; x++) {
+        var i = (y * SIZE + x) * 4;
+        /* Detect the red logo area: R high, G+B low */
+        if (src[i] > 130 && src[i + 1] < 100 && src[i + 2] < 100) {
+          cols[x].push(y);
+        }
+      }
+    }
+
+    /* Build serpentine path: right-to-left, alternating vertical direction.
+       This makes the snake weave up and down through each vertical stroke
+       rather than just sweeping horizontally. */
+    var pathX = [], pathY = [];
+    var goDown = true;
+    for (var x = SIZE - 1; x >= 0; x--) {
+      var col = cols[x];
+      if (!col.length) continue;
+      col.sort(function (a, b) { return a - b; });
+      if (!goDown) col.reverse();
+      for (var j = 0; j < col.length; j++) {
+        pathX.push(x);
+        pathY.push(col[j]);
+      }
+      goDown = !goDown;
+    }
+    var N = pathX.length;
+    if (N === 0) { dismiss(); return; }
+
+    /* Initialise pixel buffer: dark bg + white logo */
+    var imgData = ctx.createImageData(SIZE, SIZE);
+    var pix = imgData.data;
+
+    for (var i = 0; i < pix.length; i += 4) {
+      pix[i] = 13; pix[i + 1] = 13; pix[i + 2] = 13; pix[i + 3] = 255;
+    }
+    for (var p = 0; p < N; p++) {
+      var ii = (pathY[p] * SIZE + pathX[p]) * 4;
+      pix[ii] = 255; pix[ii + 1] = 255; pix[ii + 2] = 255; pix[ii + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    /* ── Animate ──────────────────────────────── */
+    var startTs  = null;
+    var prevHead = 0;
+
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    function frame(ts) {
+      if (!startTs) startTs = ts;
+      var raw  = Math.min((ts - startTs) / SNAKE_MS, 1);
+      var head = Math.floor(easeInOut(raw) * (N - 1));
+
+      /* Only redraw the pixels that changed since last frame */
+      var from = Math.max(0, prevHead - GLOW_RADIUS - 1);
+      var to   = Math.min(N - 1, head + GLOW_RADIUS + 1);
+
+      for (var p = from; p <= to; p++) {
+        var ii   = (pathY[p] * SIZE + pathX[p]) * 4;
+        var dist = head - p; /* negative = ahead of head, positive = behind */
+
+        if (dist < 0) {
+          /* Ahead: still white */
+          pix[ii]     = 255;
+          pix[ii + 1] = 255;
+          pix[ii + 2] = 255;
+        } else if (dist <= GLOW_RADIUS) {
+          /* Glow zone: white-hot at head, bleeds into red toward tail */
+          var gt = dist / GLOW_RADIUS; /* 0 = head tip, 1 = glow tail */
+          pix[ii]     = Math.round(255 - gt * (255 - LOGO_R));
+          pix[ii + 1] = Math.round(Math.max(0, 255 - gt * 255 * 1.4));
+          pix[ii + 2] = Math.round(Math.max(0, 255 - gt * 255 * 1.4));
+        } else {
+          /* Behind glow: solid brand red */
+          pix[ii]     = LOGO_R;
+          pix[ii + 1] = LOGO_G;
+          pix[ii + 2] = LOGO_B;
+        }
+        pix[ii + 3] = 255;
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+
+      /* Draw a radial glow at the snake head for extra punch */
+      if (head < N) {
+        var hx = pathX[head], hy = pathY[head];
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        var grad = ctx.createRadialGradient(hx, hy, 0, hx, hy, GLOW_RADIUS * 2.5);
+        grad.addColorStop(0, 'rgba(255,220,220,0.55)');
+        grad.addColorStop(1, 'rgba(196,30,30,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(hx, hy, GLOW_RADIUS * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      prevHead = head;
+
+      if (raw < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        setTimeout(dismiss, HOLD_MS);
+      }
+    }
+
+    /* Short pause so the white logo is visible before snake starts */
+    setTimeout(function () { requestAnimationFrame(frame); }, 280);
+  };
+
+  /* ── Dismiss ──────────────────────────────── */
+  function dismiss() {
+    document.body.classList.remove('ls-active');
+    overlay.classList.add('ls-fade');
+    setTimeout(function () {
+      if (overlay && overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+      }
+    }, 700);
+  }
+
+  /* Safety: always dismiss within 7s */
+  setTimeout(dismiss, 7000);
+})();
+</script>
+{% endunless %}

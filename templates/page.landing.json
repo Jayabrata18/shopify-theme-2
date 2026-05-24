@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "landing-page",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

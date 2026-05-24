@@ -1,0 +1,1734 @@
+<!-- ═══════════════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════════════ -->
+<section class="lp-hero" id="lp-hero">
+  {%- assign hero_bg = section.settings.hero_image | image_url: width: 2000 -%}
+  {%- if section.settings.hero_youtube_id != blank -%}
+    <div class="lp-hero__video-wrap">
+      <iframe
+        class="lp-hero__iframe"
+        src="https://www.youtube.com/embed/{{ section.settings.hero_youtube_id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.hero_youtube_id }}&controls=0&showinfo=0&rel=0&modestbranding=1"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen
+      ></iframe>
+      <div class="lp-hero__overlay"></div>
+    </div>
+  {%- elsif section.settings.hero_image != blank -%}
+    <div class="lp-hero__img-wrap">
+      <img
+        src="{{ hero_bg }}"
+        alt="{{ section.settings.hero_heading | escape }}"
+        class="lp-hero__img lp-hero__img--kenburns"
+        loading="eager"
+      >
+      <div class="lp-hero__overlay"></div>
+    </div>
+  {%- else -%}
+    <div class="lp-hero__img-wrap">
+      <img
+        src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=2000&q=80&fit=crop"
+        alt="Hero"
+        class="lp-hero__img lp-hero__img--kenburns"
+        loading="eager"
+      >
+      <div class="lp-hero__overlay"></div>
+    </div>
+  {%- endif -%}
+
+  <div class="lp-hero__content">
+    {%- if section.settings.hero_eyebrow != blank -%}
+      <p class="lp-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.hero_heading != blank -%}
+      <h1 class="lp-hero__heading">{{ section.settings.hero_heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.hero_subheading != blank -%}
+      <p class="lp-hero__subheading">{{ section.settings.hero_subheading }}</p>
+    {%- endif -%}
+    <div class="lp-hero__btns">
+      {%- if section.settings.hero_btn1_text != blank -%}
+        <a href="{{ section.settings.hero_btn1_link }}" class="lp-btn lp-btn--primary">
+          {{ section.settings.hero_btn1_text }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.hero_btn2_text != blank -%}
+        <a href="{{ section.settings.hero_btn2_link }}" class="lp-btn lp-btn--outline">
+          {{ section.settings.hero_btn2_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="lp-hero__scroll-hint">
+    <span class="lp-hero__scroll-line"></span>
+    <span class="lp-hero__scroll-label">Scroll</span>
+  </div>
+</section>
+
+{% comment %} <!-- ═══════════════════════════════════════════════════
+     MARQUEE STRIP
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_marquee -%}
+<div class="lp-marquee">
+  <div class="lp-marquee__track">
+    {%- assign marquee_text = section.settings.marquee_text | default: 'FREE SHIPPING ABOVE ₹999 • NEW DROP EVERY FRIDAY • MADE FOR THE STREETS • URBNMYTH' -%}
+    {%- for i in (1..6) -%}
+      <span class="lp-marquee__item">{{ marquee_text }}</span>
+      <span class="lp-marquee__sep" aria-hidden="true">✦</span>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%} {% endcomment %}
+
+{% comment %} <!-- ═══════════════════════════════════════════════════
+     FEATURED COLLECTIONS
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_collections -%}
+<section class="lp-section lp-collections" id="lp-collections">
+  <div class="lp-container">
+    {%- if section.settings.collections_heading != blank -%}
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">{{ section.settings.collections_heading }}</h2>
+        {%- if section.settings.collections_subtext != blank -%}
+          <p class="lp-section-sub">{{ section.settings.collections_subtext }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="lp-collections__grid">
+      {%- assign col_images = 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=800&q=80&fit=crop,https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800&q=80&fit=crop,https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80&fit=crop' | split: ',' -%}
+      {%- for i in (1..3) -%}
+        {%- assign col_key = 'collection_' | append: i -%}
+        {%- assign col_img_key = 'collection_' | append: i | append: '_image' -%}
+        {%- assign col_label_key = 'collection_' | append: i | append: '_label' -%}
+        {%- assign col_obj = section.settings[col_key] -%}
+        {%- assign col_img_obj = section.settings[col_img_key] -%}
+        {%- assign col_label = section.settings[col_label_key] -%}
+        {%- assign fallback_img = col_images[forloop.index0] -%}
+
+        {%- if col_obj != blank -%}
+          {%- assign col_url = col_obj.url -%}
+          {%- assign col_title = col_label | default: col_obj.title -%}
+          {%- if col_img_obj != blank -%}
+            {%- assign col_img_src = col_img_obj | image_url: width: 800 -%}
+          {%- elsif col_obj.image != blank -%}
+            {%- assign col_img_src = col_obj.image | image_url: width: 800 -%}
+          {%- else -%}
+            {%- assign col_img_src = fallback_img -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign col_url = '#' -%}
+          {%- assign col_title = 'Collection ' | append: i -%}
+          {%- assign col_img_src = fallback_img -%}
+        {%- endif -%}
+
+        <a href="{{ col_url }}" class="lp-col-card">
+          <div class="lp-col-card__img-wrap">
+            <img
+              src="{{ col_img_src }}"
+              alt="{{ col_title | escape }}"
+              class="lp-col-card__img"
+              loading="lazy"
+            >
+            <div class="lp-col-card__overlay"></div>
+          </div>
+          <div class="lp-col-card__info">
+            <span class="lp-col-card__title">{{ col_title }}</span>
+            <span class="lp-col-card__arrow">→</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     NEW ARRIVALS
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_new_arrivals -%}
+<section class="lp-section lp-arrivals" id="lp-arrivals">
+  <div class="lp-container">
+    <div class="lp-section-head lp-section-head--split">
+      <div>
+        <h2 class="lp-section-title">{{ section.settings.arrivals_heading | default: 'New Arrivals' }}</h2>
+        {%- if section.settings.arrivals_subtext != blank -%}
+          <p class="lp-section-sub">{{ section.settings.arrivals_subtext }}</p>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.arrivals_view_all_link != blank -%}
+        <a href="{{ section.settings.arrivals_view_all_link }}" class="lp-link-arrow">
+          View All <span>→</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- assign arrivals_collection = section.settings.arrivals_collection -%}
+    {%- if arrivals_collection != blank -%}
+      <div class="lp-arrivals__grid">
+        {%- for product in arrivals_collection.products limit: section.settings.arrivals_count -%}
+          <div class="lp-arrivals__item">
+            {%- render 'card-product-urbnmyth', product: product -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="lp-arrivals__grid">
+        {%- for product in collections.all.products limit: section.settings.arrivals_count -%}
+          <div class="lp-arrivals__item">
+            {%- render 'card-product-urbnmyth', product: product -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     BRAND STORY
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_brand_story -%}
+<section class="lp-section lp-story" id="lp-story">
+  <div class="lp-story__inner {% if section.settings.story_image_right %}lp-story__inner--reversed{% endif %}">
+    <div class="lp-story__img-side">
+      {%- if section.settings.story_image != blank -%}
+        {%- assign story_img_src = section.settings.story_image | image_url: width: 900 -%}
+        <img src="{{ story_img_src }}" alt="{{ section.settings.story_heading | escape }}" class="lp-story__img" loading="lazy">
+      {%- else -%}
+        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=900&q=80&fit=crop" alt="Brand Story" class="lp-story__img" loading="lazy">
+      {%- endif -%}
+      {%- if section.settings.story_image_caption != blank -%}
+        <span class="lp-story__caption">{{ section.settings.story_image_caption }}</span>
+      {%- endif -%}
+    </div>
+    <div class="lp-story__text-side">
+      {%- if section.settings.story_eyebrow != blank -%}
+        <span class="lp-story__eyebrow">{{ section.settings.story_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.story_heading != blank -%}
+        <h2 class="lp-story__heading">{{ section.settings.story_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.story_body != blank -%}
+        <div class="lp-story__body">{{ section.settings.story_body }}</div>
+      {%- endif -%}
+      {%- if section.settings.story_btn_text != blank -%}
+        <a href="{{ section.settings.story_btn_link }}" class="lp-btn lp-btn--dark">
+          {{ section.settings.story_btn_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     SECOND MARQUEE / STATS BAR
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_stats -%}
+<div class="lp-stats">
+  <div class="lp-container">
+    <div class="lp-stats__grid">
+      {%- if section.settings.stat1_number != blank -%}
+        <div class="lp-stats__item">
+          <span class="lp-stats__num">{{ section.settings.stat1_number }}</span>
+          <span class="lp-stats__label">{{ section.settings.stat1_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat2_number != blank -%}
+        <div class="lp-stats__item">
+          <span class="lp-stats__num">{{ section.settings.stat2_number }}</span>
+          <span class="lp-stats__label">{{ section.settings.stat2_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat3_number != blank -%}
+        <div class="lp-stats__item">
+          <span class="lp-stats__num">{{ section.settings.stat3_number }}</span>
+          <span class="lp-stats__label">{{ section.settings.stat3_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat4_number != blank -%}
+        <div class="lp-stats__item">
+          <span class="lp-stats__num">{{ section.settings.stat4_number }}</span>
+          <span class="lp-stats__label">{{ section.settings.stat4_label }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_testimonials and section.blocks.size > 0 -%}
+<section class="lp-section lp-testimonials" id="lp-testimonials">
+  <div class="lp-container">
+    {%- if section.settings.testimonials_heading != blank -%}
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">{{ section.settings.testimonials_heading }}</h2>
+      </div>
+    {%- endif -%}
+    <div class="lp-testimonials__track" id="lpTestimonialsTrack">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'testimonial' -%}
+          <div class="lp-testimonial-card" {{ block.shopify_attributes }}>
+            <div class="lp-testimonial-card__stars">
+              {%- assign stars = block.settings.stars | default: 5 -%}
+              {%- for s in (1..5) -%}
+                <span class="lp-star {% if s <= stars %}lp-star--filled{% endif %}">★</span>
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.quote != blank -%}
+              <p class="lp-testimonial-card__quote">"{{ block.settings.quote }}"</p>
+            {%- endif -%}
+            <div class="lp-testimonial-card__author">
+              {%- if block.settings.avatar != blank -%}
+                {%- assign avatar_src = block.settings.avatar | image_url: width: 80 -%}
+                <img src="{{ avatar_src }}" alt="{{ block.settings.name | escape }}" class="lp-testimonial-card__avatar" loading="lazy">
+              {%- else -%}
+                <div class="lp-testimonial-card__avatar lp-testimonial-card__avatar--initials">
+                  {{ block.settings.name | slice: 0, 1 | upcase }}
+                </div>
+              {%- endif -%}
+              <div>
+                <strong class="lp-testimonial-card__name">{{ block.settings.name }}</strong>
+                {%- if block.settings.location != blank -%}
+                  <span class="lp-testimonial-card__location">{{ block.settings.location }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="lp-testimonials__dots" id="lpTestimonialsDots"></div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     INSTAGRAM GRID
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_instagram -%}
+<section class="lp-section lp-instagram" id="lp-instagram">
+  <div class="lp-container">
+    {%- if section.settings.instagram_heading != blank -%}
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">{{ section.settings.instagram_heading }}</h2>
+        {%- if section.settings.instagram_handle != blank -%}
+          <a href="https://instagram.com/{{ section.settings.instagram_handle | remove: '@' }}" class="lp-insta-handle" target="_blank" rel="noopener">
+            @{{ section.settings.instagram_handle | remove: '@' }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- assign insta_fallbacks = 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1485218126466-34e6392ec754?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1542060748-10c28b62716f?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1601762603339-fd61e28b698a?w=600&q=80&fit=crop' | split: ',' -%}
+
+    <div class="lp-instagram__grid">
+      {%- for i in (1..6) -%}
+        {%- assign ig_key = 'instagram_image_' | append: i -%}
+        {%- assign ig_link_key = 'instagram_link_' | append: i -%}
+        {%- assign ig_img_obj = section.settings[ig_key] -%}
+        {%- assign ig_link = section.settings[ig_link_key] -%}
+        {%- assign ig_fallback = insta_fallbacks[forloop.index0] -%}
+
+        {%- if ig_img_obj != blank -%}
+          {%- assign ig_src = ig_img_obj | image_url: width: 600 -%}
+        {%- else -%}
+          {%- assign ig_src = ig_fallback -%}
+        {%- endif -%}
+
+        <a href="{{ ig_link | default: '#' }}" class="lp-insta-tile" target="_blank" rel="noopener">
+          <img src="{{ ig_src }}" alt="Instagram post {{ i }}" class="lp-insta-tile__img" loading="lazy">
+          <div class="lp-insta-tile__hover">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.instagram_handle != blank -%}
+      <div class="lp-instagram__cta">
+        <a href="https://instagram.com/{{ section.settings.instagram_handle | remove: '@' }}" class="lp-btn lp-btn--outline-dark" target="_blank" rel="noopener">
+          Follow us on Instagram
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ═══════════════════════════════════════════════════
+     NEWSLETTER
+═══════════════════════════════════════════════════ -->
+{%- if section.settings.show_newsletter -%}
+<section class="lp-newsletter" id="lp-newsletter">
+  {%- if section.settings.newsletter_bg_image != blank -%}
+    {%- assign nl_bg = section.settings.newsletter_bg_image | image_url: width: 1600 -%}
+    <div class="lp-newsletter__bg" style="background-image: url('{{ nl_bg }}');"></div>
+  {%- else -%}
+    <div class="lp-newsletter__bg" style="background-image: url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=1600&q=80&fit=crop');"></div>
+  {%- endif -%}
+  <div class="lp-newsletter__overlay"></div>
+  <div class="lp-container lp-newsletter__content">
+    {%- if section.settings.newsletter_eyebrow != blank -%}
+      <span class="lp-newsletter__eyebrow">{{ section.settings.newsletter_eyebrow }}</span>
+    {%- endif -%}
+    <h2 class="lp-newsletter__heading">{{ section.settings.newsletter_heading | default: 'Join the Tribe' }}</h2>
+    {%- if section.settings.newsletter_subtext != blank -%}
+      <p class="lp-newsletter__sub">{{ section.settings.newsletter_subtext }}</p>
+    {%- endif -%}
+    <form class="lp-newsletter__form" action="/contact#contact_form" method="post" accept-charset="UTF-8" id="lpNewsletterForm">
+      <input type="hidden" name="form_type" value="customer">
+      <input type="hidden" name="utf8" value="✓">
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="lp-newsletter__input-wrap">
+        <input
+          type="email"
+          name="contact[email]"
+          class="lp-newsletter__input"
+          placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address' }}"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="lp-newsletter__submit">
+          {{ section.settings.newsletter_btn_text | default: 'Subscribe' }}
+        </button>
+      </div>
+      {%- if section.settings.newsletter_disclaimer != blank -%}
+        <p class="lp-newsletter__disclaimer">{{ section.settings.newsletter_disclaimer }}</p>
+      {%- endif -%}
+    </form>
+  </div> {% endcomment %}
+{% comment %} </section>
+{%- endif -%} {% endcomment %}
+
+<!-- ═══════════════════════════════════════════════════
+     STYLES
+═══════════════════════════════════════════════════ -->
+<style>
+/* ── Base ────────────────────────────────────────── */
+.lp-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.lp-section {
+  padding: 80px 0;
+}
+
+.lp-section-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.lp-section-head--split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  text-align: left;
+  gap: 16px;
+}
+
+.lp-section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  color: #111;
+}
+
+.lp-section-sub {
+  font-size: 1rem;
+  color: #777;
+  margin: 0;
+  max-width: 480px;
+}
+
+.lp-link-arrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  border-bottom: 1px solid #111;
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lp-link-arrow:hover { color: #555; border-color: #555; }
+
+/* ── Buttons ─────────────────────────────────────── */
+.lp-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.lp-btn--primary {
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+}
+
+.lp-btn--primary:hover { background: transparent; color: #fff; }
+
+.lp-btn--outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,0.6);
+}
+
+.lp-btn--outline:hover { background: #fff; color: #111; border-color: #fff; }
+
+.lp-btn--dark {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.lp-btn--dark:hover { background: transparent; color: #111; }
+
+.lp-btn--outline-dark {
+  background: transparent;
+  color: #111;
+  border: 2px solid #111;
+}
+
+.lp-btn--outline-dark:hover { background: #111; color: #fff; }
+
+/* ── Hero ────────────────────────────────────────── */
+.lp-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-hero__img-wrap,
+.lp-hero__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.lp-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.lp-hero__img--kenburns {
+  animation: lpKenBurns 16s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes lpKenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+.lp-hero__iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 177.78vh);
+  height: max(100%, 56.25vw);
+  transform: translate(-50%, -50%);
+  border: none;
+  pointer-events: none;
+}
+
+.lp-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.5) 60%,
+    rgba(0,0,0,0.75) 100%
+  );
+}
+
+.lp-hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 24px;
+  max-width: 820px;
+}
+
+.lp-hero__eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin: 0 0 16px;
+}
+
+.lp-hero__heading {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
+
+.lp-hero__subheading {
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  color: rgba(255,255,255,0.8);
+  margin: 0 0 40px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lp-hero__btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lp-hero__scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lp-hero__scroll-line {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: rgba(255,255,255,0.4);
+  animation: lpScrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes lpScrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(0.6); }
+}
+
+/* ── Marquee ─────────────────────────────────────── */
+.lp-marquee {
+  background: #111;
+  color: #fff;
+  overflow: hidden;
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+.lp-marquee__track {
+  display: inline-flex;
+  gap: 32px;
+  animation: lpMarqueeScroll 32s linear infinite;
+}
+
+.lp-marquee__item {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.lp-marquee__sep {
+  flex-shrink: 0;
+  opacity: 0.4;
+}
+
+@keyframes lpMarqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Collections ─────────────────────────────────── */
+.lp-collections {
+  background: #fafafa;
+}
+
+.lp-collections__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.lp-col-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.lp-col-card__img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.lp-col-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.lp-col-card:hover .lp-col-card__img { transform: scale(1.06); }
+
+.lp-col-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 55%);
+}
+
+.lp-col-card__info {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.lp-col-card__title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lp-col-card__arrow {
+  font-size: 1.4rem;
+  transition: transform 0.25s;
+}
+
+.lp-col-card:hover .lp-col-card__arrow { transform: translateX(6px); }
+
+/* ── New Arrivals ────────────────────────────────── */
+.lp-arrivals {
+  background: #fff;
+}
+
+.lp-arrivals__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── Brand Story ─────────────────────────────────── */
+.lp-story {
+  background: #f5f5f5;
+  padding: 0;
+  overflow: hidden;
+}
+
+.lp-story__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
+
+.lp-story__inner--reversed { direction: rtl; }
+.lp-story__inner--reversed > * { direction: ltr; }
+
+.lp-story__img-side {
+  position: relative;
+  overflow: hidden;
+}
+
+.lp-story__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
+}
+
+.lp-story__img-side:hover .lp-story__img { transform: scale(1.04); }
+
+.lp-story__caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  padding: 6px 12px;
+  text-transform: uppercase;
+}
+
+.lp-story__text-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px 72px;
+  background: #fff;
+}
+
+.lp-story__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.lp-story__heading {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 24px;
+  color: #111;
+}
+
+.lp-story__body {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #555;
+  margin-bottom: 36px;
+}
+
+/* ── Stats ───────────────────────────────────────── */
+.lp-stats {
+  background: #111;
+  color: #fff;
+  padding: 60px 0;
+}
+
+.lp-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+
+.lp-stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.lp-stats__num {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.lp-stats__label {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ── Testimonials ────────────────────────────────── */
+.lp-testimonials {
+  background: #fafafa;
+}
+
+.lp-testimonials__track {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.lp-testimonial-card {
+  background: #fff;
+  padding: 32px;
+  border: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lp-testimonial-card__stars {
+  display: flex;
+  gap: 3px;
+}
+
+.lp-star { color: #ddd; font-size: 1rem; }
+.lp-star--filled { color: #f5a623; }
+
+.lp-testimonial-card__quote {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #333;
+  margin: 0;
+  flex: 1;
+}
+
+.lp-testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.lp-testimonial-card__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.lp-testimonial-card__avatar--initials {
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.lp-testimonial-card__name {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.lp-testimonial-card__location {
+  display: block;
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 2px;
+}
+
+.lp-testimonials__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+/* ── Instagram ───────────────────────────────────── */
+.lp-instagram { background: #fff; }
+
+.lp-section-head { position: relative; }
+
+.lp-insta-handle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #111;
+  padding-bottom: 2px;
+}
+
+.lp-instagram__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.lp-insta-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.lp-insta-tile__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.lp-insta-tile:hover .lp-insta-tile__img { transform: scale(1.08); }
+
+.lp-insta-tile__hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lp-insta-tile:hover .lp-insta-tile__hover { opacity: 1; }
+
+.lp-instagram__cta {
+  text-align: center;
+  margin-top: 36px;
+}
+
+/* ── Newsletter ──────────────────────────────────── */
+.lp-newsletter {
+  position: relative;
+  padding: 100px 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.lp-newsletter__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.lp-newsletter__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+}
+
+.lp-newsletter__content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  max-width: 620px;
+}
+
+.lp-newsletter__eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 16px;
+}
+
+.lp-newsletter__heading {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 16px;
+  line-height: 1;
+}
+
+.lp-newsletter__sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0 0 36px;
+}
+
+.lp-newsletter__input-wrap {
+  display: flex;
+  gap: 0;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.lp-newsletter__input {
+  flex: 1;
+  padding: 16px 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.lp-newsletter__input::placeholder { color: rgba(255,255,255,0.4); }
+.lp-newsletter__input:focus { border-color: rgba(255,255,255,0.7); }
+
+.lp-newsletter__submit {
+  padding: 16px 28px;
+  background: #fff;
+  color: #111;
+  border: 2px solid #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+  white-space: nowrap;
+}
+
+.lp-newsletter__submit:hover { background: transparent; color: #fff; }
+
+.lp-newsletter__disclaimer {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 14px;
+}
+
+/* ── Mobile ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .lp-collections__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lp-collections__grid > *:last-child {
+    grid-column: span 2;
+    max-height: 280px;
+  }
+
+  .lp-arrivals__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .lp-stats__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lp-testimonials__track {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  .lp-instagram__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lp-story__inner {
+    grid-template-columns: 1fr;
+    direction: ltr !important;
+  }
+
+  .lp-story__img-side {
+    min-height: 320px;
+    aspect-ratio: 16/9;
+  }
+
+  .lp-story__text-side {
+    padding: 48px 24px;
+  }
+
+  .lp-section-head--split {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lp-insta-handle {
+    position: static;
+    transform: none;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 580px) {
+  .lp-section { padding: 56px 0; }
+
+  .lp-collections__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lp-collections__grid > *:last-child {
+    grid-column: span 1;
+    max-height: 260px;
+  }
+
+  .lp-col-card { aspect-ratio: 4/3; }
+
+  .lp-arrivals__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .lp-stats__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .lp-instagram__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .lp-newsletter__input-wrap {
+    flex-direction: column;
+  }
+
+  .lp-newsletter__input,
+  .lp-newsletter__submit {
+    width: 100%;
+  }
+
+  .lp-hero__btns {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════════
+     SCHEMA
+═══════════════════════════════════════════════════ -->
+{% schema %}
+{
+  "name": "Landing Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_youtube_id",
+      "label": "YouTube Video ID (overrides image)",
+      "info": "e.g. dQw4w9WgXcQ — autoplay, muted, looped"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Eyebrow Text",
+      "default": "New Collection 2024"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "Born On The Streets"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subheading",
+      "label": "Subheading",
+      "default": "Premium streetwear crafted for those who live outside the ordinary."
+    },
+    {
+      "type": "text",
+      "id": "hero_btn1_text",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "hero_btn1_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "hero_btn2_text",
+      "label": "Secondary Button Text",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "hero_btn2_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Marquee Strip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_marquee",
+      "label": "Show Marquee",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "marquee_text",
+      "label": "Marquee Text",
+      "default": "FREE SHIPPING ABOVE ₹999 • NEW DROP EVERY FRIDAY • MADE FOR THE STREETS • URBNMYTH"
+    },
+    {
+      "type": "header",
+      "content": "Featured Collections"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collections",
+      "label": "Show Collections",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collections_heading",
+      "label": "Section Heading",
+      "default": "Shop By Category"
+    },
+    {
+      "type": "text",
+      "id": "collections_subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "text",
+      "id": "collection_1_label",
+      "label": "Collection 1 Label Override"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_1_image",
+      "label": "Collection 1 Image Override"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "text",
+      "id": "collection_2_label",
+      "label": "Collection 2 Label Override"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_2_image",
+      "label": "Collection 2 Image Override"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "text",
+      "id": "collection_3_label",
+      "label": "Collection 3 Label Override"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_3_image",
+      "label": "Collection 3 Image Override"
+    },
+    {
+      "type": "header",
+      "content": "New Arrivals"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_arrivals",
+      "label": "Show New Arrivals",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "arrivals_heading",
+      "label": "Section Heading",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "arrivals_subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "collection",
+      "id": "arrivals_collection",
+      "label": "Source Collection"
+    },
+    {
+      "type": "range",
+      "id": "arrivals_count",
+      "label": "Number of Products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "url",
+      "id": "arrivals_view_all_link",
+      "label": "View All Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand Story"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brand_story",
+      "label": "Show Brand Story",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "story_image_right",
+      "label": "Image on Right",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "story_image_caption",
+      "label": "Image Caption"
+    },
+    {
+      "type": "text",
+      "id": "story_eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "Built For The Bold"
+    },
+    {
+      "type": "richtext",
+      "id": "story_body",
+      "label": "Body Text",
+      "default": "<p>URBNMYTH was born in the alleyways and rooftops of India's fastest cities. We make clothes for people who move fast, think sharp, and dress like they mean it. No fuss. No fluff. Just raw streetwear that speaks for itself.</p>"
+    },
+    {
+      "type": "text",
+      "id": "story_btn_text",
+      "label": "Button Text",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "story_btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Stats Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stats",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat1_number",
+      "label": "Stat 1 Number",
+      "default": "50K+"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 Label",
+      "default": "Happy Customers"
+    },
+    {
+      "type": "text",
+      "id": "stat2_number",
+      "label": "Stat 2 Number",
+      "default": "200+"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 Label",
+      "default": "Styles Dropped"
+    },
+    {
+      "type": "text",
+      "id": "stat3_number",
+      "label": "Stat 3 Number",
+      "default": "4.9★"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 Label",
+      "default": "Avg. Rating"
+    },
+    {
+      "type": "text",
+      "id": "stat4_number",
+      "label": "Stat 4 Number",
+      "default": "48hr"
+    },
+    {
+      "type": "text",
+      "id": "stat4_label",
+      "label": "Stat 4 Label",
+      "default": "Dispatch Time"
+    },
+    {
+      "type": "header",
+      "content": "Testimonials"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_testimonials",
+      "label": "Show Testimonials",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Section Heading",
+      "default": "What the Streets Say"
+    },
+    {
+      "type": "header",
+      "content": "Instagram"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_instagram",
+      "label": "Show Instagram Grid",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "instagram_heading",
+      "label": "Section Heading",
+      "default": "Tag Us On Instagram"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Instagram Handle",
+      "info": "Without the @"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_1",
+      "label": "Instagram Image 1"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_1",
+      "label": "Instagram Link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_2",
+      "label": "Instagram Image 2"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_2",
+      "label": "Instagram Link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_3",
+      "label": "Instagram Image 3"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_3",
+      "label": "Instagram Link 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_4",
+      "label": "Instagram Image 4"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_4",
+      "label": "Instagram Link 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_5",
+      "label": "Instagram Image 5"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_5",
+      "label": "Instagram Link 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_6",
+      "label": "Instagram Image 6"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link_6",
+      "label": "Instagram Link 6"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show Newsletter",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "newsletter_bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Stay Connected"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Join the Tribe"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_subtext",
+      "label": "Subtext",
+      "default": "Get early access to new drops, exclusive deals, and insider-only content."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Input Placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_btn_text",
+      "label": "Button Text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_disclaimer",
+      "label": "Disclaimer Text",
+      "default": "No spam. Unsubscribe anytime."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location / City"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Landing Page",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Absolute fire quality. The oversized tee fits perfectly and the fabric is so good. Shipping was super fast too!",
+            "name": "Aryan K.",
+            "location": "Mumbai"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "URBNMYTH is the only brand I trust for streetwear in India. Every drop gets better than the last.",
+            "name": "Priya S.",
+            "location": "Delhi"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a brand that understands the street culture here. The designs are legit and the quality matches the price.",
+            "name": "Rahul M.",
+            "location": "Bengaluru"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
