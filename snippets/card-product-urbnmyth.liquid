@@ -154,5 +154,29 @@
       </div>
     {% endif %}
 
+    {% assign color_option_index = nil %}
+    {% for option in product.options %}
+      {% if option == 'Color' or option == 'Colour' or option == 'color' or option == 'colour' %}
+        {% assign color_option_index = forloop.index0 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if color_option_index != nil %}
+      <div class="urbnmyth-color-swatches">
+        {% assign shown_colors = '' %}
+        {% for variant in product.variants %}
+          {% assign color_val = variant.options[color_option_index] %}
+          {% unless shown_colors contains color_val %}
+            <span
+              class="urbnmyth-color-dot"
+              title="{{ color_val }}"
+              style="background: {{ color_val | downcase | replace: ' ', '' }};"
+            ></span>
+            {% assign shown_colors = shown_colors | append: color_val | append: ',' %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
   </div>
 </div>

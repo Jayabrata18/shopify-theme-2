@@ -66,16 +66,16 @@
   transition: filter 0.3s ease, transform 0.4s ease;
   filter: brightness(10);    /* white logo by default (transparent bg) */
 }
-/* When white-bg, invert logo to dark */
+/* When white-bg, tint logo red */
 .navbar.white-bg .navbar-logo img {
-  filter: brightness(0);
+  filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(6000%) hue-rotate(350deg) brightness(95%);
 }
 .navbar-logo:hover img {
   filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.35));
   transform: scale(1.05);
 }
 .navbar.white-bg .navbar-logo:hover img {
-  filter: brightness(0) drop-shadow(0 0 6px rgba(0,0,0,0.2));
+  filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(6000%) hue-rotate(350deg) brightness(115%) drop-shadow(0 0 6px rgba(180,0,0,0.3));
 }
 
 /* ===== Icon buttons ===== */
@@ -104,13 +104,13 @@
   display: block;
 }
 
-/* ── White-bg state: icons become black ── */
+/* ── White-bg state: icons become red ── */
 .navbar.white-bg .icon-btn {
-  color: rgba(0,0,0,0.75);
+  color: rgba(180,0,0,0.85);
 }
 .navbar.white-bg .icon-btn:hover {
-  color: #000;
-  background: rgba(0,0,0,0.06);
+  color: #cc0000;
+  background: rgba(180,0,0,0.07);
 }
 
 /* ── Scrolled (dark) state: icons white ── */
@@ -405,19 +405,39 @@
 
   /* ── Detect page background colour and pick icon colour ── */
   function detectBg() {
-    /* Sample the element directly under the navbar (skipping the navbar itself) */
-    var h = navbar.getBoundingClientRect().height;
-    /* Use the computed bg of <main> or <body> as reference */
-    var main = document.querySelector('main') || document.body;
-    var bg = window.getComputedStyle(main).backgroundColor;
+    /* Walk up from the element at the top-centre of the viewport,
+       skipping the navbar itself, to find the first element with
+       a non-transparent background — works at every device width. */
+    var vw = window.innerWidth;
+    var navH = navbar.getBoundingClientRect().height || 60;
+    var sampleX = vw / 2;
+    var sampleY = navH + 4;                        /* just below the bar */
 
-    /* Parse rgb */
+    /* elementsFromPoint includes navbar — skip it */
+    var elements = document.elementsFromPoint
+      ? document.elementsFromPoint(sampleX, sampleY)
+      : [];
+    var bg = 'rgba(0,0,0,0)';
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i] === navbar || navbar.contains(elements[i])) continue;
+      var computed = window.getComputedStyle(elements[i]).backgroundColor;
+      if (computed && computed !== 'rgba(0, 0, 0, 0)' && computed !== 'transparent') {
+        bg = computed;
+        break;
+      }
+    }
+    /* Fall back to <main> / <body> if nothing found under pointer */
+    if (bg === 'rgba(0,0,0,0)') {
+      var fallback = document.querySelector('main') || document.body;
+      bg = window.getComputedStyle(fallback).backgroundColor;
+    }
+
     var m = bg.match(/\d+/g);
     if (m) {
       /* Perceived luminance (0–255) */
       var lum = 0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2];
       if (lum > 160) {
-        /* Light page background AND not scrolled → white navbar, black icons */
+        /* Light page → white navbar, red icons/logo */
         if (!navbar.classList.contains('scrolled')) {
           navbar.classList.add('white-bg');
         }
