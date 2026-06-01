@@ -437,7 +437,7 @@
   position: absolute; bottom: 0; left: 0; right: 0;
   z-index: 15; transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border-top: 1px solid rgba(0,0,0,0.07);
+  padding-bottom: 12px;
 }
 .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
 .urbnmyth-hover-add-btn {
@@ -581,23 +581,15 @@
   .col-g2, .col-g3, .col-g4 { grid-template-columns: repeat(2, 1fr); }
   .col-grid { gap: 12px; }
 
-  /* Action buttons: always visible (no hover state needed) */
+  /* Action buttons: smaller on mobile, still hover/tap to reveal */
   .urbnmyth-circle-btn {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
     width: 30px;
     height: 30px;
   }
-  .urbnmyth-circle-btn:nth-child(1),
-  .urbnmyth-circle-btn:nth-child(2),
-  .urbnmyth-circle-btn:nth-child(3) { transition-delay: 0ms; }
   .urbnmyth-right-actions { top: 8px; right: 8px; gap: 6px; }
   .urbnmyth-badge-tl { top: 8px; left: 8px; font-size: 0.62rem; padding: 3px 7px; }
   .urbnmyth-circle-btn::before { display: none; } /* no tooltips on touch */
 
-  /* Add-to-cart bar always visible */
-  .urbnmyth-hover-add { transform: none; }
   .urbnmyth-hover-add-btn { padding: 11px 12px; font-size: 0.76rem; }
 
   .urbnmyth-product-info { padding: 8px 1px 12px; }
