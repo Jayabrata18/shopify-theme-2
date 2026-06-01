@@ -106,7 +106,7 @@
       {% if block_settings.padding-block-end > 0 %}--zoom-out-padding-block-end: min(var(--padding-xs), {{ block_settings.padding-block-end | times: 0.7}}px);{% endif %}
     "
   >
-    {{ children }}
+    {% comment %} {{ children }} {% endcomment %}
   </div>
 </product-card>
 
