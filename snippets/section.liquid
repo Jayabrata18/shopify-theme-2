@@ -38,7 +38,7 @@
     %}
   </div>
 
-  <div
+  {% comment %} <div
     class="border-style custom-section-content"
     style="{% render 'border-override', settings: section.settings %}"
   >
@@ -62,7 +62,7 @@
     >
       {{ children }}
     </div>
-  </div>
+  </div> {% endcomment %}
 </div>
 
 {% stylesheet %}

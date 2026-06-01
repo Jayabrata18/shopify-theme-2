@@ -76,12 +76,14 @@
   overflow: hidden;
   max-height: calc(100vh - 80px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 .gallery-hero img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: calc(100vh - 80px);
+  object-fit: contain;
   display: block;
   transition: opacity 0.3s ease;
 }
@@ -278,7 +280,11 @@
   text-align: center;
   font-size: 1rem; font-weight: 700;
   font-family: 'Oswald', sans-serif;
+  outline: none;
+  -moz-appearance: textfield;
 }
+.detail-qty-input::-webkit-inner-spin-button,
+.detail-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
 /* Full-width Add to Cart */
 .detail-add-btn-full {
@@ -637,102 +643,113 @@
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
   .product-split {
-    grid-template-columns: 1fr;
     display: flex;
     flex-direction: column;
   }
 
+  /* Gallery stacks above details */
   .product-gallery {
-    order: 0;
     display: flex;
     flex-direction: column;
     position: static;
     max-height: none;
     width: 100%;
+    order: 0;
   }
 
+  /* Hero = horizontal swipe carousel */
   .gallery-hero {
     order: 1;
     width: 100%;
-    height: 100vw;
-    max-height: 520px;
+    /* Square-ish frame: feels natural for portrait fashion images */
+    height: clamp(300px, 90vw, 520px);
+    max-height: none;
     overflow-x: auto;
     overflow-y: hidden;
     display: flex;
     flex-direction: row;
+    align-items: center;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    background: #f5f5f5;
+    justify-content: flex-start;
   }
   .gallery-hero::-webkit-scrollbar { display: none; }
+
+  /* All images side-by-side for swipe — override inline display:none */
   .gallery-hero img {
     min-width: 100%;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
     flex-shrink: 0;
     scroll-snap-align: start;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: contain;
+    display: block !important;
   }
 
+  /* Thumb strip scrolls horizontally below hero */
   .gallery-thumbs {
     order: 2;
     flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
-    max-height: 80px;
-    height: 80px;
-    padding: 6px 8px;
-    gap: 6px;
-    background: #f5f5f5;
+    max-height: 76px;
+    height: 76px;
+    padding: 5px 8px;
+    gap: 5px;
+    background: #f0f0f0;
   }
   .gallery-thumbs::-webkit-scrollbar { display: none; }
   .thumb-item {
-    width: 60px;
-    height: 68px;
+    width: 56px;
+    height: 66px;
     flex-shrink: 0;
   }
 
+  /* Details panel */
   .product-details {
     order: 1;
-    display: flex;
-    flex-direction: column;
     border-left: none;
     border-top: none;
     padding: 20px 16px 48px;
     width: 100%;
   }
 
-  .detail-product-name        { order: 1; font-size: 1.4rem; margin-bottom: 10px; }
-  .pdp-rating-row             { order: 2; }
-  .detail-price-block         { order: 3; }
-  .detail-tax-note            { order: 4; margin-bottom: 12px; }
-  .pdp-stock-badge-wrap       { order: 5; }
-  .pdp-short-desc             { order: 6; margin-top: 8px; }
-  .detail-divider             { order: 7; margin: 12px 0; }
-  .pdp-swatches-wrap          { order: 8; }
-  .detail-size-section-wrap   { order: 9; }
-  .detail-section-label-qty   { order: 10; }
-  .detail-qty-row             { order: 11; margin-bottom: 20px; }
-  .detail-form-wrap           { order: 12; }
-  .pdp-icon-row               { order: 13; }
-  .detail-accordion           { order: 14; }
+  .detail-product-name      { font-size: 1.4rem; margin-bottom: 10px; }
+  .detail-price-block       { margin-bottom: 4px; }
+  .detail-tax-note          { margin-bottom: 12px; }
+  .pdp-short-desc           { margin-top: 8px; }
+  .detail-divider           { margin: 12px 0; }
 
-  .reviews-section { padding: 60px 16px; }
+  /* Breadcrumb */
+  .pdp-breadcrumb { padding: 10px 16px; }
+
+  /* Below-fold sections */
   .products-section { padding: 60px 16px; }
-  .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .pdp-look-grid { grid-template-columns: repeat(2, 1fr); }
+  .related-grid     { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .pdp-look-grid    { grid-template-columns: repeat(2, 1fr); }
   .pdp-desc-section { padding: 48px 16px; }
   .pdp-look-section { padding: 48px 16px; }
-  .pdp-breadcrumb { padding: 10px 16px; }
 }
 
+/* ── Small phones (≤480px) ── */
 @media (max-width: 480px) {
-  .detail-product-name { font-size: 1.3rem; }
+  .detail-product-name { font-size: 1.25rem; }
   .detail-price-regular, .detail-price-sale { font-size: 1.4rem; }
-  .related-grid { grid-template-columns: 1fr; }
+  .detail-size-btn { min-width: 48px; height: 42px; font-size: 0.82rem; }
+  .detail-add-btn-full { padding: 13px 16px; font-size: 0.88rem; }
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
   .section-heading { font-size: 1.5rem; }
-  .rating-bar { padding: 20px; }
-  .rating-big { font-size: 2.5rem; }
+}
+
+/* ── Very small phones (≤375px) ── */
+@media (max-width: 375px) {
+  .product-details { padding: 16px 12px 40px; }
+  .detail-product-name { font-size: 1.15rem; }
+  .detail-size-btn { min-width: 42px; height: 40px; font-size: 0.78rem; padding: 0 8px; }
+  .gallery-hero { height: clamp(260px, 92vw, 340px); }
 }
 </style>
 
@@ -798,7 +815,7 @@
       <h1 class="detail-product-name">{{ product.title | escape }}</h1>
 
       <!-- 2. Inline star rating row -->
-      <div class="pdp-rating-row" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior:'smooth'})">
+      <div class="pdp-rating-row">
         <span class="pdp-rating-stars">★★★★★</span>
         <span style="font-family:'Oswald',sans-serif;font-size:0.85rem;font-weight:600;" id="pdpInlineRating">4.6</span>
         <span class="pdp-rating-count" id="pdpInlineReviewCount">4 reviews</span>
@@ -854,16 +871,39 @@
             <button class="detail-size-chart-btn" onclick="pdpOpenModal('sizeModal')">SIZE CHART</button>
           </div>
           <div class="detail-size-grid">
+            {%- assign size_order = 'XS,S,M,L,XL,XXL' | split: ',' -%}
+            {%- assign first_size_done = false -%}
+            {%- for size in size_order -%}
+              {%- for variant in product.variants -%}
+                {%- assign v_upper = variant.title | upcase | strip -%}
+                {%- if v_upper == size -%}
+                  <button
+                    class="detail-size-btn{% unless first_size_done %} active{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-price="{{ variant.price }}"
+                    data-compare="{{ variant.compare_at_price }}"
+                    data-avail="{{ variant.available }}"
+                    onclick="pdpSelectSize(this)"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >{{ size }}</button>
+                  {%- assign first_size_done = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
             {%- for variant in product.variants -%}
-              <button
-                class="detail-size-btn{% if forloop.first %} active{% endif %}"
-                data-variant-id="{{ variant.id }}"
-                data-price="{{ variant.price }}"
-                data-compare="{{ variant.compare_at_price }}"
-                data-avail="{{ variant.available }}"
-                onclick="pdpSelectSize(this)"
-                {% unless variant.available %}disabled{% endunless %}
-              >{{ variant.title }}</button>
+              {%- assign v_upper = variant.title | upcase | strip -%}
+              {%- unless size_order contains v_upper -%}
+                <button
+                  class="detail-size-btn{% unless first_size_done %} active{% endunless %}"
+                  data-variant-id="{{ variant.id }}"
+                  data-price="{{ variant.price }}"
+                  data-compare="{{ variant.compare_at_price }}"
+                  data-avail="{{ variant.available }}"
+                  onclick="pdpSelectSize(this)"
+                  {% unless variant.available %}disabled{% endunless %}
+                >{{ variant.title }}</button>
+                {%- assign first_size_done = true -%}
+              {%- endunless -%}
             {%- endfor -%}
           </div>
           <p class="pdp-stock-warning" id="pdpStockWarning" style="display:none;">
@@ -900,13 +940,6 @@
           </form>
         </product-form>
 
-        {%- if section.settings.show_buy_now_btn -%}
-          <button class="pdp-buy-now-btn" id="pdpBuyNowBtn"
-                  onclick="pdpBuyNow()"
-                  {% if sv.available == false %}disabled{% endif %}>
-            {{ section.settings.buy_now_btn_text | default: 'Buy it Now' }}
-          </button>
-        {%- endif -%}
       </div>
 
       <!-- 13. Icon row: Wishlist | Compare | Share -->
@@ -916,13 +949,6 @@
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
           Wishlist
-        </button>
-        <button type="button" class="pdp-icon-btn" title="Compare" onclick="pdpCompare()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-          </svg>
-          Compare
         </button>
         <button type="button" class="pdp-icon-btn" title="Share" onclick="pdpShare()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1018,58 +1044,6 @@
   {%- endif -%}
 
 
-  <!-- ═══════════════════════════════════════════════════
-       CUSTOMER REVIEWS
-  ════════════════════════════════════════════════════ -->
-  <div class="reviews-section">
-    <h2 class="section-heading">Customer Reviews</h2>
-    <div class="section-underline"></div>
-
-    <div class="rating-bar">
-      <div class="rating-left">
-        <div>
-          <div class="rating-big" id="avgRating">4.6</div>
-          <div class="rating-stars-row" id="avgStars">★★★★★</div>
-          <div class="rating-count">Based on <span id="reviewTotal">4</span> reviews</div>
-        </div>
-      </div>
-      <button class="write-review-btn" onclick="pdpOpenModal('reviewModal')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Write a Review
-      </button>
-    </div>
-
-    <div class="reviews-grid" id="reviewsList">
-      {%- assign seeded_reviews = "Aarav Sharma|5|Dec 15 2025|Absolutely love this piece! Quality is top-notch and fit is perfect.|A,Priya Mehta|5|Dec 10 2025|Great streetwear brand! Quality exceeded expectations. Sizing is accurate.|P,Rohan Kumar|4|Dec 8 2025|Nice design and good material. Shipping took a bit longer than expected.|R,Sneha Patel|5|Dec 5 2025|Perfect addition to my wardrobe! Really happy with this purchase.|S" | split: "," -%}
-      {%- for review in seeded_reviews -%}
-        {%- assign rp = review | split: "|" -%}
-        {%- assign stars_count = rp[1] | plus: 0 -%}
-        <div class="review-card">
-          <div class="review-card-top">
-            <div class="reviewer-row">
-              <div class="reviewer-ava">{{ rp[4] }}</div>
-              <div>
-                <div class="reviewer-name">{{ rp[0] }}</div>
-                <div class="reviewer-stars">
-                  {%- for i in (1..stars_count) -%}★{%- endfor -%}
-                  {%- assign empty = 5 | minus: stars_count -%}
-                  {%- for i in (1..empty) -%}☆{%- endfor -%}
-                </div>
-              </div>
-            </div>
-            <span class="review-date">{{ rp[2] }}</span>
-          </div>
-          <p class="review-body">{{ rp[3] }}</p>
-          <div class="verified-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified Purchase
-          </div>
-        </div>
-      {%- endfor -%}
-    </div>
-
-    <button class="load-more-btn" onclick="pdpLoadMore()">Load More Reviews</button>
-  </div>
 
 
   <!-- ═══════════════════════════════════════════════════
@@ -1161,37 +1135,6 @@
 </div>
 
 
-<!-- ═══════════ REVIEW MODAL ═══════════ -->
-<div class="modal-overlay" id="reviewModal" style="display:none;" onclick="pdpCloseModalOutside(event,'reviewModal')">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span class="modal-title">Write a Review</span>
-      <button class="modal-close" onclick="pdpCloseModal('reviewModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <form id="pdpReviewForm" onsubmit="pdpSubmitReview(event)">
-        <div class="form-group">
-          <label class="form-label">Your Rating *</label>
-          <div class="star-row">
-            {%- for i in (1..5) -%}
-              <span class="star-input" data-r="{{ i }}" onclick="pdpSetStar({{ i }})">★</span>
-            {%- endfor -%}
-          </div>
-          <input type="hidden" id="pdpStarVal" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="pdpRName">Your Name *</label>
-          <input type="text" id="pdpRName" class="form-input" placeholder="Enter your name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="pdpRText">Your Review *</label>
-          <textarea id="pdpRText" class="form-textarea" placeholder="Share your thoughts about this product..." required></textarea>
-        </div>
-        <button type="submit" class="submit-review-btn">Submit Review</button>
-      </form>
-    </div>
-  </div>
-</div>
 
 
 <script>
@@ -1199,13 +1142,19 @@
 var pdpImageCount = {{ product.media.size }};
 
 function pdpSetImage(idx, thumb) {
-  for (var i = 0; i < pdpImageCount; i++) {
-    var el = document.getElementById('heroImg' + i);
-    if (el) el.style.display = 'none';
+  var hero = document.getElementById('galleryHero');
+  if (window.innerWidth <= 900) {
+    /* Mobile: scroll carousel to the chosen image */
+    if (hero) hero.scrollTo({ left: hero.clientWidth * idx, behavior: 'smooth' });
+  } else {
+    /* Desktop: show only the selected image */
+    for (var i = 0; i < pdpImageCount; i++) {
+      var el = document.getElementById('heroImg' + i);
+      if (el) el.style.display = 'none';
+    }
+    var target = document.getElementById('heroImg' + idx);
+    if (target) target.style.display = 'block';
   }
-  var target = document.getElementById('heroImg' + idx);
-  if (target) target.style.display = 'block';
-
   document.querySelectorAll('.thumb-item').forEach(function(t) { t.classList.remove('active'); });
   if (thumb) thumb.classList.add('active');
 }
@@ -1275,10 +1224,6 @@ function pdpSelectSize(btn) {
     btnTxt.textContent = 'SOLD OUT';
   }
 
-  /* Update Buy Now button state */
-  var buyBtn = document.getElementById('pdpBuyNowBtn');
-  if (buyBtn) { buyBtn.disabled = !avail; }
-
   /* Update stock warning — hide when variant unavailable, show when available */
   var warn = document.getElementById('pdpStockWarning');
   if (warn) {
@@ -1335,22 +1280,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-/* ══ Buy Now ═══════════════════════════════════════════════ */
-function pdpBuyNow() {
-  var btn = document.getElementById('pdpBuyNowBtn');
-  if (btn) { btn.textContent = 'Redirecting...'; btn.disabled = true; }
-  var fd = new FormData();
-  fd.append('id', document.getElementById('pdpVariantInput').value);
-  fd.append('quantity', parseInt(document.getElementById('pdpQtyInput').value) || 1);
-  fetch('/cart/add.js', { method: 'POST', body: fd })
-    .then(function() { window.location.href = '/checkout'; })
-    .catch(function() {
-      if (btn) {
-        btn.textContent = '{{ section.settings.buy_now_btn_text | default: "Buy it Now" }}';
-        btn.disabled = false;
-      }
-    });
-}
 
 /* ══ Color swatch selection ════════════════════════════════ */
 function pdpSelectColor(btn) {
@@ -1369,19 +1298,6 @@ function pdpSelectColor(btn) {
   }
 }
 
-/* ══ Compare ═══════════════════════════════════════════════ */
-function pdpCompare() {
-  try {
-    var id = '{{ product.id }}';
-    var title = {{ product.title | json }};
-    var list = JSON.parse(localStorage.getItem('urbnmyth_compare') || '[]');
-    if (list.find(function(p) { return p.id === id; })) { alert('Already in compare list.'); return; }
-    if (list.length >= 4) { alert('You can compare up to 4 products. Remove one first.'); return; }
-    list.push({ id: id, title: title, url: window.location.pathname });
-    localStorage.setItem('urbnmyth_compare', JSON.stringify(list));
-    alert('Added to compare!');
-  } catch(e) {}
-}
 
 /* ══ Accordion ═════════════════════════════════════════════ */
 function pdpAccordion(btn) {
@@ -1440,61 +1356,9 @@ function pdpCloseModalOutside(e, id) {
   if (e.target === document.getElementById(id)) pdpCloseModal(id);
 }
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    ['sizeModal','reviewModal'].forEach(pdpCloseModal);
-  }
+  if (e.key === 'Escape') pdpCloseModal('sizeModal');
 });
 
-/* ══ Star rating ═══════════════════════════════════════════ */
-var pdpStarSelected = 0;
-function pdpSetStar(n) {
-  pdpStarSelected = n;
-  document.getElementById('pdpStarVal').value = n;
-  document.querySelectorAll('.star-input').forEach(function(s, i) {
-    s.classList.toggle('active', i < n);
-  });
-}
-
-/* ══ Submit review ═════════════════════════════════════════ */
-var pdpUserReviews = [];
-function pdpSubmitReview(e) {
-  e.preventDefault();
-  var rating = pdpStarSelected;
-  if (!rating) { alert('Please select a rating.'); return; }
-  var name = document.getElementById('pdpRName').value.trim();
-  var text = document.getElementById('pdpRText').value.trim();
-
-  var rev = { name: name, rating: rating, text: text,
-    date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) };
-  pdpUserReviews.unshift(rev);
-  pdpAddReviewDOM(rev);
-  pdpUpdateAvgRating();
-  pdpCloseModal('reviewModal');
-  document.getElementById('pdpReviewForm').reset();
-  pdpStarSelected = 0;
-  document.querySelectorAll('.star-input').forEach(function(s) { s.classList.remove('active'); });
-  alert('Thank you for your review!');
-}
-function pdpAddReviewDOM(rev) {
-  var stars = '★'.repeat(rev.rating) + '☆'.repeat(5 - rev.rating);
-  var html = '<div class="review-card"><div class="review-card-top"><div class="reviewer-row"><div class="reviewer-ava">' + rev.name[0].toUpperCase() + '</div><div><div class="reviewer-name">' + rev.name + '</div><div class="reviewer-stars">' + stars + '</div></div></div><span class="review-date">' + rev.date + '</span></div><p class="review-body">' + rev.text + '</p></div>';
-  document.getElementById('reviewsList').insertAdjacentHTML('afterbegin', html);
-}
-function pdpUpdateAvgRating() {
-  var seededSum = 4 * 4.75;
-  var userSum = pdpUserReviews.reduce(function(a, r) { return a + r.rating; }, 0);
-  var total = 4 + pdpUserReviews.length;
-  var avg = ((seededSum + userSum) / total).toFixed(1);
-  var avgEl = document.getElementById('avgRating');
-  var totalEl = document.getElementById('reviewTotal');
-  var inlineRating = document.getElementById('pdpInlineRating');
-  var inlineCount = document.getElementById('pdpInlineReviewCount');
-  if (avgEl) avgEl.textContent = avg;
-  if (totalEl) totalEl.textContent = total;
-  if (inlineRating) inlineRating.textContent = avg;
-  if (inlineCount) inlineCount.textContent = total + ' reviews';
-}
-function pdpLoadMore() { alert('No more reviews at this time.'); }
 
 /* ══ Related quick add ═════════════════════════════════════ */
 function pdpRelatedAdd(variantId, btn) {

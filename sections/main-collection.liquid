@@ -184,10 +184,13 @@
 /* ─── Page Wrapper ──────────────────────────────────────── */
 .col-wrap {
   background: #fff;
-  min-height: 100vh;
-  padding: 0 20px 60px;
+  min-height: 100dvh;
+  /* top padding = fixed navbar height, matches navbar.liquid clamp values */
+  padding: clamp(3.5rem, 8vh, 5rem) 20px 60px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
+@media (min-width: 640px)  { .col-wrap { padding-top: clamp(4rem, 9vh, 5.5rem);  } }
+@media (min-width: 1024px) { .col-wrap { padding-top: clamp(4.5rem, 10vh, 6rem); } }
 .col-inner {
   max-width: 1400px;
   margin: 0 auto;
@@ -551,38 +554,99 @@
 }
 
 /* ─── Responsive ────────────────────────────────────────── */
+
+/* Large desktop: allow 4-col to stay 3-col */
 @media (max-width: 1100px) {
   .col-g4 { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Tablet: cap at 2 cols */
 @media (max-width: 900px) {
   .col-g3,
   .col-g4 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── Mobile landscape / large phone (≤768px) ── */
 @media (max-width: 768px) {
-  .col-wrap { padding: 0 12px 40px; }
-  .col-bar { flex-wrap: wrap; }
-  .col-pills { overflow-x: auto; }
-  .col-g2,
-  .col-g3,
-  .col-g4 { grid-template-columns: repeat(2, 1fr); }
-  .col-grid { gap: 14px; }
+  .col-wrap { padding-left: 12px; padding-right: 12px; padding-bottom: 40px; }
+
+  /* Filter bar: pills scroll, sort stays right */
+  .col-bar { gap: 10px; flex-wrap: nowrap; align-items: center; }
+  .col-pills { overflow-x: auto; flex: 1; }
+
+  /* Hide column toggles — always 2 cols on mobile */
+  .col-view-btns { display: none; }
+
+  /* Lock all col variants to 2 */
+  .col-g2, .col-g3, .col-g4 { grid-template-columns: repeat(2, 1fr); }
+  .col-grid { gap: 12px; }
+
+  /* Action buttons: always visible (no hover state needed) */
   .urbnmyth-circle-btn {
     opacity: 1;
     transform: none;
     pointer-events: auto;
+    width: 30px;
+    height: 30px;
   }
   .urbnmyth-circle-btn:nth-child(1),
   .urbnmyth-circle-btn:nth-child(2),
   .urbnmyth-circle-btn:nth-child(3) { transition-delay: 0ms; }
+  .urbnmyth-right-actions { top: 8px; right: 8px; gap: 6px; }
+  .urbnmyth-badge-tl { top: 8px; left: 8px; font-size: 0.62rem; padding: 3px 7px; }
+  .urbnmyth-circle-btn::before { display: none; } /* no tooltips on touch */
+
+  /* Add-to-cart bar always visible */
   .urbnmyth-hover-add { transform: none; }
+  .urbnmyth-hover-add-btn { padding: 11px 12px; font-size: 0.76rem; }
+
+  .urbnmyth-product-info { padding: 8px 1px 12px; }
 }
+
+/* ── Standard mobile portrait (≤480px) ── */
 @media (max-width: 480px) {
-  .col-g2,
-  .col-g3,
-  .col-g4 { grid-template-columns: repeat(2, 1fr); }
-  .col-hdr__title { font-size: 1.4rem; }
-  .urbnmyth-product-title { font-size: 0.82rem; }
-  .urbnmyth-product-price { font-size: 0.82rem; }
+  .col-wrap { padding-left: 10px; padding-right: 10px; padding-bottom: 32px; }
+  .col-grid { gap: 10px; }
+
+  .col-hdr { margin-bottom: 14px; padding-bottom: 10px; }
+  .col-hdr__title { font-size: clamp(1.25rem, 5vw, 1.5rem); }
+  .col-hdr__count { font-size: 0.72rem; }
+
+  .col-bc { font-size: 0.68rem; margin: 10px 0 14px; gap: 4px; }
+
+  .col-pill { font-size: 0.7rem; padding: 5px 11px; }
+  .col-sort { font-size: 0.7rem; padding: 6px 26px 6px 10px; }
+
+  .urbnmyth-product-title { font-size: 0.76rem; }
+  .urbnmyth-product-price { font-size: 0.76rem; margin-bottom: 6px; }
+  .urbnmyth-price-compare { font-size: 0.7rem; }
+
+  .urbnmyth-size-chip { font-size: 0.58rem; padding: 3px 5px; min-width: 24px; }
+  .urbnmyth-sizes { gap: 4px; }
+
+  .urbnmyth-circle-btn { width: 28px; height: 28px; }
+  .urbnmyth-hover-add-btn { padding: 10px; font-size: 0.72rem; }
+  .urbnmyth-product-info { padding: 7px 1px 10px; }
+
+  .col-bar { gap: 8px; }
+}
+
+/* ── Small phones (≤375px) ── */
+@media (max-width: 375px) {
+  .col-wrap { padding-left: 8px; padding-right: 8px; }
+  .col-grid { gap: 8px; }
+  .urbnmyth-product-title { font-size: 0.7rem; }
+  .urbnmyth-product-price { font-size: 0.7rem; }
+  .urbnmyth-size-chip { font-size: 0.55rem; padding: 2px 4px; min-width: 20px; }
+  .urbnmyth-circle-btn { width: 26px; height: 26px; }
+}
+
+/* ── Very small / compact phones (≤320px) ── */
+@media (max-width: 320px) {
+  .col-wrap { padding-left: 6px; padding-right: 6px; }
+  .col-grid { gap: 6px; }
+  .urbnmyth-product-title { font-size: 0.65rem; }
+  .urbnmyth-size-chip { font-size: 0.5rem; padding: 2px 3px; min-width: 18px; }
 }
 </style>
 
