@@ -1,0 +1,449 @@
+<style>
+.uc-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(60px, 10vh, 100px) 20px 80px;
+  min-height: 60vh;
+}
+
+.uc-heading {
+  text-align: center;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+/* ── Layout ── */
+.uc-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ── Table ── */
+.uc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.uc-table thead th {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #111;
+  padding: 0 0 14px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.uc-table thead th:nth-child(2),
+.uc-table thead th:nth-child(3) {
+  text-align: center;
+}
+
+.uc-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.uc-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.uc-table td {
+  padding: 20px 0;
+  vertical-align: middle;
+}
+
+.uc-table td:nth-child(2) {
+  text-align: center;
+}
+
+.uc-table td:nth-child(3) {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #111;
+}
+
+/* ── Product cell ── */
+.uc-product-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.uc-product-img {
+  width: 90px;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+  background: #f4f4f4;
+  flex-shrink: 0;
+}
+
+.uc-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.uc-product-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.uc-product-variant {
+  font-size: 0.78rem;
+  color: #555;
+}
+
+.uc-product-price {
+  font-size: 0.82rem;
+  color: #111;
+}
+
+.uc-product-edit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  color: #999;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.uc-product-edit:hover { color: #111; }
+.uc-product-edit svg { width: 13px; height: 13px; }
+
+/* ── Qty controls ── */
+.uc-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccc;
+}
+
+.uc-qty-btn {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.uc-qty-btn:hover { background: #f5f5f5; }
+
+.uc-qty-val {
+  width: 36px;
+  text-align: center;
+  font-size: 0.85rem;
+  border: none;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  height: 32px;
+  background: #fff;
+  color: #111;
+  font-family: inherit;
+  -moz-appearance: textfield;
+}
+.uc-qty-val::-webkit-outer-spin-button,
+.uc-qty-val::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* ── Remove ── */
+.uc-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #bbb;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 16px;
+  transition: color 0.15s;
+}
+.uc-remove:hover { color: #e00; }
+.uc-remove svg { width: 16px; height: 16px; }
+
+/* ── Remove column ── */
+.uc-table td:last-child {
+  text-align: right;
+  padding-right: 4px;
+}
+
+/* ── Sidebar ── */
+.uc-sidebar {
+  position: sticky;
+  top: 100px;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.uc-sidebar__assist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.uc-sidebar__assist-link {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+}
+.uc-sidebar__assist-link:hover { text-decoration: underline; }
+
+.uc-sidebar__subtotal {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.uc-sidebar__note {
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.uc-sidebar__checkout {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.uc-sidebar__checkout:hover { background: #333; }
+
+/* ── Empty ── */
+.uc-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+.uc-empty a {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .uc-layout { grid-template-columns: 1fr; gap: 32px; }
+  .uc-sidebar { position: static; }
+  .uc-table thead { display: none; }
+  .uc-table tbody tr { display: flex; flex-wrap: wrap; gap: 12px; padding: 16px 0; }
+  .uc-table td { padding: 0; border: none; }
+  .uc-table td:first-child { width: 100%; }
+  .uc-table td:nth-child(2) { text-align: left; }
+  .uc-table td:last-child { text-align: left; padding-right: 0; }
+}
+</style>
+
+<div class="uc-page">
+  <h1 class="uc-heading">Shopping Cart</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="uc-empty">
+      <p>Your cart is empty.</p>
+      <a href="/collections/all">Continue Shopping</a>
+    </div>
+
+  {%- else -%}
+    <div class="uc-layout">
+
+      <!-- ── Items table ── -->
+      <div>
+        <form action="/cart" method="post" id="uc-cart-form">
+          <table class="uc-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="uc-cart-body">
+              {%- for item in cart.items -%}
+                <tr data-key="{{ item.key }}">
+                  <td>
+                    <div class="uc-product-cell">
+                      {%- if item.image -%}
+                        <img class="uc-product-img"
+                          src="{{ item.image | image_url: width: 300 }}"
+                          alt="{{ item.title | escape }}"
+                          width="90" height="110" loading="lazy">
+                      {%- else -%}
+                        <div class="uc-product-img"></div>
+                      {%- endif -%}
+                      <div class="uc-product-info">
+                        <a href="{{ item.url }}" class="uc-product-name">{{ item.product.title }}</a>
+                        {%- unless item.variant.title == 'Default Title' -%}
+                          <span class="uc-product-variant">Size: {{ item.variant.title }}</span>
+                        {%- endunless -%}
+                        <span class="uc-product-price">{{ item.price | money }}</span>
+                        <a href="{{ item.url }}" class="uc-product-edit" aria-label="Edit">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="uc-qty">
+                      <button type="button" class="uc-qty-btn" data-key="{{ item.key }}" data-delta="-1">&#x2212;</button>
+                      <input type="number" class="uc-qty-val" name="updates[]"
+                        value="{{ item.quantity }}" min="0" data-key="{{ item.key }}">
+                      <button type="button" class="uc-qty-btn" data-key="{{ item.key }}" data-delta="1">+</button>
+                    </div>
+                  </td>
+                  <td>{{ item.final_line_price | money }}</td>
+                  <td>
+                    <button type="button" class="uc-remove" data-key="{{ item.key }}" aria-label="Remove">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6l-1 14H6L5 6"/>
+                        <path d="M10 11v6M14 11v6"/>
+                        <path d="M9 6V4h6v2"/>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <aside class="uc-sidebar">
+        <div class="uc-sidebar__assist">
+          <span>Need assistance?</span>
+          <a href="/pages/contact" class="uc-sidebar__assist-link">Click Here</a>
+        </div>
+        <p class="uc-sidebar__subtotal">Subtotal: {{ cart.total_price | money }}</p>
+        <p class="uc-sidebar__note">
+          Tax included. Shipping calculated at checkout.<br><br>
+          All charges are billed in {{ cart.currency.iso_code }}.
+          While the content of your cart is currently displayed in {{ cart.currency.iso_code }},
+          the checkout will use {{ cart.currency.iso_code }} at the most current exchange rate.
+        </p>
+        <a href="/checkout" class="uc-sidebar__checkout">Checkout</a>
+      </aside>
+
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+(function () {
+  function updateRow(tr, item) {
+    var qtyVal   = tr.querySelector('.uc-qty-val');
+    var totalTd  = tr.querySelectorAll('td')[2];
+    if (qtyVal)  qtyVal.value = item.quantity;
+    if (totalTd) totalTd.textContent = formatMoney(item.final_line_price);
+  }
+
+  function formatMoney(cents) {
+    return 'Rs. ' + (cents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+  }
+
+  function updateSubtotal(total) {
+    var el = document.querySelector('.uc-sidebar__subtotal');
+    if (el) el.textContent = 'Subtotal: ' + formatMoney(total);
+  }
+
+  function changeQty(key, qty) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: qty })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(cart) {
+      updateSubtotal(cart.total_price);
+      if (qty === 0) {
+        var tr = document.querySelector('[data-key="' + key + '"]');
+        if (tr) tr.remove();
+        if (cart.item_count === 0) location.reload();
+      } else {
+        var updated = cart.items.find(function(i) { return i.key === key; });
+        if (updated) {
+          var tr = document.querySelector('[data-key="' + key + '"]');
+          if (tr) updateRow(tr, updated);
+        }
+      }
+    });
+  }
+
+  document.addEventListener('click', function(e) {
+    var qtyBtn = e.target.closest('.uc-qty-btn');
+    if (qtyBtn) {
+      var key  = qtyBtn.dataset.key;
+      var tr   = qtyBtn.closest('tr');
+      var inp  = tr.querySelector('.uc-qty-val');
+      var qty  = Math.max(0, parseInt(inp.value, 10) + parseInt(qtyBtn.dataset.delta, 10));
+      inp.value = qty;
+      changeQty(key, qty);
+      return;
+    }
+
+    var removeBtn = e.target.closest('.uc-remove');
+    if (removeBtn) {
+      changeQty(removeBtn.dataset.key, 0);
+    }
+  });
+
+  document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('uc-qty-val')) {
+      var qty = Math.max(0, parseInt(e.target.value, 10) || 0);
+      changeQty(e.target.dataset.key, qty);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}
