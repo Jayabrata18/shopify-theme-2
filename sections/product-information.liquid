@@ -297,17 +297,6 @@
 .detail-add-btn-full:hover:not(:disabled) { background: #fff; color: #000; }
 .detail-add-btn-full:disabled { background: #ccc; border-color: #ccc; color: #888; cursor: not-allowed; }
 
-/* Buy Now button */
-.pdp-buy-now-btn {
-  width: 100%; padding: 14px 20px;
-  background: #fff; color: #000; border: 2px solid #000;
-  font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700;
-  letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
-  transition: background 0.2s; margin-bottom: 20px;
-}
-.pdp-buy-now-btn:hover:not(:disabled) { background: #f5f5f5; }
-.pdp-buy-now-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
 /* Icon row */
 .pdp-icon-row { display: flex; gap: 24px; padding-top: 18px; border-top: 1px solid #e0e0e0; margin-bottom: 28px; }
 .pdp-icon-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: 'Open Sans', sans-serif; font-size: 0.8rem; color: #555; transition: color 0.2s; padding: 0; }
@@ -367,113 +356,6 @@
 .pdp-look-inner { max-width: 1400px; margin: 0 auto; }
 .pdp-look-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
-/* ══════════════════════════════════════════════════════════
-   REVIEWS
-══════════════════════════════════════════════════════════ */
-.reviews-section {
-  padding: 80px 40px;
-  border-top: 3px solid #000;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.section-heading {
-  font-family: 'Oswald', sans-serif;
-  font-size: 2rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-}
-.section-underline {
-  width: 60px; height: 3px;
-  background: #000;
-  margin-bottom: 40px;
-}
-
-.rating-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 32px 36px;
-  border: 2px solid #000;
-  background: #fafafa;
-  margin-bottom: 36px;
-}
-.rating-left { display: flex; align-items: center; gap: 24px; }
-.rating-big {
-  font-family: 'Oswald', sans-serif;
-  font-size: 3.5rem; font-weight: 900;
-  line-height: 1;
-}
-.rating-stars-row { color: #f5c842; font-size: 1.4rem; letter-spacing: 2px; }
-.rating-count { font-size: 0.85rem; color: #777; margin-top: 4px; }
-
-.write-review-btn {
-  display: flex; align-items: center; gap: 8px;
-  padding: 13px 28px;
-  background: #000; color: #fff;
-  border: 2px solid #000;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.write-review-btn:hover { background: #fff; color: #000; }
-
-.reviews-grid { display: flex; flex-direction: column; gap: 18px; }
-.review-card {
-  border: 2px solid #000; padding: 28px;
-  transition: box-shadow 0.25s, transform 0.25s;
-}
-.review-card:hover { box-shadow: 6px 6px 0 #000; transform: translate(-3px, -3px); }
-.review-card-top {
-  display: flex; justify-content: space-between;
-  align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;
-}
-.reviewer-row { display: flex; align-items: center; gap: 14px; }
-.reviewer-ava {
-  width: 46px; height: 46px;
-  background: #000; color: #fff;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-}
-.reviewer-name {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem; font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.reviewer-stars { color: #f5c842; font-size: 1rem; letter-spacing: 1px; }
-.review-date { font-size: 0.8rem; color: #999; }
-.review-body { font-size: 0.9rem; line-height: 1.7; color: #444; margin-bottom: 12px; }
-.verified-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: #f0f0f0;
-  padding: 4px 10px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 0.5px; text-transform: uppercase;
-  border-radius: 20px;
-}
-.verified-badge svg { color: #4caf50; }
-
-.load-more-btn {
-  display: block; margin: 36px auto 0;
-  padding: 14px 40px;
-  background: #fff; color: #000;
-  border: 2px solid #000;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.9rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.load-more-btn:hover { background: #000; color: #fff; }
 
 /* ══════════════════════════════════════════════════════════
    RELATED / RECENTLY VIEWED
@@ -606,37 +488,6 @@
 }
 .size-table tbody tr:hover { background: #f5f5f5; }
 
-/* Review form */
-.form-group { margin-bottom: 22px; }
-.form-label {
-  display: block;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.78rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.star-row { display: flex; gap: 4px; font-size: 2.2rem; }
-.star-input { cursor: pointer; color: #ddd; transition: color 0.15s, transform 0.15s; }
-.star-input:hover, .star-input.active { color: #f5c842; transform: scale(1.12); }
-.form-input, .form-textarea {
-  width: 100%; padding: 13px 14px;
-  border: 2px solid #000;
-  font-size: 0.9rem; font-family: 'Open Sans', sans-serif;
-  outline: none;
-  transition: box-shadow 0.2s;
-}
-.form-input:focus, .form-textarea:focus { box-shadow: 4px 4px 0 #000; }
-.form-textarea { resize: vertical; min-height: 110px; }
-.submit-review-btn {
-  width: 100%; padding: 16px;
-  background: #000; color: #fff;
-  border: 2px solid #000;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.95rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer; transition: background 0.2s, color 0.2s;
-}
-.submit-review-btn:hover { background: #fff; color: #000; }
 
 /* ══════════════════════════════════════════════════════════
    RESPONSIVE — MOBILE
@@ -1407,18 +1258,6 @@ function pdpTrackRecentlyViewed() {
   "name": "URBNMYTH Product Page",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "enable_sticky_gallery",
-      "label": "Enable Sticky Gallery",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "exchange_policy_text",
-      "label": "Exchange Policy Text",
-      "default": "7-day exchange policy. No questions asked. No returns."
-    },
-    {
       "type": "header",
       "content": "Product panel"
     },
@@ -1442,22 +1281,6 @@ function pdpTrackRecentlyViewed() {
       "id": "show_color_swatches",
       "label": "Show color swatches",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "Buttons"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_buy_now_btn",
-      "label": "Show Buy it Now button",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "buy_now_btn_text",
-      "label": "Buy it Now text",
-      "default": "Buy it Now"
     },
     {
       "type": "header",

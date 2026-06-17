@@ -113,14 +113,6 @@
   background: rgba(180,0,0,0.07);
 }
 
-/* ── Scrolled (dark) state: icons white ── */
-.navbar.scrolled .icon-btn {
-  color: rgba(255,255,255,0.85);
-}
-.navbar.scrolled .icon-btn:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-}
 
 /* Cart badge */
 .cart-count {
@@ -160,8 +152,7 @@
   transition: opacity 0.22s ease, transform 0.22s ease;
 }
 .cart-hover-wrap:hover .mini-cart,
-.mini-cart:hover,
-.mini-cart.open {
+.mini-cart:hover {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -395,8 +386,6 @@
 }
 .sidebar.open .sidebar-link,
 .sidebar.open .sidebar-track-btn { opacity: 1; transform: translateX(0); }
-.sidebar.open .sidebar-link:nth-child(1)  { transition-delay: 0.08s; }
-.sidebar.open .sidebar-link:nth-child(2)  { transition-delay: 0.13s; }
 .sidebar.open .sidebar-link:nth-child(3)  { transition-delay: 0.18s; }
 .sidebar.open .sidebar-link:nth-child(4)  { transition-delay: 0.23s; }
 .sidebar.open .sidebar-link:nth-child(5)  { transition-delay: 0.28s; }
@@ -679,21 +668,9 @@
     });
   }
 
-  /* ── Viewport-aware icon sizing via CSS custom property ── */
-  function setViewportProps() {
-    /* expose vw/vh as CSS vars so clamp() can react to orientation changes */
-    document.documentElement.style.setProperty('--vw', window.innerWidth + 'px');
-    document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
-  }
-  setViewportProps();
-  window.addEventListener('resize', function () {
-    setViewportProps();
-    detectBg();
-    onScroll();
-  });
-  /* Orientation change on mobile */
+  window.addEventListener('resize', function () { detectBg(); onScroll(); });
   window.addEventListener('orientationchange', function () {
-    setTimeout(function () { setViewportProps(); detectBg(); onScroll(); }, 300);
+    setTimeout(function () { detectBg(); onScroll(); }, 300);
   });
 
   /* ── Mini Cart ── */

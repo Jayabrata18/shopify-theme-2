@@ -21,8 +21,6 @@
 
 {% if product.images.size > 1 %}
   {% assign secondary_img_src = product.images[1] | image_url: width: 800 %}
-{% elsif product.featured_image %}
-  {% assign secondary_img_src = product.featured_image | image_url: width: 800 %}
 {% else %}
   {% assign secondary_img_src = '' %}
 {% endif %}
@@ -32,8 +30,7 @@
   <!-- Product Image -->
   <a href="{{ product.url }}"
      class="urbnmyth-product-image"
-     data-images="{{ image_urls }}"
-     data-current="0">
+     data-images="{{ image_urls }}">
 
     {% if product.featured_image %}
       <img class="urbnmyth-img-primary"
@@ -42,6 +39,7 @@
            width="800"
            height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
            loading="lazy">
+      {% if secondary_img_src != '' %}
       <img class="urbnmyth-img-secondary"
            src="{{ secondary_img_src }}"
            alt="{{ product.title }}"
@@ -49,6 +47,7 @@
            height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
            loading="lazy"
            aria-hidden="true">
+      {% endif %}
     {% else %}
       <div class="urbnmyth-product-placeholder">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

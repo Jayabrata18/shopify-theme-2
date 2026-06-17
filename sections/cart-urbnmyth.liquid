@@ -281,7 +281,7 @@
   {%- if cart.item_count == 0 -%}
     <div class="uc-empty">
       <p>Your cart is empty.</p>
-      <a href="/collections/all">Continue Shopping</a>
+      <a href="{{ routes.all_products_collection_url }}">Continue Shopping</a>
     </div>
 
   {%- else -%}
@@ -289,7 +289,7 @@
 
       <!-- ── Items table ── -->
       <div>
-        <form action="/cart" method="post" id="uc-cart-form">
+        <form action="{{ routes.cart_url }}" method="post">
           <table class="uc-table">
             <thead>
               <tr>
@@ -299,7 +299,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody id="uc-cart-body">
+            <tbody>
               {%- for item in cart.items -%}
                 <tr data-key="{{ item.key }}">
                   <td>
@@ -330,7 +330,7 @@
                   <td>
                     <div class="uc-qty">
                       <button type="button" class="uc-qty-btn" data-key="{{ item.key }}" data-delta="-1">&#x2212;</button>
-                      <input type="number" class="uc-qty-val" name="updates[]"
+                      <input type="number" class="uc-qty-val"
                         value="{{ item.quantity }}" min="0" data-key="{{ item.key }}">
                       <button type="button" class="uc-qty-btn" data-key="{{ item.key }}" data-delta="1">+</button>
                     </div>
