@@ -31,6 +31,13 @@
 <script>
 (function () {
   var overlay = document.getElementById('ls-overlay');
+
+  /* Show only once per user — skip immediately on return visits */
+  if (localStorage.getItem('urbnmyth_ls_seen')) {
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    return;
+  }
+
   var canvas  = document.getElementById('ls-canvas');
   var ctx     = canvas.getContext('2d', { willReadFrequently: true });
 
@@ -181,6 +188,7 @@
 
   /* ── Dismiss ──────────────────────────────── */
   function dismiss() {
+    try { localStorage.setItem('urbnmyth_ls_seen', '1'); } catch(e) {}
     document.body.classList.remove('ls-active');
     overlay.classList.add('ls-fade');
     setTimeout(function () {

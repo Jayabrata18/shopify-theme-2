@@ -66,345 +66,69 @@
   </div>
 </section>
 
-{% comment %} <!-- ═══════════════════════════════════════════════════
-     MARQUEE STRIP
+<!-- ═══════════════════════════════════════════════════
+     COLLECTIONS WITH PRODUCTS
 ═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_marquee -%}
-<div class="lp-marquee">
-  <div class="lp-marquee__track">
-    {%- assign marquee_text = section.settings.marquee_text | default: 'FREE SHIPPING ABOVE ₹999 • NEW DROP EVERY FRIDAY • MADE FOR THE STREETS • URBNMYTH' -%}
-    {%- for i in (1..6) -%}
-      <span class="lp-marquee__item">{{ marquee_text }}</span>
-      <span class="lp-marquee__sep" aria-hidden="true">✦</span>
-    {%- endfor -%}
-  </div>
-</div>
-{%- endif -%} {% endcomment %}
+<div class="lp-cp-wrap">
 
-{% comment %} <!-- ═══════════════════════════════════════════════════
-     FEATURED COLLECTIONS
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_collections -%}
-<section class="lp-section lp-collections" id="lp-collections">
-  <div class="lp-container">
-    {%- if section.settings.collections_heading != blank -%}
-      <div class="lp-section-head">
-        <h2 class="lp-section-title">{{ section.settings.collections_heading }}</h2>
-        {%- if section.settings.collections_subtext != blank -%}
-          <p class="lp-section-sub">{{ section.settings.collections_subtext }}</p>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+  {%- assign col_index = 0 -%}
+  {%- for collection in collections -%}
+    {%- unless collection.handle == 'all' or collection.products_count == 0 -%}
 
-    <div class="lp-collections__grid">
-      {%- assign col_images = 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=800&q=80&fit=crop,https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800&q=80&fit=crop,https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80&fit=crop' | split: ',' -%}
-      {%- for i in (1..3) -%}
-        {%- assign col_key = 'collection_' | append: i -%}
-        {%- assign col_img_key = 'collection_' | append: i | append: '_image' -%}
-        {%- assign col_label_key = 'collection_' | append: i | append: '_label' -%}
-        {%- assign col_obj = section.settings[col_key] -%}
-        {%- assign col_img_obj = section.settings[col_img_key] -%}
-        {%- assign col_label = section.settings[col_label_key] -%}
-        {%- assign fallback_img = col_images[forloop.index0] -%}
+      {%- assign col_index = col_index | plus: 1 -%}
 
-        {%- if col_obj != blank -%}
-          {%- assign col_url = col_obj.url -%}
-          {%- assign col_title = col_label | default: col_obj.title -%}
-          {%- if col_img_obj != blank -%}
-            {%- assign col_img_src = col_img_obj | image_url: width: 800 -%}
-          {%- elsif col_obj.image != blank -%}
-            {%- assign col_img_src = col_obj.image | image_url: width: 800 -%}
-          {%- else -%}
-            {%- assign col_img_src = fallback_img -%}
-          {%- endif -%}
-        {%- else -%}
-          {%- assign col_url = '#' -%}
-          {%- assign col_title = 'Collection ' | append: i -%}
-          {%- assign col_img_src = fallback_img -%}
-        {%- endif -%}
-
-        <a href="{{ col_url }}" class="lp-col-card">
-          <div class="lp-col-card__img-wrap">
+      <!-- ── Editorial break after every 2nd collection ── -->
+      {%- if col_index > 1 and col_index == 3 -%}
+        {%- if section.settings.editorial_image != blank -%}
+          <div class="lp-editorial">
             <img
-              src="{{ col_img_src }}"
-              alt="{{ col_title | escape }}"
-              class="lp-col-card__img"
+              src="{{ section.settings.editorial_image | image_url: width: 2000 }}"
+              alt="{{ section.settings.editorial_heading | default: '' | escape }}"
+              class="lp-editorial__img"
+              width="2000"
+              height="1125"
               loading="lazy"
             >
-            <div class="lp-col-card__overlay"></div>
-          </div>
-          <div class="lp-col-card__info">
-            <span class="lp-col-card__title">{{ col_title }}</span>
-            <span class="lp-col-card__arrow">→</span>
-          </div>
-        </a>
-      {%- endfor -%}
-    </div>
-  </div>
-</section>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     NEW ARRIVALS
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_new_arrivals -%}
-<section class="lp-section lp-arrivals" id="lp-arrivals">
-  <div class="lp-container">
-    <div class="lp-section-head lp-section-head--split">
-      <div>
-        <h2 class="lp-section-title">{{ section.settings.arrivals_heading | default: 'New Arrivals' }}</h2>
-        {%- if section.settings.arrivals_subtext != blank -%}
-          <p class="lp-section-sub">{{ section.settings.arrivals_subtext }}</p>
-        {%- endif -%}
-      </div>
-      {%- if section.settings.arrivals_view_all_link != blank -%}
-        <a href="{{ section.settings.arrivals_view_all_link }}" class="lp-link-arrow">
-          View All <span>→</span>
-        </a>
-      {%- endif -%}
-    </div>
-
-    {%- assign arrivals_collection = section.settings.arrivals_collection -%}
-    {%- if arrivals_collection != blank -%}
-      <div class="lp-arrivals__grid">
-        {%- for product in arrivals_collection.products limit: section.settings.arrivals_count -%}
-          <div class="lp-arrivals__item">
-            {%- render 'card-product-urbnmyth', product: product -%}
-          </div>
-        {%- endfor -%}
-      </div>
-    {%- else -%}
-      <div class="lp-arrivals__grid">
-        {%- for product in collections.all.products limit: section.settings.arrivals_count -%}
-          <div class="lp-arrivals__item">
-            {%- render 'card-product-urbnmyth', product: product -%}
-          </div>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-  </div>
-</section>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     BRAND STORY
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_brand_story -%}
-<section class="lp-section lp-story" id="lp-story">
-  <div class="lp-story__inner {% if section.settings.story_image_right %}lp-story__inner--reversed{% endif %}">
-    <div class="lp-story__img-side">
-      {%- if section.settings.story_image != blank -%}
-        {%- assign story_img_src = section.settings.story_image | image_url: width: 900 -%}
-        <img src="{{ story_img_src }}" alt="{{ section.settings.story_heading | escape }}" class="lp-story__img" loading="lazy">
-      {%- else -%}
-        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=900&q=80&fit=crop" alt="Brand Story" class="lp-story__img" loading="lazy">
-      {%- endif -%}
-      {%- if section.settings.story_image_caption != blank -%}
-        <span class="lp-story__caption">{{ section.settings.story_image_caption }}</span>
-      {%- endif -%}
-    </div>
-    <div class="lp-story__text-side">
-      {%- if section.settings.story_eyebrow != blank -%}
-        <span class="lp-story__eyebrow">{{ section.settings.story_eyebrow }}</span>
-      {%- endif -%}
-      {%- if section.settings.story_heading != blank -%}
-        <h2 class="lp-story__heading">{{ section.settings.story_heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.story_body != blank -%}
-        <div class="lp-story__body">{{ section.settings.story_body }}</div>
-      {%- endif -%}
-      {%- if section.settings.story_btn_text != blank -%}
-        <a href="{{ section.settings.story_btn_link }}" class="lp-btn lp-btn--dark">
-          {{ section.settings.story_btn_text }}
-        </a>
-      {%- endif -%}
-    </div>
-  </div>
-</section>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     SECOND MARQUEE / STATS BAR
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_stats -%}
-<div class="lp-stats">
-  <div class="lp-container">
-    <div class="lp-stats__grid">
-      {%- if section.settings.stat1_number != blank -%}
-        <div class="lp-stats__item">
-          <span class="lp-stats__num">{{ section.settings.stat1_number }}</span>
-          <span class="lp-stats__label">{{ section.settings.stat1_label }}</span>
-        </div>
-      {%- endif -%}
-      {%- if section.settings.stat2_number != blank -%}
-        <div class="lp-stats__item">
-          <span class="lp-stats__num">{{ section.settings.stat2_number }}</span>
-          <span class="lp-stats__label">{{ section.settings.stat2_label }}</span>
-        </div>
-      {%- endif -%}
-      {%- if section.settings.stat3_number != blank -%}
-        <div class="lp-stats__item">
-          <span class="lp-stats__num">{{ section.settings.stat3_number }}</span>
-          <span class="lp-stats__label">{{ section.settings.stat3_label }}</span>
-        </div>
-      {%- endif -%}
-      {%- if section.settings.stat4_number != blank -%}
-        <div class="lp-stats__item">
-          <span class="lp-stats__num">{{ section.settings.stat4_number }}</span>
-          <span class="lp-stats__label">{{ section.settings.stat4_label }}</span>
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
-</div>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     TESTIMONIALS
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_testimonials and section.blocks.size > 0 -%}
-<section class="lp-section lp-testimonials" id="lp-testimonials">
-  <div class="lp-container">
-    {%- if section.settings.testimonials_heading != blank -%}
-      <div class="lp-section-head">
-        <h2 class="lp-section-title">{{ section.settings.testimonials_heading }}</h2>
-      </div>
-    {%- endif -%}
-    <div class="lp-testimonials__track" id="lpTestimonialsTrack">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'testimonial' -%}
-          <div class="lp-testimonial-card" {{ block.shopify_attributes }}>
-            <div class="lp-testimonial-card__stars">
-              {%- assign stars = block.settings.stars | default: 5 -%}
-              {%- for s in (1..5) -%}
-                <span class="lp-star {% if s <= stars %}lp-star--filled{% endif %}">★</span>
-              {%- endfor -%}
-            </div>
-            {%- if block.settings.quote != blank -%}
-              <p class="lp-testimonial-card__quote">"{{ block.settings.quote }}"</p>
-            {%- endif -%}
-            <div class="lp-testimonial-card__author">
-              {%- if block.settings.avatar != blank -%}
-                {%- assign avatar_src = block.settings.avatar | image_url: width: 80 -%}
-                <img src="{{ avatar_src }}" alt="{{ block.settings.name | escape }}" class="lp-testimonial-card__avatar" loading="lazy">
-              {%- else -%}
-                <div class="lp-testimonial-card__avatar lp-testimonial-card__avatar--initials">
-                  {{ block.settings.name | slice: 0, 1 | upcase }}
-                </div>
-              {%- endif -%}
-              <div>
-                <strong class="lp-testimonial-card__name">{{ block.settings.name }}</strong>
-                {%- if block.settings.location != blank -%}
-                  <span class="lp-testimonial-card__location">{{ block.settings.location }}</span>
+            <div class="lp-editorial__overlay"></div>
+            {%- if section.settings.editorial_heading != blank or section.settings.editorial_btn_text != blank -%}
+              <div class="lp-editorial__content">
+                {%- if section.settings.editorial_eyebrow != blank -%}
+                  <p class="lp-editorial__eyebrow">{{ section.settings.editorial_eyebrow }}</p>
+                {%- endif -%}
+                {%- if section.settings.editorial_heading != blank -%}
+                  <h2 class="lp-editorial__heading">{{ section.settings.editorial_heading }}</h2>
+                {%- endif -%}
+                {%- if section.settings.editorial_btn_text != blank -%}
+                  <a href="{{ section.settings.editorial_btn_link | default: '#' }}" class="lp-editorial__btn">
+                    {{ section.settings.editorial_btn_text }}
+                  </a>
                 {%- endif -%}
               </div>
-            </div>
+            {%- endif -%}
           </div>
         {%- endif -%}
-      {%- endfor -%}
-    </div>
-    <div class="lp-testimonials__dots" id="lpTestimonialsDots"></div>
-  </div>
-</section>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     INSTAGRAM GRID
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_instagram -%}
-<section class="lp-section lp-instagram" id="lp-instagram">
-  <div class="lp-container">
-    {%- if section.settings.instagram_heading != blank -%}
-      <div class="lp-section-head">
-        <h2 class="lp-section-title">{{ section.settings.instagram_heading }}</h2>
-        {%- if section.settings.instagram_handle != blank -%}
-          <a href="https://instagram.com/{{ section.settings.instagram_handle | remove: '@' }}" class="lp-insta-handle" target="_blank" rel="noopener">
-            @{{ section.settings.instagram_handle | remove: '@' }}
-          </a>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    {%- assign insta_fallbacks = 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1485218126466-34e6392ec754?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1542060748-10c28b62716f?w=600&q=80&fit=crop,https://images.unsplash.com/photo-1601762603339-fd61e28b698a?w=600&q=80&fit=crop' | split: ',' -%}
-
-    <div class="lp-instagram__grid">
-      {%- for i in (1..6) -%}
-        {%- assign ig_key = 'instagram_image_' | append: i -%}
-        {%- assign ig_link_key = 'instagram_link_' | append: i -%}
-        {%- assign ig_img_obj = section.settings[ig_key] -%}
-        {%- assign ig_link = section.settings[ig_link_key] -%}
-        {%- assign ig_fallback = insta_fallbacks[forloop.index0] -%}
-
-        {%- if ig_img_obj != blank -%}
-          {%- assign ig_src = ig_img_obj | image_url: width: 600 -%}
-        {%- else -%}
-          {%- assign ig_src = ig_fallback -%}
-        {%- endif -%}
-
-        <a href="{{ ig_link | default: '#' }}" class="lp-insta-tile" target="_blank" rel="noopener">
-          <img src="{{ ig_src }}" alt="Instagram post {{ i }}" class="lp-insta-tile__img" loading="lazy">
-          <div class="lp-insta-tile__hover">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </div>
-        </a>
-      {%- endfor -%}
-    </div>
-
-    {%- if section.settings.instagram_handle != blank -%}
-      <div class="lp-instagram__cta">
-        <a href="https://instagram.com/{{ section.settings.instagram_handle | remove: '@' }}" class="lp-btn lp-btn--outline-dark" target="_blank" rel="noopener">
-          Follow us on Instagram
-        </a>
-      </div>
-    {%- endif -%}
-  </div>
-</section>
-{%- endif -%}
-
-<!-- ═══════════════════════════════════════════════════
-     NEWSLETTER
-═══════════════════════════════════════════════════ -->
-{%- if section.settings.show_newsletter -%}
-<section class="lp-newsletter" id="lp-newsletter">
-  {%- if section.settings.newsletter_bg_image != blank -%}
-    {%- assign nl_bg = section.settings.newsletter_bg_image | image_url: width: 1600 -%}
-    <div class="lp-newsletter__bg" style="background-image: url('{{ nl_bg }}');"></div>
-  {%- else -%}
-    <div class="lp-newsletter__bg" style="background-image: url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=1600&q=80&fit=crop');"></div>
-  {%- endif -%}
-  <div class="lp-newsletter__overlay"></div>
-  <div class="lp-container lp-newsletter__content">
-    {%- if section.settings.newsletter_eyebrow != blank -%}
-      <span class="lp-newsletter__eyebrow">{{ section.settings.newsletter_eyebrow }}</span>
-    {%- endif -%}
-    <h2 class="lp-newsletter__heading">{{ section.settings.newsletter_heading | default: 'Join the Tribe' }}</h2>
-    {%- if section.settings.newsletter_subtext != blank -%}
-      <p class="lp-newsletter__sub">{{ section.settings.newsletter_subtext }}</p>
-    {%- endif -%}
-    <form class="lp-newsletter__form" action="/contact#contact_form" method="post" accept-charset="UTF-8" id="lpNewsletterForm">
-      <input type="hidden" name="form_type" value="customer">
-      <input type="hidden" name="utf8" value="✓">
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <div class="lp-newsletter__input-wrap">
-        <input
-          type="email"
-          name="contact[email]"
-          class="lp-newsletter__input"
-          placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address' }}"
-          required
-          autocomplete="email"
-        >
-        <button type="submit" class="lp-newsletter__submit">
-          {{ section.settings.newsletter_btn_text | default: 'Subscribe' }}
-        </button>
-      </div>
-      {%- if section.settings.newsletter_disclaimer != blank -%}
-        <p class="lp-newsletter__disclaimer">{{ section.settings.newsletter_disclaimer }}</p>
       {%- endif -%}
-    </form>
-  </div> {% endcomment %}
-{% comment %} </section>
-{%- endif -%} {% endcomment %}
+
+      <section class="lp-cp">
+        <div class="lp-container">
+          <div class="lp-cp__head">
+            <h2 class="lp-cp__title">{{ collection.title }}</h2>
+          </div>
+          <div class="lp-cp__grid">
+            {%- for product in collection.products limit: 4 -%}
+              {%- render 'card-product-urbnmyth', product: product -%}
+            {%- endfor -%}
+          </div>
+          <div class="lp-cp__foot">
+            <a href="{{ collection.url }}" class="lp-cp__view-all">View All</a>
+          </div>
+        </div>
+      </section>
+
+    {%- endunless -%}
+  {%- endfor -%}
+
+</div>
 
 <!-- ═══════════════════════════════════════════════════
      STYLES
@@ -1112,8 +836,275 @@
   margin-top: 14px;
 }
 
+/* ── Collections with Products ──────────────────── */
+.lp-cp-wrap {
+  background: #fff;
+}
+
+.lp-cp {
+  padding: 36px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.lp-cp:first-child {
+  border-top: none;
+  padding-top: 32px;
+}
+
+.lp-cp__head {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.lp-cp__tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #1a4fa3;
+  padding: 3px 10px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+.lp-cp__title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
+  margin: 0;
+}
+
+.lp-cp__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.lp-cp__foot {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.lp-cp__view-all {
+  display: inline-block;
+  padding: 12px 36px;
+  border: 1.5px solid #111;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lp-cp__view-all:hover {
+  background: #111;
+  color: #fff;
+}
+
+/* ── Editorial break ──────────────────────────────── */
+.lp-editorial {
+  position: relative;
+  overflow: hidden;
+  height: clamp(320px, 45vw, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-editorial__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lp-editorial__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.lp-editorial__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.lp-editorial__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.lp-editorial__heading {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+
+.lp-editorial__btn {
+  display: inline-block;
+  padding: 13px 40px;
+  border: 1.5px solid #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lp-editorial__btn:hover {
+  background: #fff;
+  color: #111;
+}
+
+/* ── Product Card (card-product-urbnmyth) ────────── */
+.lp-cp-wrap .urbnmyth-product-card {
+  background: #fff;
+  position: relative;
+}
+.lp-cp-wrap .urbnmyth-product-image {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #eeebe7;
+}
+.lp-cp-wrap .urbnmyth-img-primary,
+.lp-cp-wrap .urbnmyth-img-secondary {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.6s ease;
+}
+.lp-cp-wrap .urbnmyth-img-primary  { opacity: 1; z-index: 1; }
+.lp-cp-wrap .urbnmyth-img-secondary { opacity: 0; z-index: 2; }
+.lp-cp-wrap .urbnmyth-product-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: #eeebe7; color: #ccc;
+}
+.lp-cp-wrap .urbnmyth-badge-tl {
+  position: absolute; top: 14px; left: 14px;
+  background: #fff; color: #1a1a1a;
+  padding: 4px 10px;
+  font-size: 0.7rem; font-weight: 400;
+  letter-spacing: 0.2px; z-index: 10;
+  line-height: 1; white-space: nowrap;
+}
+.lp-cp-wrap .urbnmyth-right-actions {
+  position: absolute; top: 14px; right: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 20;
+}
+.lp-cp-wrap .urbnmyth-circle-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  flex-shrink: 0; position: relative;
+  opacity: 0; transform: translateX(14px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+.lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn { pointer-events: auto; }
+.lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0ms; }
+.lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 80ms; }
+.lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 160ms; }
+.lp-cp-wrap .urbnmyth-circle-btn:hover { background: #f2f2f2; }
+.lp-cp-wrap .urbnmyth-circle-btn::before {
+  content: attr(data-tooltip);
+  position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
+  background: #1a1a1a; color: #fff;
+  padding: 4px 9px; font-size: 0.68rem; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
+  font-family: inherit;
+}
+.lp-cp-wrap .urbnmyth-circle-btn:hover::before { opacity: 1; }
+.lp-cp-wrap .urbnmyth-hover-add {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 15; transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding-bottom: 12px;
+}
+.lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
+.lp-cp-wrap .urbnmyth-hover-add-btn {
+  width: 100%; padding: 16px 20px;
+  background: #fff; color: #1a1a1a; border: none;
+  font-size: 0.85rem; font-weight: 400;
+  cursor: pointer; letter-spacing: 0.2px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: inherit; transition: background 0.2s ease;
+}
+.lp-cp-wrap .urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
+.lp-cp-wrap .urbnmyth-hover-add-btn:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; }
+.lp-cp-wrap .urbnmyth-product-info { padding: 12px 2px 18px; }
+.lp-cp-wrap .urbnmyth-product-title {
+  display: block; font-size: 0.88rem; font-weight: 400;
+  margin-bottom: 5px; text-decoration: none; color: #1a1a1a;
+  line-height: 1.45; letter-spacing: 0.05px; transition: opacity 0.2s;
+}
+.lp-cp-wrap .urbnmyth-product-title:hover { opacity: 0.6; }
+.lp-cp-wrap .urbnmyth-product-price {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; font-weight: 400; font-size: 0.88rem; flex-wrap: wrap; color: #1a1a1a;
+}
+.lp-cp-wrap .urbnmyth-price-sale    { color: #1a1a1a; }
+.lp-cp-wrap .urbnmyth-price-compare { font-size: 0.82rem; color: #999; text-decoration: line-through; }
+.lp-cp-wrap .urbnmyth-price-regular { color: #1a1a1a; }
+.lp-cp-wrap .urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
+.lp-cp-wrap .urbnmyth-size-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 32px; padding: 4px 8px;
+  font-size: 0.68rem; font-weight: 400; letter-spacing: 0.2px; text-transform: uppercase;
+  border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
+  line-height: 1; cursor: pointer; font-family: inherit;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.lp-cp-wrap .urbnmyth-size-chip:hover,
+.lp-cp-wrap .urbnmyth-size-chip.urbnmyth-size-selected { background: #1a1a1a; color: #fff; }
+.lp-cp-wrap .urbnmyth-size-chip.urbnmyth-size-sold { border-color: #ddd; color: #bbb; cursor: default; }
+.lp-cp-wrap .urbnmyth-color-swatches { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.lp-cp-wrap .urbnmyth-color-dot {
+  display: inline-block; width: 16px; height: 16px;
+  border-radius: 50%; border: 1px solid rgba(0,0,0,0.15);
+  cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.lp-cp-wrap .urbnmyth-color-dot:hover { transform: scale(1.2); box-shadow: 0 0 0 2px #fff, 0 0 0 3px #111; }
+
 /* ── Mobile ──────────────────────────────────────── */
 @media (max-width: 900px) {
+  .lp-cp__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .lp-cp { padding: 24px 0; }
+  .lp-cp:first-child { padding-top: 20px; }
+  .lp-cp__title { font-size: 1.2rem; }
+  .lp-editorial { height: clamp(220px, 60vw, 360px); }
+
   .lp-collections__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1168,6 +1159,9 @@
 }
 
 @media (max-width: 580px) {
+  .lp-cp { padding: 18px 0; }
+  .lp-cp__grid { gap: 10px; }
+
   .lp-section { padding: 56px 0; }
 
   .lp-collections__grid {
@@ -1211,6 +1205,90 @@
   }
 }
 </style>
+
+<script>
+/* ── Card JS for landing page ── */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.lp-cp-wrap .urbnmyth-product-image').forEach(function (imageWrap) {
+    const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
+    if (rawImages.length < 2) return;
+    const primary   = imageWrap.querySelector('.urbnmyth-img-primary');
+    const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+    if (!primary || !secondary) return;
+    rawImages.forEach(function(src) { const img = new Image(); img.src = src; });
+    imageWrap.addEventListener('mouseenter', function () { primary.style.opacity = '0'; secondary.style.opacity = '1'; });
+    imageWrap.addEventListener('mouseleave', function () { primary.style.opacity = '1'; secondary.style.opacity = '0'; });
+  });
+
+  try {
+    const wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+    wl.forEach(function (id) {
+      document.querySelectorAll('.lp-cp-wrap .urbnmyth-wishlist-btn[data-product-id="' + id + '"]').forEach(function(btn) {
+        btn.classList.add('urbnmyth-wishlisted');
+      });
+    });
+  } catch(e) {}
+});
+
+function urbnmythSelectSize(event, btn) {
+  event.preventDefault(); event.stopPropagation();
+  const sizeContainer = btn.closest('.urbnmyth-sizes');
+  if (sizeContainer) sizeContainer.querySelectorAll('.urbnmyth-size-chip').forEach(function(chip) { chip.classList.remove('urbnmyth-size-selected'); });
+  btn.classList.add('urbnmyth-size-selected');
+  const card = btn.closest('.urbnmyth-product-card');
+  if (card && btn.dataset.variantId) {
+    const quickAddBtn = card.querySelector('.urbnmyth-hover-add-btn');
+    if (quickAddBtn) quickAddBtn.setAttribute('onclick', "urbnmythQuickAddToCart(event, '" + btn.dataset.variantId + "', this)");
+  }
+}
+
+function urbnmythQuickAddToCart(event, variantId, button) {
+  event.preventDefault(); event.stopPropagation();
+  const originalHTML = button.innerHTML;
+  button.innerHTML = 'Adding...'; button.disabled = true;
+  const formData = new FormData();
+  formData.append('id', variantId); formData.append('quantity', 1);
+  fetch('/cart/add.js', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(() => { button.innerHTML = 'Added!'; setTimeout(() => { window.location.href = '/cart'; }, 600); })
+    .catch(() => {
+      button.innerHTML = 'Error — Try Again'; button.style.background = '#dc3545'; button.style.color = '#fff';
+      setTimeout(() => { button.innerHTML = originalHTML; button.disabled = false; button.style.background = ''; button.style.color = ''; }, 2000);
+    });
+}
+
+function urbnmythManualCycle(event, btn) {
+  event.preventDefault(); event.stopPropagation();
+  const imageWrap = btn.closest('.urbnmyth-product-image');
+  if (!imageWrap) return;
+  const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
+  if (rawImages.length < 2) return;
+  const primary = imageWrap.querySelector('.urbnmyth-img-primary');
+  const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+  if (!primary || !secondary) return;
+  let idx = parseInt(imageWrap.dataset.manualIndex || '1', 10);
+  idx = (idx + 1) % rawImages.length;
+  imageWrap.dataset.manualIndex = idx;
+  secondary.src = rawImages[idx];
+  primary.style.opacity = '0'; secondary.style.opacity = '1';
+}
+
+function urbnmythQuickView(event, productUrl) {
+  event.preventDefault(); event.stopPropagation();
+  window.open(productUrl + '?quickview=1', '_blank', 'noopener');
+}
+
+function urbnmythToggleWishlist(event, productId, btn) {
+  event.preventDefault(); event.stopPropagation();
+  try {
+    let wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+    const idx = wl.indexOf(String(productId));
+    if (idx === -1) { wl.push(String(productId)); btn.classList.add('urbnmyth-wishlisted'); }
+    else { wl.splice(idx, 1); btn.classList.remove('urbnmyth-wishlisted'); }
+    localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
+  } catch(e) {}
+}
+</script>
 
 <!-- ═══════════════════════════════════════════════════
      SCHEMA
@@ -1312,6 +1390,10 @@
       "label": "Section Subtext"
     },
     {
+      "type": "header",
+      "content": "Collection 1"
+    },
+    {
       "type": "collection",
       "id": "collection_1",
       "label": "Collection 1"
@@ -1319,12 +1401,22 @@
     {
       "type": "text",
       "id": "collection_1_label",
-      "label": "Collection 1 Label Override"
+      "label": "Collection 1 Title Override"
+    },
+    {
+      "type": "text",
+      "id": "collection_1_tag",
+      "label": "Collection 1 Badge Tag",
+      "info": "Small label shown above title (e.g. NEW DROP)"
     },
     {
       "type": "image_picker",
       "id": "collection_1_image",
       "label": "Collection 1 Image Override"
+    },
+    {
+      "type": "header",
+      "content": "Collection 2"
     },
     {
       "type": "collection",
@@ -1334,12 +1426,50 @@
     {
       "type": "text",
       "id": "collection_2_label",
-      "label": "Collection 2 Label Override"
+      "label": "Collection 2 Title Override"
+    },
+    {
+      "type": "text",
+      "id": "collection_2_tag",
+      "label": "Collection 2 Badge Tag"
     },
     {
       "type": "image_picker",
       "id": "collection_2_image",
       "label": "Collection 2 Image Override"
+    },
+    {
+      "type": "header",
+      "content": "Editorial Break (between Collection 2 & 3)"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image",
+      "label": "Editorial Background Image"
+    },
+    {
+      "type": "text",
+      "id": "editorial_eyebrow",
+      "label": "Editorial Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "editorial_heading",
+      "label": "Editorial Heading"
+    },
+    {
+      "type": "text",
+      "id": "editorial_btn_text",
+      "label": "Editorial Button Text"
+    },
+    {
+      "type": "url",
+      "id": "editorial_btn_link",
+      "label": "Editorial Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Collection 3"
     },
     {
       "type": "collection",
@@ -1349,7 +1479,12 @@
     {
       "type": "text",
       "id": "collection_3_label",
-      "label": "Collection 3 Label Override"
+      "label": "Collection 3 Title Override"
+    },
+    {
+      "type": "text",
+      "id": "collection_3_tag",
+      "label": "Collection 3 Badge Tag"
     },
     {
       "type": "image_picker",
