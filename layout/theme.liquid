@@ -38,6 +38,103 @@
 
     {{ content_for_header }}
     {% # theme-check-enable RemoteAsset %}
+    <style>
+      /* ── Coolvetica: Heavy Compressed — hero display, biggest headlines ── */
+      @font-face {
+        font-family: 'CoolveticaDisplay';
+        src: url('{{ "CoolveticaHvComp.otf" | asset_url }}') format('opentype');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* ── Coolvetica Rg — section headings, product titles, nav links ── */
+      @font-face {
+        font-family: 'CoolveticaRg';
+        src: url('{{ "CoolveticaRg.otf" | asset_url }}') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* ── Coolvetica Rg Cond — body text, descriptions, paragraphs, UI ── */
+      @font-face {
+        font-family: 'CoolveticaCond';
+        src: url('{{ "CoolveticaRgCond.otf" | asset_url }}') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* ── Coolvetica Rg Cram — badges, tags, labels, tiny caps, footnotes ── */
+      @font-face {
+        font-family: 'CoolveticaCram';
+        src: url('{{ "CoolveticaRgCram.otf" | asset_url }}') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* ── Coolvetica Rg It — italic emphasis, pull-quotes, eyebrows ── */
+      @font-face {
+        font-family: 'CoolveticaIt';
+        src: url('{{ "CoolveticaRgIt.otf" | asset_url }}') format('opentype');
+        font-weight: normal;
+        font-style: italic;
+        font-display: swap;
+      }
+
+      /* ── Global base: Condensed for all body copy ── */
+      *, *::before, *::after {
+        font-family: 'CoolveticaCond', sans-serif !important;
+      }
+
+      /* ── Hero & mega display headings ── */
+      h1,
+      .lp-hero__heading,
+      .uc-heading,
+      .to-heading {
+        font-family: 'CoolveticaDisplay', sans-serif !important;
+      }
+
+      /* ── Section headings, product titles, nav ── */
+      h2, h3, h4,
+      .lp-cp__title,
+      .lp-editorial__heading,
+      .urbnmyth-product-title,
+      .detail-title,
+      .sidebar-link,
+      .navbar-logo,
+      .col-heading {
+        font-family: 'CoolveticaRg', sans-serif !important;
+      }
+
+      /* ── Italic: eyebrows, quotes, pull-text ── */
+      em, blockquote,
+      .lp-hero__eyebrow,
+      .lp-editorial__eyebrow,
+      .to-eyebrow,
+      .lp-hero__subheading {
+        font-family: 'CoolveticaIt', sans-serif !important;
+        font-style: italic !important;
+      }
+
+      /* ── Crammed: badges, tags, size chips, small labels ── */
+      .urbnmyth-badge-tl,
+      .urbnmyth-size-chip,
+      .lp-pc__badge,
+      .cart-count,
+      .to-label,
+      .uc-sidebar__assist,
+      .uc-table thead th,
+      small, label,
+      [class*="__tag"],
+      [class*="__badge"],
+      [class*="__label"],
+      [class*="__eyebrow"] {
+        font-family: 'CoolveticaCram', sans-serif !important;
+      }
+    </style>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
