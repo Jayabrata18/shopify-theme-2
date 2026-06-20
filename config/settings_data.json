@@ -9,6 +9,9 @@
  */
 {
   "current": {
+    "logo_height": 36,
+    "logo_height_mobile": 28,
+    "favicon": "shopify://shop_images/URBNMYTH_letter_mark_2.svg",
     "type_body_font": "inter_n4",
     "type_subheading_font": "barlow_condensed_n6",
     "type_heading_font": "barlow_condensed_n6",
@@ -36,6 +39,13 @@
     "variant_swatch_radius": 0,
     "variant_button_radius": 0,
     "variant_button_width": "equal-width-buttons",
+    "sections": {
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -310,9 +320,7 @@
           "selected_variant_hover_border_color": "#1a1a1a"
         }
       }
-    },
-    "logo_height": 36,
-    "logo_height_mobile": 28
+    }
   },
   "presets": {
     "Savor": {

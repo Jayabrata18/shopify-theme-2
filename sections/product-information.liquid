@@ -2,610 +2,960 @@
 {%- assign sv = product.selected_or_first_available_variant -%}
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-/* ── Navbar offset ─────────────────────────────────────── */
-.urbnmyth-product-page {
-  padding-top: 80px;
-  background: #fff;
-  font-family: 'Open Sans';
-}
+  /* ── Navbar offset ─────────────────────────────────────── */
+  .urbnmyth-product-page {
+    padding-top: 80px;
+    background: #fff;
+    font-family: 'Open Sans';
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    BREADCRUMB
 ══════════════════════════════════════════════════════════ */
-.pdp-breadcrumb { padding: 12px 40px; font-size: 0.78rem; color: #888; border-bottom: 1px solid #f0f0f0; }
-.pdp-breadcrumb a { color: #888; text-decoration: none; }
-.pdp-breadcrumb a:hover { color: #000; text-decoration: underline; }
-.pdp-breadcrumb span { margin: 0 6px; }
+  .pdp-breadcrumb {
+    padding: 12px 40px;
+    font-size: 0.78rem;
+    color: #888;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .pdp-breadcrumb a {
+    color: #888;
+    text-decoration: none;
+  }
+  .pdp-breadcrumb a:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+  .pdp-breadcrumb span {
+    margin: 0 6px;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    DESKTOP: 60 / 40 SPLIT
 ══════════════════════════════════════════════════════════ */
-.product-split {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  min-height: calc(100vh - 80px);
-  align-items: start;
-}
-
-/* ── LEFT: Gallery (60%) ─────────────────────────────── */
-.product-gallery {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 0;
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 80px);
-}
-
-/* Thumbnail strip */
-.gallery-thumbs {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 8px;
-  background: #f5f5f5;
-  overflow-y: auto;
-  scrollbar-width: none;
-  max-height: calc(100vh - 80px);
-}
-.gallery-thumbs::-webkit-scrollbar { display: none; }
-
-.thumb-item {
-  width: 64px;
-  height: 80px;
-  flex-shrink: 0;
-  cursor: pointer;
-  border: 2px solid transparent;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-.thumb-item img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.thumb-item.active { border-color: #000; }
-
-/* Hero image */
-.gallery-hero {
-  background: #f5f5f5;
-  overflow: hidden;
-  max-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.gallery-hero img {
-  width: 100%;
-  height: auto;
-  max-height: calc(100vh - 80px);
-  object-fit: contain;
-  display: block;
-  transition: opacity 0.3s ease;
-}
-
-/* ── RIGHT: Details (40%) ─────────────────────────────── */
-.product-details {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 40px 36px 60px;
-  overflow-y: auto;
-  border-left: 1px solid #e8e8e8;
-}
-.product-details > * {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  float: none;
-}
-.product-details product-form,
-.product-details product-form > form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0;
-}
-
-/* Product name */
-.detail-product-name {
-  font-family: 'Oswald', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.15;
-  margin-bottom: 14px;
-  color: #000;
-}
-
-/* Inline rating row */
-.pdp-rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; cursor: pointer; }
-.pdp-rating-stars { color: #f5c842; font-size: 1rem; letter-spacing: 1px; }
-.pdp-rating-count { font-size: 0.8rem; color: #888; text-decoration: underline; }
-
-/* Price */
-.detail-price-block {
-  display: flex !important;
-  align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 6px;
-  width: 100%;
-}
-.detail-price-regular,
-.detail-price-sale {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #000;
-}
-.detail-price-compare {
-  font-size: 1.1rem;
-  color: #999;
-  text-decoration: line-through;
-  font-weight: 400;
-}
-.detail-price-badge {
-  background: #000;
-  color: #fff;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  letter-spacing: 0.8px;
-}
-.detail-tax-note {
-  font-size: 0.78rem;
-  color: #888;
-  margin-bottom: 20px;
-}
-
-/* Stock badge */
-.pdp-stock-badge { display: flex; align-items: center; gap: 7px; font-size: 0.83rem; font-family: 'Open Sans', sans-serif; margin-bottom: 16px; color: #333; }
-.pdp-stock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.pdp-stock-badge--instock .pdp-stock-dot { background: #22c55e; }
-.pdp-stock-badge--soldout .pdp-stock-dot { background: #ef4444; }
-
-/* Short description */
-.pdp-short-desc { font-size: 0.87rem; line-height: 1.65; color: #666; margin-bottom: 20px; font-family: 'Open Sans', sans-serif; }
-
-/* Divider */
-.detail-divider {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 20px 0;
-}
-
-/* Color swatches */
-.pdp-swatches-wrap { margin-bottom: 22px; }
-.pdp-swatches-label { font-family: 'Oswald', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; color: #000; }
-.pdp-swatches-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.pdp-swatch { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #ddd; cursor: pointer; transition: transform 0.18s ease; position: relative; }
-.pdp-swatch:hover { transform: scale(1.15); }
-.pdp-swatch--active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000; border-color: transparent; }
-
-/* Section label */
-.detail-section-label {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #000;
-  margin-bottom: 10px;
-  display: block;
-}
-
-/* Size */
-.detail-size-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.detail-size-chart-btn {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #000;
-}
-.detail-size-grid {
-  display: flex !important;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 10px;
-  width: 100%;
-}
-.detail-size-btn {
-  min-width: 56px;
-  height: 46px;
-  padding: 0 12px;
-  border: 1.5px solid #bbb;
-  background: #fff;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  color: #333;
-}
-.detail-size-btn:hover:not(:disabled) { border-color: #000; color: #000; }
-.detail-size-btn.active { background: #000; color: #fff; border-color: #000; }
-.detail-size-btn:disabled {
-  border-color: #e0e0e0;
-  color: #ccc;
-  cursor: not-allowed;
-  position: relative;
-  text-decoration: line-through;
-}
-
-/* Low stock warning */
-.pdp-stock-warning { font-size: 0.8rem; color: #d97706; font-family: 'Open Sans', sans-serif; margin-top: 0; margin-bottom: 18px; font-weight: 600; }
-
-/* Quantity */
-.detail-qty-row {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 0;
-  border: 1.5px solid #000;
-  margin-bottom: 20px;
-  width: auto !important;
-  max-width: none;
-}
-.detail-qty-btn {
-  width: 42px; height: 46px;
-  background: #fff; border: none;
-  font-size: 1.4rem; font-weight: 600;
-  cursor: pointer; transition: background 0.2s;
-  font-family: 'Oswald', sans-serif;
-}
-.detail-qty-btn:hover { background: #f5f5f5; }
-.detail-qty-input {
-  width: 56px; height: 46px;
-  border: none;
-  border-left: 1.5px solid #000;
-  border-right: 1.5px solid #000;
-  text-align: center;
-  font-size: 1rem; font-weight: 700;
-  font-family: 'Oswald', sans-serif;
-  outline: none;
-  -moz-appearance: textfield;
-}
-.detail-qty-input::-webkit-inner-spin-button,
-.detail-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-/* Full-width Add to Cart */
-.detail-add-btn-full {
-  width: 100%; padding: 15px 20px;
-  background: #000; color: #fff; border: 2px solid #000;
-  font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700;
-  letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
-  transition: background 0.25s, color 0.25s; margin-bottom: 10px;
-}
-.detail-add-btn-full:hover:not(:disabled) { background: #fff; color: #000; }
-.detail-add-btn-full:disabled { background: #ccc; border-color: #ccc; color: #888; cursor: not-allowed; }
-
-/* Icon row */
-.pdp-icon-row { display: flex; gap: 24px; padding-top: 18px; border-top: 1px solid #e0e0e0; margin-bottom: 28px; }
-.pdp-icon-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: 'Open Sans', sans-serif; font-size: 0.8rem; color: #555; transition: color 0.2s; padding: 0; }
-.pdp-icon-btn:hover { color: #000; }
-.pdp-icon-btn.pdp-wishlisted { color: #000; }
-.pdp-icon-btn.pdp-wishlisted svg { fill: #000; }
-
-/* Accordion */
-.detail-accordion { border-top: 1px solid #e0e0e0; margin-top: 4px; }
-.accordion-row { border-bottom: 1px solid #e0e0e0; }
-.accordion-trigger {
-  width: 100%;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 0;
-  background: none; border: none; cursor: pointer;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 1.2px; text-transform: uppercase;
-  color: #000; text-align: left;
-}
-.accordion-chevron {
-  transition: transform 0.3s;
-  flex-shrink: 0;
-}
-.accordion-trigger.open .accordion-chevron { transform: rotate(180deg); }
-.accordion-body {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.35s ease, padding 0.3s;
-}
-.accordion-body.open { max-height: 600px; padding-bottom: 16px; }
-.accordion-body-inner {
-  font-size: 0.88rem;
-  line-height: 1.75;
-  color: #555;
-  font-family: 'Open Sans', sans-serif;
-}
-.accordion-body-inner p { margin-bottom: 8px; }
-.accordion-body-inner ul { padding-left: 18px; }
-.accordion-body-inner li { margin-bottom: 6px; }
-
-/* ══════════════════════════════════════════════════════════
-   DESCRIPTION SECTION (below fold)
-══════════════════════════════════════════════════════════ */
-.pdp-desc-section { padding: 64px 40px; border-top: 1px solid #e8e8e8; }
-.pdp-desc-section-inner { max-width: 1400px; margin: 0 auto; }
-.pdp-desc-heading { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid #000; display: inline-block; }
-.pdp-desc-body { font-size: 0.92rem; line-height: 1.85; color: #444; max-width: 860px; }
-.pdp-desc-body p { margin-bottom: 10px; }
-.pdp-desc-body ul { padding-left: 20px; margin-bottom: 10px; }
-.pdp-desc-body li { margin-bottom: 6px; }
-
-/* ══════════════════════════════════════════════════════════
-   COMPLETE THE LOOK SECTION
-══════════════════════════════════════════════════════════ */
-.pdp-look-section { padding: 64px 40px; border-top: 1px solid #e8e8e8; background: #fafafa; }
-.pdp-look-inner { max-width: 1400px; margin: 0 auto; }
-.pdp-look-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
-
-/* ══════════════════════════════════════════════════════════
-   RELATED / RECENTLY VIEWED
-══════════════════════════════════════════════════════════ */
-.products-section {
-  padding: 80px 40px;
-  border-top: 3px solid #000;
-  background: #f8f8f8;
-}
-.products-section-inner { max-width: 1400px; margin: 0 auto; }
-
-.related-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 24px;
-}
-.related-card {
-  background: #fff; border: 2px solid #000;
-  transition: box-shadow 0.3s, transform 0.3s;
-  overflow: hidden;
-}
-.related-card:hover { box-shadow: 8px 8px 0 #000; transform: translate(-4px, -4px); }
-.related-img-wrap {
-  display: block; position: relative;
-  aspect-ratio: 3/4; overflow: hidden;
-  background: #f0f0f0; border-bottom: 2px solid #000;
-}
-.related-img-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.related-card:hover .related-img-wrap img { transform: scale(1.07); }
-.related-qv-overlay {
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.3s;
-}
-.related-card:hover .related-qv-overlay { opacity: 1; }
-.related-qv-overlay span {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem; font-weight: 700;
-  letter-spacing: 1px; color: #fff;
-  text-transform: uppercase;
-}
-.related-info { padding: 18px; }
-.related-title {
-  display: block;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.95rem; font-weight: 700;
-  text-transform: uppercase; color: #000;
-  text-decoration: none; letter-spacing: 0.3px;
-  margin-bottom: 8px;
-  transition: opacity 0.2s;
-}
-.related-title:hover { opacity: 0.6; }
-.related-price {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem; font-weight: 600;
-  margin-bottom: 14px;
-}
-.related-price-compare {
-  font-size: 0.85rem; color: #999; text-decoration: line-through;
-  font-family: 'Open Sans', sans-serif; font-weight: 400;
-}
-.related-add-btn {
-  width: 100%; padding: 11px;
-  background: #fff; color: #000;
-  border: 2px solid #000;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.82rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: background 0.2s, color 0.2s;
-}
-.related-add-btn:hover:not(:disabled) { background: #000; color: #fff; }
-.related-add-btn:disabled { background: #eee; border-color: #ccc; color: #aaa; cursor: not-allowed; }
-
-/* ══════════════════════════════════════════════════════════
-   MODALS
-══════════════════════════════════════════════════════════ */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(0,0,0,0.8);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.modal-box {
-  background: #fff; border: 3px solid #000;
-  max-width: 600px; width: 100%;
-  max-height: 90vh; overflow-y: auto;
-  position: relative;
-}
-.modal-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 22px 28px;
-  border-bottom: 2px solid #000;
-  position: sticky; top: 0; background: #fff; z-index: 5;
-}
-.modal-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.2rem; font-weight: 900;
-  letter-spacing: 2px; text-transform: uppercase;
-}
-.modal-close {
-  background: none; border: none; cursor: pointer;
-  font-size: 1.5rem; line-height: 1;
-  transition: transform 0.3s;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-}
-.modal-close:hover { transform: rotate(90deg); }
-.modal-body { padding: 28px; }
-
-/* Size table */
-.size-table {
-  width: 100%; border-collapse: collapse;
-}
-.size-table th {
-  background: #000; color: #fff; padding: 12px 14px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.size-table td {
-  padding: 12px 14px; text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 0.9rem;
-}
-.size-table tbody tr:hover { background: #f5f5f5; }
-
-
-/* ══════════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE
-══════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
   .product-split {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    min-height: calc(100vh - 80px);
+    align-items: start;
   }
 
-  /* Gallery stacks above details */
+  /* ── LEFT: Gallery (60%) ─────────────────────────────── */
   .product-gallery {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 80px);
+  }
+
+  /* Thumbnail strip */
+  .gallery-thumbs {
     display: flex;
     flex-direction: column;
-    position: static;
-    max-height: none;
-    width: 100%;
-    order: 0;
-  }
-
-  /* Hero = horizontal swipe carousel */
-  .gallery-hero {
-    order: 1;
-    width: 100%;
-    /* Square-ish frame: feels natural for portrait fashion images */
-    height: clamp(300px, 90vw, 520px);
-    max-height: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    gap: 4px;
+    padding: 8px;
     background: #f5f5f5;
-    justify-content: flex-start;
+    overflow-y: auto;
+    scrollbar-width: none;
+    max-height: calc(100vh - 80px);
   }
-  .gallery-hero::-webkit-scrollbar { display: none; }
+  .gallery-thumbs::-webkit-scrollbar {
+    display: none;
+  }
 
-  /* All images side-by-side for swipe — override inline display:none */
-  .gallery-hero img {
-    min-width: 100%;
+  .thumb-item {
+    width: 64px;
+    height: 80px;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .thumb-item img {
     width: 100%;
     height: 100%;
-    max-height: 100%;
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    object-fit: cover;
+    display: block;
+  }
+  .thumb-item.active {
+    border-color: #000;
+  }
+
+  /* Hero image */
+  .gallery-hero {
+    background: #f5f5f5;
+    overflow: hidden;
+    max-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery-hero img {
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 80px);
     object-fit: contain;
-    display: block !important;
+    display: block;
+    transition: opacity 0.3s ease;
   }
 
-  /* Thumb strip scrolls horizontally below hero */
-  .gallery-thumbs {
-    order: 2;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    max-height: 76px;
-    height: 76px;
-    padding: 5px 8px;
-    gap: 5px;
-    background: #f0f0f0;
-  }
-  .gallery-thumbs::-webkit-scrollbar { display: none; }
-  .thumb-item {
-    width: 56px;
-    height: 66px;
-    flex-shrink: 0;
-  }
-
-  /* Details panel */
+  /* ── RIGHT: Details (40%) ─────────────────────────────── */
   .product-details {
-    order: 1;
-    border-left: none;
-    border-top: none;
-    padding: 20px 16px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 40px 36px 60px;
+    overflow-y: auto;
+    border-left: 1px solid #e8e8e8;
+  }
+  .product-details > * {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    float: none;
+  }
+  .product-details product-form,
+  .product-details product-form > form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* Product name */
+  .detail-product-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    color: #000;
+  }
+
+  /* Inline rating row */
+  .pdp-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    cursor: pointer;
+  }
+  .pdp-rating-stars {
+    color: #f5c842;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+  .pdp-rating-count {
+    font-size: 0.8rem;
+    color: #888;
+    text-decoration: underline;
+  }
+
+  /* Price */
+  .detail-price-block {
+    display: flex !important;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
     width: 100%;
   }
+  .detail-price-regular,
+  .detail-price-sale {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #000;
+  }
+  .detail-price-compare {
+    font-size: 1.1rem;
+    color: #999;
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+  .detail-price-badge {
+    background: #000;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    letter-spacing: 0.8px;
+  }
+  .detail-tax-note {
+    font-size: 0.78rem;
+    color: #888;
+    margin-bottom: 20px;
+  }
 
-  .detail-product-name      { font-size: 1.4rem; margin-bottom: 10px; }
-  .detail-price-block       { margin-bottom: 4px; }
-  .detail-tax-note          { margin-bottom: 12px; }
-  .pdp-short-desc           { margin-top: 8px; }
-  .detail-divider           { margin: 12px 0; }
+  /* Stock badge */
+  .pdp-stock-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.83rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  .pdp-stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pdp-stock-badge--instock .pdp-stock-dot {
+    background: #22c55e;
+  }
+  .pdp-stock-badge--soldout .pdp-stock-dot {
+    background: #ef4444;
+  }
 
-  /* Breadcrumb */
-  .pdp-breadcrumb { padding: 10px 16px; }
+  /* Short description */
+  .pdp-short-desc {
+    font-size: 0.87rem;
+    line-height: 1.65;
+    color: #666;
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+  }
 
-  /* Below-fold sections */
-  .products-section { padding: 60px 16px; }
-  .related-grid     { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .pdp-look-grid    { grid-template-columns: repeat(2, 1fr); }
-  .pdp-desc-section { padding: 48px 16px; }
-  .pdp-look-section { padding: 48px 16px; }
-}
+  /* Divider */
+  .detail-divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 20px 0;
+  }
 
-/* ── Small phones (≤480px) ── */
-@media (max-width: 480px) {
-  .detail-product-name { font-size: 1.25rem; }
-  .detail-price-regular, .detail-price-sale { font-size: 1.4rem; }
-  .detail-size-btn { min-width: 48px; height: 42px; font-size: 0.82rem; }
-  .detail-add-btn-full { padding: 13px 16px; font-size: 0.88rem; }
-  .related-grid { grid-template-columns: repeat(2, 1fr); }
-  .section-heading { font-size: 1.5rem; }
-}
+  /* Color swatches */
+  .pdp-swatches-wrap {
+    margin-bottom: 22px;
+  }
+  .pdp-swatches-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  .pdp-swatches-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pdp-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.18s ease;
+    position: relative;
+  }
+  .pdp-swatch:hover {
+    transform: scale(1.15);
+  }
+  .pdp-swatch--active {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+    border-color: transparent;
+  }
 
-/* ── Very small phones (≤375px) ── */
-@media (max-width: 375px) {
-  .product-details { padding: 16px 12px 40px; }
-  .detail-product-name { font-size: 1.15rem; }
-  .detail-size-btn { min-width: 42px; height: 40px; font-size: 0.78rem; padding: 0 8px; }
-  .gallery-hero { height: clamp(260px, 92vw, 340px); }
-}
+  /* Section label */
+  .detail-section-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* Size */
+  .detail-size-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .detail-size-chart-btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #000;
+  }
+  .detail-size-grid {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .detail-size-btn {
+    min-width: 56px;
+    height: 46px;
+    padding: 0 12px;
+    border: 1.5px solid #bbb;
+    background: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    color: #333;
+  }
+  .detail-size-btn:hover:not(:disabled) {
+    border-color: #000;
+    color: #000;
+  }
+  .detail-size-btn.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+  .detail-size-btn:disabled {
+    border-color: #e0e0e0;
+    color: #ccc;
+    cursor: not-allowed;
+    position: relative;
+    text-decoration: line-through;
+  }
+
+  /* Low stock warning */
+  .pdp-stock-warning {
+    font-size: 0.8rem;
+    color: #d97706;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  /* Quantity */
+  .detail-qty-row {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0;
+    border: 1.5px solid #000;
+    margin-bottom: 20px;
+    width: auto !important;
+    max-width: fit-content;
+  }
+  .detail-qty-btn {
+    width: 42px;
+    height: 46px;
+    background: #fff;
+    border: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Oswald', sans-serif;
+  }
+  .detail-qty-btn:hover {
+    background: #f5f5f5;
+  }
+  .detail-qty-input {
+    width: 56px;
+    height: 46px;
+    border: none;
+    border-left: 1.5px solid #000;
+    border-right: 1.5px solid #000;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .detail-qty-input::-webkit-inner-spin-button,
+  .detail-qty-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Full-width Add to Cart */
+  .detail-add-btn-full {
+    width: 100%;
+    padding: 15px 20px;
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+    margin-bottom: 10px;
+  }
+  .detail-add-btn-full:hover:not(:disabled) {
+    background: #fff;
+    color: #000;
+  }
+  .detail-add-btn-full:disabled {
+    background: #ccc;
+    border-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+  }
+
+  /* Icon row */
+  .pdp-icon-row {
+    display: flex;
+    gap: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #e0e0e0;
+    margin-bottom: 28px;
+  }
+  .pdp-icon-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8rem;
+    color: #555;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .pdp-icon-btn:hover {
+    color: #000;
+  }
+  .pdp-icon-btn.pdp-wishlisted {
+    color: #000;
+  }
+  .pdp-icon-btn.pdp-wishlisted svg {
+    fill: #000;
+  }
+
+  /* Accordion */
+  .detail-accordion {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 4px;
+  }
+  .accordion-row {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #000;
+    text-align: left;
+  }
+  .accordion-chevron {
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .accordion-trigger.open .accordion-chevron {
+    transform: rotate(180deg);
+  }
+  .accordion-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, padding 0.3s;
+  }
+  .accordion-body.open {
+    max-height: 600px;
+    padding-bottom: 16px;
+  }
+  .accordion-body-inner {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #555;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .accordion-body-inner p {
+    margin-bottom: 8px;
+  }
+  .accordion-body-inner ul {
+    padding-left: 18px;
+  }
+  .accordion-body-inner li {
+    margin-bottom: 6px;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   DESCRIPTION SECTION (below fold)
+══════════════════════════════════════════════════════════ */
+  .pdp-desc-section {
+    padding: 64px 40px;
+    border-top: 1px solid #e8e8e8;
+  }
+  .pdp-desc-section-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .pdp-desc-heading {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #000;
+    display: inline-block;
+  }
+  .pdp-desc-body {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: #444;
+    max-width: 860px;
+  }
+  .pdp-desc-body p {
+    margin-bottom: 10px;
+  }
+  .pdp-desc-body ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+  .pdp-desc-body li {
+    margin-bottom: 6px;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   COMPLETE THE LOOK SECTION
+══════════════════════════════════════════════════════════ */
+  .pdp-look-section {
+    padding: 64px 40px;
+    border-top: 1px solid #e8e8e8;
+    background: #fafafa;
+  }
+  .pdp-look-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .pdp-look-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   RELATED / RECENTLY VIEWED
+══════════════════════════════════════════════════════════ */
+  .products-section {
+    padding: 80px 40px;
+    border-top: 3px solid #000;
+    background: #f8f8f8;
+  }
+  .products-section-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .related-card {
+    background: #fff;
+    border: 2px solid #000;
+    transition: box-shadow 0.3s, transform 0.3s;
+    overflow: hidden;
+  }
+  .related-card:hover {
+    box-shadow: 8px 8px 0 #000;
+    transform: translate(-4px, -4px);
+  }
+  .related-img-wrap {
+    display: block;
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #f0f0f0;
+    border-bottom: 2px solid #000;
+  }
+  .related-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .related-card:hover .related-img-wrap img {
+    transform: scale(1.07);
+  }
+  .related-qv-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .related-card:hover .related-qv-overlay {
+    opacity: 1;
+  }
+  .related-qv-overlay span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .related-info {
+    padding: 18px;
+  }
+  .related-title {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #000;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+    transition: opacity 0.2s;
+  }
+  .related-title:hover {
+    opacity: 0.6;
+  }
+  .related-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .related-price-compare {
+    font-size: 0.85rem;
+    color: #999;
+    text-decoration: line-through;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+  }
+  .related-add-btn {
+    width: 100%;
+    padding: 11px;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .related-add-btn:hover:not(:disabled) {
+    background: #000;
+    color: #fff;
+  }
+  .related-add-btn:disabled {
+    background: #eee;
+    border-color: #ccc;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   MODALS
+══════════════════════════════════════════════════════════ */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-box {
+    background: #fff;
+    border: 3px solid #000;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+    border-bottom: 2px solid #000;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 5;
+  }
+  .modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.3s;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover {
+    transform: rotate(90deg);
+  }
+  .modal-body {
+    padding: 28px;
+  }
+
+  /* Size table */
+  .size-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .size-table th {
+    background: #000;
+    color: #fff;
+    padding: 12px 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .size-table td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+  }
+  .size-table tbody tr:hover {
+    background: #f5f5f5;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE
+══════════════════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .product-split {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Gallery stacks above details */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      position: static;
+      max-height: none;
+      width: 100%;
+      order: 0;
+    }
+
+    /* Hero = horizontal swipe carousel */
+    .gallery-hero {
+      order: 1;
+      width: 100%;
+      /* Square-ish frame: feels natural for portrait fashion images */
+      height: clamp(300px, 90vw, 520px);
+      max-height: none;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      background: #f5f5f5;
+      justify-content: flex-start;
+    }
+    .gallery-hero::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* All images side-by-side for swipe — override inline display:none */
+    .gallery-hero img {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      object-fit: contain;
+      display: block !important;
+    }
+
+    /* Thumb strip scrolls horizontally below hero */
+    .gallery-thumbs {
+      order: 2;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-height: 76px;
+      height: 76px;
+      padding: 5px 8px;
+      gap: 5px;
+      background: #f0f0f0;
+    }
+    .gallery-thumbs::-webkit-scrollbar {
+      display: none;
+    }
+    .thumb-item {
+      width: 56px;
+      height: 66px;
+      flex-shrink: 0;
+    }
+
+    /* Details panel */
+    .product-details {
+      order: 1;
+      border-left: none;
+      border-top: none;
+      padding: 20px 16px 48px;
+      width: 100%;
+    }
+
+    .detail-product-name {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    .detail-price-block {
+      margin-bottom: 4px;
+    }
+    .detail-tax-note {
+      margin-bottom: 12px;
+    }
+    .pdp-short-desc {
+      margin-top: 8px;
+    }
+    .detail-divider {
+      margin: 12px 0;
+    }
+
+    /* Breadcrumb */
+    .pdp-breadcrumb {
+      padding: 10px 16px;
+    }
+
+    /* Below-fold sections */
+    .products-section {
+      padding: 60px 16px;
+    }
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .pdp-look-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pdp-desc-section {
+      padding: 48px 16px;
+    }
+    .pdp-look-section {
+      padding: 48px 16px;
+    }
+  }
+
+  /* ── Small phones (≤480px) ── */
+  @media (max-width: 480px) {
+    .detail-product-name {
+      font-size: 1.25rem;
+    }
+    .detail-price-regular,
+    .detail-price-sale {
+      font-size: 1.4rem;
+    }
+    .detail-size-btn {
+      min-width: 48px;
+      height: 42px;
+      font-size: 0.82rem;
+    }
+    .detail-add-btn-full {
+      padding: 13px 16px;
+      font-size: 0.88rem;
+    }
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .section-heading {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* ── Very small phones (≤375px) ── */
+  @media (max-width: 375px) {
+    .product-details {
+      padding: 16px 12px 40px;
+    }
+    .detail-product-name {
+      font-size: 1.15rem;
+    }
+    .detail-size-btn {
+      min-width: 42px;
+      height: 40px;
+      font-size: 0.78rem;
+      padding: 0 8px;
+    }
+    .gallery-hero {
+      height: clamp(260px, 92vw, 340px);
+    }
+  }
 </style>
 
 <div class="urbnmyth-product-page">
-
   <!-- Breadcrumb -->
   <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
     <a href="/">Home</a>
@@ -617,23 +967,27 @@
     {{ product.title | escape }}
   </nav>
 
-  <!-- ═══════════════════════════════════════════════════
-       PRODUCT SPLIT: 60% Gallery | 40% Details
-  ════════════════════════════════════════════════════ -->
+  <!--
+    ═══════════════════════════════════════════════════
+         PRODUCT SPLIT: 60% Gallery | 40% Details
+    ════════════════════════════════════════════════════
+  -->
   <div class="product-split">
-
     <!-- LEFT: Gallery -->
     <div class="product-gallery" id="productGallery">
-
       <!-- Thumbnail strip -->
       <div class="gallery-thumbs" id="galleryThumbs">
         {%- for media in product.media limit: 8 -%}
-          <div class="thumb-item{% if forloop.first %} active{% endif %}"
-               data-index="{{ forloop.index0 }}"
-               onclick="pdpSetImage({{ forloop.index0 }}, this)">
-            <img src="{{ media | image_url: width: 200 }}"
-                 alt="{{ media.alt | escape | default: product.title }}"
-                 loading="lazy">
+          <div
+            class="thumb-item{% if forloop.first %} active{% endif %}"
+            data-index="{{ forloop.index0 }}"
+            onclick="pdpSetImage({{ forloop.index0 }}, this)"
+          >
+            <img
+              src="{{ media | image_url: width: 200 }}"
+              alt="{{ media.alt | escape | default: product.title }}"
+              loading="lazy"
+            >
           </div>
         {%- endfor -%}
       </div>
@@ -649,19 +1003,24 @@
               style="{% unless forloop.first %}display:none;{% endunless %}"
               width="1200"
               height="{{ 1200 | divided_by: media.aspect_ratio | round }}"
-              {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
+              {% if forloop.first %}
+                loading="eager"
+              {% else %}
+                loading="lazy"
+              {% endif %}
             >
           {%- endfor -%}
         {%- else -%}
-          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0f0;font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#ddd;">NO IMAGE</div>
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0f0;font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#ddd;">
+            NO IMAGE
+          </div>
         {%- endif -%}
       </div>
-
-    </div><!-- /gallery -->
+    </div>
+    <!-- /gallery -->
 
     <!-- RIGHT: Details -->
     <div class="product-details">
-
       <!-- 1. Product title -->
       <h1 class="detail-product-name">{{ product.title | escape }}</h1>
 
@@ -678,7 +1037,8 @@
           <span class="detail-price-sale">{{ sv.price | money }}</span>
           <span class="detail-price-compare">{{ sv.compare_at_price | money }}</span>
           <span class="detail-price-badge">
-            {{- sv.compare_at_price | minus: sv.price | times: 100 | divided_by: sv.compare_at_price -}}% OFF
+            {{- sv.compare_at_price | minus: sv.price | times: 100 | divided_by: sv.compare_at_price -}}
+            % OFF
           </span>
         {%- else -%}
           <span class="detail-price-regular">{{ sv.price | money }}</span>
@@ -700,7 +1060,7 @@
       {%- if product.metafields.descriptors.subtitle.value != blank -%}
         {%- assign short_desc = product.metafields.descriptors.subtitle.value -%}
       {%- elsif product.description != blank -%}
-        {%- assign short_desc = product.description | strip_html | truncate: 130 -%}
+        {%- assign short_desc = product.description | strip_html | truncate: 300 -%}
       {%- endif -%}
       {%- if short_desc != blank -%}
         <p class="pdp-short-desc">{{ short_desc }}</p>
@@ -735,8 +1095,12 @@
                     data-compare="{{ variant.compare_at_price }}"
                     data-avail="{{ variant.available }}"
                     onclick="pdpSelectSize(this)"
-                    {% unless variant.available %}disabled{% endunless %}
-                  >{{ size }}</button>
+                    {% unless variant.available %}
+                      disabled
+                    {% endunless %}
+                  >
+                    {{ size }}
+                  </button>
                   {%- assign first_size_done = true -%}
                 {%- endif -%}
               {%- endfor -%}
@@ -751,8 +1115,12 @@
                   data-compare="{{ variant.compare_at_price }}"
                   data-avail="{{ variant.available }}"
                   onclick="pdpSelectSize(this)"
-                  {% unless variant.available %}disabled{% endunless %}
-                >{{ variant.title }}</button>
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {{ variant.title }}
+                </button>
                 {%- assign first_size_done = true -%}
               {%- endunless -%}
             {%- endfor -%}
@@ -782,27 +1150,50 @@
             <input type="hidden" name="id" id="pdpVariantInput" value="{{ sv.id }}">
             <input type="hidden" name="quantity" id="pdpQtyHidden" value="1">
 
-            <button type="submit" class="detail-add-btn-full" id="pdpAddBtn"
-                    {% if sv.available == false %}disabled{% endif %}>
+            <button
+              type="submit"
+              class="detail-add-btn-full"
+              id="pdpAddBtn"
+              {% if sv.available == false %}
+                disabled
+              {% endif %}
+            >
               <span id="pdpBtnText">
                 {%- if sv.available -%}ADD TO CART{%- else -%}SOLD OUT{%- endif -%}
               </span>
             </button>
           </form>
         </product-form>
-
       </div>
 
       <!-- 13. Icon row: Wishlist | Compare | Share -->
       <div class="pdp-icon-row">
         <button type="button" class="pdp-icon-btn" id="pdpWishlistBtn" title="Add to Wishlist" onclick="pdpWishlist()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
           Wishlist
         </button>
         <button type="button" class="pdp-icon-btn" title="Share" onclick="pdpShare()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
@@ -812,15 +1203,29 @@
 
       <!-- 14. Accordion -->
       <div class="detail-accordion">
-
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
             Shipping
-            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="accordion-chevron"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>{{ section.settings.shipping_text | default: 'Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express available at checkout.' }}</p>
+              <p>
+                {{
+                  section.settings.shipping_text
+                  | default: 'Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express available at checkout.'
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -828,11 +1233,26 @@
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
             Return / Exchange
-            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="accordion-chevron"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>{{ section.settings.returns_text | default: '7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with tags.' }}</p>
+              <p>
+                {{
+                  section.settings.returns_text
+                  | default: '7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with tags.'
+                }}
+              </p>
               <ul>
                 <li>Initiate within 7 days of delivery</li>
                 <li>Contact: contact.urbnmyth@gmail.com</li>
@@ -845,7 +1265,17 @@
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
             Product Details
-            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="accordion-chevron"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
@@ -854,16 +1284,18 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- /accordion -->
+    </div>
+    <!-- /details -->
+  </div>
+  <!-- /split -->
 
-      </div><!-- /accordion -->
-
-    </div><!-- /details -->
-  </div><!-- /split -->
-
-
-  <!-- ═══════════════════════════════════════════════════
-       DESCRIPTION SECTION (below fold)
-  ════════════════════════════════════════════════════ -->
+  <!--
+    ═══════════════════════════════════════════════════
+         DESCRIPTION SECTION (below fold)
+    ════════════════════════════════════════════════════
+  -->
   {%- if product.description != blank -%}
     <div class="pdp-desc-section">
       <div class="pdp-desc-section-inner">
@@ -873,16 +1305,19 @@
     </div>
   {%- endif -%}
 
-
-  <!-- ═══════════════════════════════════════════════════
-       COMPLETE THE LOOK
-  ════════════════════════════════════════════════════ -->
+  <!--
+    ═══════════════════════════════════════════════════
+         COMPLETE THE LOOK
+    ════════════════════════════════════════════════════
+  -->
   {%- if section.settings.show_complete_the_look and section.settings.complete_the_look_collection != blank -%}
     {%- assign look_collection = collections[section.settings.complete_the_look_collection] -%}
     {%- if look_collection != blank and look_collection.products.size > 0 -%}
       <div class="pdp-look-section">
         <div class="pdp-look-inner">
-          <h2 class="section-heading">{{ section.settings.complete_the_look_heading | default: 'Complete the Look' }}</h2>
+          <h2 class="section-heading">
+            {{ section.settings.complete_the_look_heading | default: 'Complete the Look' }}
+          </h2>
           <div class="section-underline"></div>
           <div class="pdp-look-grid">
             {%- for lp in look_collection.products limit: 4 -%}
@@ -894,12 +1329,11 @@
     {%- endif -%}
   {%- endif -%}
 
-
-
-
-  <!-- ═══════════════════════════════════════════════════
-       SIMILAR PRODUCTS
-  ════════════════════════════════════════════════════ -->
+  <!--
+    ═══════════════════════════════════════════════════
+         SIMILAR PRODUCTS
+    ════════════════════════════════════════════════════
+  -->
   <div class="products-section">
     <div class="products-section-inner">
       <h2 class="section-heading">Others Also Bought</h2>
@@ -913,10 +1347,16 @@
             <div class="related-card">
               <a href="{{ rp.url }}" class="related-img-wrap">
                 {%- if rp.featured_media -%}
-                  <img src="{{ rp.featured_media | image_url: width: 600 }}" alt="{{ rp.title | escape }}" loading="lazy">
+                  <img
+                    src="{{ rp.featured_media | image_url: width: 600 }}"
+                    alt="{{ rp.title | escape }}"
+                    loading="lazy"
+                  >
                 {%- else -%}
                   <div style="width:100%;height:100%;background:#eee;display:flex;align-items:center;justify-content:center;color:#ccc;">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                    </svg>
                   </div>
                 {%- endif -%}
                 <div class="related-qv-overlay"><span>Quick View</span></div>
@@ -931,11 +1371,17 @@
                     <span>{{ rp.price | money }}</span>
                   {%- endif -%}
                 </div>
-                <button class="related-add-btn"
-                        onclick="pdpRelatedAdd('{{ rp.selected_or_first_available_variant.id }}', this)"
-                        {% unless rp.available %}disabled{% endunless %}>
+                <button
+                  class="related-add-btn"
+                  onclick="pdpRelatedAdd('{{ rp.selected_or_first_available_variant.id }}', this)"
+                  {% unless rp.available %}
+                    disabled
+                  {% endunless %}
+                >
                   {%- if rp.available -%}
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
                     Quick Add
                   {%- else -%}
                     Sold Out
@@ -949,20 +1395,24 @@
     </div>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════════
-       RECENTLY VIEWED
-  ════════════════════════════════════════════════════ -->
-  <div class="products-section" id="recentlyViewedSection" style="display:none;background:#fff;border-top:3px solid #000;">
+  <!--
+    ═══════════════════════════════════════════════════
+         RECENTLY VIEWED
+    ════════════════════════════════════════════════════
+  -->
+  <div
+    class="products-section"
+    id="recentlyViewedSection"
+    style="display:none;background:#fff;border-top:3px solid #000;"
+  >
     <div class="products-section-inner">
       <h2 class="section-heading">Recently Viewed</h2>
       <div class="section-underline"></div>
       <div class="related-grid" id="recentlyViewedGrid"></div>
     </div>
   </div>
-
-</div><!-- /urbnmyth-product-page -->
-
+</div>
+<!-- /urbnmyth-product-page -->
 
 <!-- ═══════════ SIZE CHART MODAL ═══════════ -->
 <div class="modal-overlay" id="sizeModal" style="display:none;" onclick="pdpCloseModalOutside(event,'sizeModal')">
@@ -973,284 +1423,313 @@
     </div>
     <div class="modal-body">
       <table class="size-table">
-        <thead><tr><th>SIZE</th><th>CHEST (IN)</th><th>LENGTH (IN)</th><th>SHOULDER (IN)</th><th>SLEEVE (IN)</th></tr></thead>
+        <thead>
+          <tr>
+            <th>SIZE</th>
+            <th>CHEST (IN)</th>
+            <th>LENGTH (IN)</th>
+            <th>SHOULDER (IN)</th>
+            <th>SLEEVE (IN)</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td><strong>S</strong></td><td>38</td><td>27</td><td>16.5</td><td>23.5</td></tr>
-          <tr><td><strong>M</strong></td><td>40</td><td>28</td><td>17.5</td><td>24</td></tr>
-          <tr><td><strong>L</strong></td><td>42</td><td>29</td><td>18.5</td><td>24.5</td></tr>
-          <tr><td><strong>XL</strong></td><td>44</td><td>30</td><td>19.5</td><td>25</td></tr>
+          <tr>
+            <td><strong>S</strong></td>
+            <td>38</td>
+            <td>27</td>
+            <td>16.5</td>
+            <td>23.5</td>
+          </tr>
+          <tr>
+            <td><strong>M</strong></td>
+            <td>40</td>
+            <td>28</td>
+            <td>17.5</td>
+            <td>24</td>
+          </tr>
+          <tr>
+            <td><strong>L</strong></td>
+            <td>42</td>
+            <td>29</td>
+            <td>18.5</td>
+            <td>24.5</td>
+          </tr>
+          <tr>
+            <td><strong>XL</strong></td>
+            <td>44</td>
+            <td>30</td>
+            <td>19.5</td>
+            <td>25</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
-
-
-
 <script>
-/* ══ Gallery ═══════════════════════════════════════════════ */
-var pdpImageCount = {{ product.media.size }};
+  /* ══ Gallery ═══════════════════════════════════════════════ */
+  var pdpImageCount = {{ product.media.size }};
 
-function pdpSetImage(idx, thumb) {
-  var hero = document.getElementById('galleryHero');
-  if (window.innerWidth <= 900) {
-    /* Mobile: scroll carousel to the chosen image */
-    if (hero) hero.scrollTo({ left: hero.clientWidth * idx, behavior: 'smooth' });
-  } else {
-    /* Desktop: show only the selected image */
-    for (var i = 0; i < pdpImageCount; i++) {
-      var el = document.getElementById('heroImg' + i);
-      if (el) el.style.display = 'none';
-    }
-    var target = document.getElementById('heroImg' + idx);
-    if (target) target.style.display = 'block';
-  }
-  document.querySelectorAll('.thumb-item').forEach(function(t) { t.classList.remove('active'); });
-  if (thumb) thumb.classList.add('active');
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-  var hero = document.getElementById('galleryHero');
-  if (!hero) return;
-
-  hero.addEventListener('scroll', function () {
-    var idx = Math.round(hero.scrollLeft / hero.clientWidth);
-    document.querySelectorAll('.thumb-item').forEach(function(t, i) {
-      t.classList.toggle('active', i === idx);
-    });
-  });
-
-  document.querySelectorAll('.thumb-item').forEach(function(t) {
-    t.addEventListener('click', function () {
-      var idx = parseInt(t.dataset.index);
-      if (window.innerWidth <= 900) {
-        hero.scrollTo({ left: hero.clientWidth * idx, behavior: 'smooth' });
-      }
-    });
-  });
-
-  /* Check wishlist state */
-  try {
-    var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
-    if (wl.indexOf('{{ product.id }}') !== -1) {
-      var wb = document.getElementById('pdpWishlistBtn');
-      if (wb) wb.classList.add('pdp-wishlisted');
-    }
-  } catch(e) {}
-
-  /* Recently viewed */
-  pdpTrackRecentlyViewed();
-});
-
-/* ══ Size / Price ══════════════════════════════════════════ */
-function pdpSelectSize(btn) {
-  document.querySelectorAll('.detail-size-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-
-  document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
-
-  var price = parseInt(btn.dataset.price);
-  var compare = parseInt(btn.dataset.compare);
-  var avail = btn.dataset.avail === 'true';
-  var block = document.getElementById('pdpPriceBlock');
-
-  if (compare && compare > price) {
-    var disc = Math.round((compare - price) / compare * 100);
-    block.innerHTML =
-      '<span class="detail-price-sale">&#8377;' + (price/100).toFixed(0) + '</span>' +
-      '<span class="detail-price-compare">&#8377;' + (compare/100).toFixed(0) + '</span>' +
-      '<span class="detail-price-badge">' + disc + '% OFF</span>';
-  } else {
-    block.innerHTML = '<span class="detail-price-regular">&#8377;' + (price/100).toFixed(0) + '</span>';
-  }
-
-  var addBtn = document.getElementById('pdpAddBtn');
-  var btnTxt = document.getElementById('pdpBtnText');
-  if (avail) {
-    addBtn.disabled = false;
-    btnTxt.textContent = 'ADD TO CART';
-  } else {
-    addBtn.disabled = true;
-    btnTxt.textContent = 'SOLD OUT';
-  }
-
-  /* Update stock warning — hide when variant unavailable, show when available */
-  var warn = document.getElementById('pdpStockWarning');
-  if (warn) {
-    warn.style.display = avail ? 'block' : 'none';
-  }
-
-  /* Update stock badge wrapper if present */
-  var badgeWrap = document.getElementById('pdpStockBadgeWrap');
-  if (badgeWrap) {
-    if (avail) {
-      badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--instock"><span class="pdp-stock-dot"></span><span>In stock</span></div>';
+  function pdpSetImage(idx, thumb) {
+    var hero = document.getElementById('galleryHero');
+    if (window.innerWidth <= 900) {
+      /* Mobile: scroll carousel to the chosen image */
+      if (hero) hero.scrollTo({ left: hero.clientWidth * idx, behavior: 'smooth' });
     } else {
-      badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--soldout"><span class="pdp-stock-dot"></span><span>Sold out</span></div>';
+      /* Desktop: show only the selected image */
+      for (var i = 0; i < pdpImageCount; i++) {
+        var el = document.getElementById('heroImg' + i);
+        if (el) el.style.display = 'none';
+      }
+      var target = document.getElementById('heroImg' + idx);
+      if (target) target.style.display = 'block';
+    }
+    document.querySelectorAll('.thumb-item').forEach(function(t) { t.classList.remove('active'); });
+    if (thumb) thumb.classList.add('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var hero = document.getElementById('galleryHero');
+    if (!hero) return;
+
+    hero.addEventListener('scroll', function () {
+      var idx = Math.round(hero.scrollLeft / hero.clientWidth);
+      document.querySelectorAll('.thumb-item').forEach(function(t, i) {
+        t.classList.toggle('active', i === idx);
+      });
+    });
+
+    document.querySelectorAll('.thumb-item').forEach(function(t) {
+      t.addEventListener('click', function () {
+        var idx = parseInt(t.dataset.index);
+        if (window.innerWidth <= 900) {
+          hero.scrollTo({ left: hero.clientWidth * idx, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* Check wishlist state */
+    try {
+      var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+      if (wl.indexOf('{{ product.id }}') !== -1) {
+        var wb = document.getElementById('pdpWishlistBtn');
+        if (wb) wb.classList.add('pdp-wishlisted');
+      }
+    } catch(e) {}
+
+    /* Recently viewed */
+    pdpTrackRecentlyViewed();
+  });
+
+  /* ══ Size / Price ══════════════════════════════════════════ */
+  function pdpSelectSize(btn) {
+    document.querySelectorAll('.detail-size-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
+
+    var price = parseInt(btn.dataset.price);
+    var compare = parseInt(btn.dataset.compare);
+    var avail = btn.dataset.avail === 'true';
+    var block = document.getElementById('pdpPriceBlock');
+
+    if (compare && compare > price) {
+      var disc = Math.round((compare - price) / compare * 100);
+      block.innerHTML =
+        '<span class="detail-price-sale">&#8377;' + (price/100).toFixed(0) + '</span>' +
+        '<span class="detail-price-compare">&#8377;' + (compare/100).toFixed(0) + '</span>' +
+        '<span class="detail-price-badge">' + disc + '% OFF</span>';
+    } else {
+      block.innerHTML = '<span class="detail-price-regular">&#8377;' + (price/100).toFixed(0) + '</span>';
+    }
+
+    var addBtn = document.getElementById('pdpAddBtn');
+    var btnTxt = document.getElementById('pdpBtnText');
+    if (avail) {
+      addBtn.disabled = false;
+      btnTxt.textContent = 'ADD TO CART';
+    } else {
+      addBtn.disabled = true;
+      btnTxt.textContent = 'SOLD OUT';
+    }
+
+    /* Update stock warning — hide when variant unavailable, show when available */
+    var warn = document.getElementById('pdpStockWarning');
+    if (warn) {
+      warn.style.display = avail ? 'block' : 'none';
+    }
+
+    /* Update stock badge wrapper if present */
+    var badgeWrap = document.getElementById('pdpStockBadgeWrap');
+    if (badgeWrap) {
+      if (avail) {
+        badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--instock"><span class="pdp-stock-dot"></span><span>In stock</span></div>';
+      } else {
+        badgeWrap.innerHTML = '<div class="pdp-stock-badge pdp-stock-badge--soldout"><span class="pdp-stock-dot"></span><span>Sold out</span></div>';
+      }
     }
   }
-}
 
-/* ══ Quantity ══════════════════════════════════════════════ */
-function pdpQty(delta) {
-  var inp = document.getElementById('pdpQtyInput');
-  var hidden = document.getElementById('pdpQtyHidden');
-  var v = Math.min(99, Math.max(1, (parseInt(inp.value) || 1) + delta));
-  inp.value = v;
-  if (hidden) hidden.value = v;
-}
+  /* ══ Quantity ══════════════════════════════════════════════ */
+  function pdpQty(delta) {
+    var inp = document.getElementById('pdpQtyInput');
+    var hidden = document.getElementById('pdpQtyHidden');
+    var v = Math.min(99, Math.max(1, (parseInt(inp.value) || 1) + delta));
+    inp.value = v;
+    if (hidden) hidden.value = v;
+  }
 
-/* ══ Add to cart form ══════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', function () {
-  var form = document.getElementById('{{ product_form_id }}');
-  if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var btn = document.getElementById('pdpAddBtn');
-    var txt = document.getElementById('pdpBtnText');
-    var orig = txt.textContent;
-    txt.textContent = 'ADDING...';
+  /* ══ Add to cart form ══════════════════════════════════════ */
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('{{ product_form_id }}');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = document.getElementById('pdpAddBtn');
+      var txt = document.getElementById('pdpBtnText');
+      var orig = txt.textContent;
+      txt.textContent = 'ADDING...';
+      btn.disabled = true;
+
+      /* Sync quantity hidden field before submit */
+      var qtyHidden = document.getElementById('pdpQtyHidden');
+      if (qtyHidden) qtyHidden.value = document.getElementById('pdpQtyInput').value;
+
+      fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })
+        .then(function(r) { return r.json(); })
+        .then(function() {
+          txt.textContent = 'ADDED!';
+          setTimeout(function() { window.location.href = '/cart'; }, 600);
+        })
+        .catch(function() {
+          txt.textContent = orig;
+          btn.disabled = false;
+          alert('Could not add to cart. Please try again.');
+        });
+    });
+  });
+
+
+  /* ══ Color swatch selection ════════════════════════════════ */
+  function pdpSelectColor(btn) {
+    document.querySelectorAll('.pdp-swatch').forEach(function(s) { s.classList.remove('pdp-swatch--active'); });
+    btn.classList.add('pdp-swatch--active');
+    var nameEl = document.getElementById('pdpColorName');
+    if (nameEl) nameEl.textContent = btn.dataset.color;
+    if (btn.dataset.variantId) {
+      document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
+      /* Update size buttons to reflect the variant for this color */
+      document.querySelectorAll('.detail-size-btn').forEach(function(s) {
+        if (s.dataset.variantId === btn.dataset.variantId) {
+          pdpSelectSize(s);
+        }
+      });
+    }
+  }
+
+
+  /* ══ Accordion ═════════════════════════════════════════════ */
+  function pdpAccordion(btn) {
+    var body = btn.nextElementSibling;
+    var isOpen = btn.classList.contains('open');
+
+    document.querySelectorAll('.accordion-trigger').forEach(function(b) {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      btn.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  /* ══ Wishlist ══════════════════════════════════════════════ */
+  function pdpWishlist() {
+    try {
+      var id = '{{ product.id }}';
+      var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+      var btn = document.getElementById('pdpWishlistBtn');
+      if (wl.indexOf(id) === -1) {
+        wl.push(id);
+        if (btn) btn.classList.add('pdp-wishlisted');
+        alert('Added to wishlist!');
+      } else {
+        alert('Already in wishlist.');
+      }
+      localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
+    } catch(e) {}
+  }
+
+  /* ══ Share ═════════════════════════════════════════════════ */
+  function pdpShare() {
+    if (navigator.share) {
+      navigator.share({ title: '{{ product.title | escape }}', url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        alert('Link copied to clipboard!');
+      });
+    }
+  }
+
+  /* ══ Modals ════════════════════════════════════════════════ */
+  function pdpOpenModal(id) {
+    document.getElementById(id).style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function pdpCloseModal(id) {
+    document.getElementById(id).style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  function pdpCloseModalOutside(e, id) {
+    if (e.target === document.getElementById(id)) pdpCloseModal(id);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') pdpCloseModal('sizeModal');
+  });
+
+
+  /* ══ Related quick add ═════════════════════════════════════ */
+  function pdpRelatedAdd(variantId, btn) {
+    var orig = btn.innerHTML;
+    btn.innerHTML = 'ADDING...';
     btn.disabled = true;
-
-    /* Sync quantity hidden field before submit */
-    var qtyHidden = document.getElementById('pdpQtyHidden');
-    if (qtyHidden) qtyHidden.value = document.getElementById('pdpQtyInput').value;
-
-    fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })
+    var fd = new FormData();
+    fd.append('id', variantId); fd.append('quantity', 1);
+    fetch('/cart/add.js', { method: 'POST', body: fd })
       .then(function(r) { return r.json(); })
       .then(function() {
-        txt.textContent = 'ADDED!';
-        setTimeout(function() { window.location.href = '/cart'; }, 600);
+        btn.innerHTML = 'ADDED!';
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 2000);
       })
       .catch(function() {
-        txt.textContent = orig;
-        btn.disabled = false;
-        alert('Could not add to cart. Please try again.');
+        btn.innerHTML = 'ERROR';
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 2000);
       });
-  });
-});
-
-
-/* ══ Color swatch selection ════════════════════════════════ */
-function pdpSelectColor(btn) {
-  document.querySelectorAll('.pdp-swatch').forEach(function(s) { s.classList.remove('pdp-swatch--active'); });
-  btn.classList.add('pdp-swatch--active');
-  var nameEl = document.getElementById('pdpColorName');
-  if (nameEl) nameEl.textContent = btn.dataset.color;
-  if (btn.dataset.variantId) {
-    document.getElementById('pdpVariantInput').value = btn.dataset.variantId;
-    /* Update size buttons to reflect the variant for this color */
-    document.querySelectorAll('.detail-size-btn').forEach(function(s) {
-      if (s.dataset.variantId === btn.dataset.variantId) {
-        pdpSelectSize(s);
-      }
-    });
   }
-}
 
+  /* ══ Recently Viewed ═══════════════════════════════════════ */
+  function pdpTrackRecentlyViewed() {
+    try {
+      var key = 'urbnmyth_rv';
+      var current = { id: '{{ product.id }}', title: {{ product.title | json }}, url: '{{ product.url }}', price: '{{ product.price | money }}', img: '{{ product.featured_media | image_url: width: 400 }}' };
+      var list = JSON.parse(localStorage.getItem(key) || '[]');
+      list = list.filter(function(p) { return p.id !== current.id; });
+      list.unshift(current);
+      list = list.slice(0, 6);
+      localStorage.setItem(key, JSON.stringify(list));
 
-/* ══ Accordion ═════════════════════════════════════════════ */
-function pdpAccordion(btn) {
-  var body = btn.nextElementSibling;
-  var isOpen = btn.classList.contains('open');
-
-  document.querySelectorAll('.accordion-trigger').forEach(function(b) {
-    b.classList.remove('open');
-    b.nextElementSibling.classList.remove('open');
-  });
-
-  if (!isOpen) {
-    btn.classList.add('open');
-    body.classList.add('open');
+      var others = list.filter(function(p) { return p.id !== current.id; });
+      if (others.length === 0) return;
+      var section = document.getElementById('recentlyViewedSection');
+      var grid = document.getElementById('recentlyViewedGrid');
+      section.style.display = 'block';
+      grid.innerHTML = others.map(function(p) {
+        return '<div class="related-card"><a href="' + p.url + '" class="related-img-wrap"><img src="' + p.img + '" alt="' + p.title + '" loading="lazy"><div class="related-qv-overlay"><span>View</span></div></a><div class="related-info"><a href="' + p.url + '" class="related-title">' + p.title + '</a><div class="related-price"><span>' + p.price + '</span></div></div></div>';
+      }).join('');
+    } catch(e) {}
   }
-}
-
-/* ══ Wishlist ══════════════════════════════════════════════ */
-function pdpWishlist() {
-  try {
-    var id = '{{ product.id }}';
-    var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
-    var btn = document.getElementById('pdpWishlistBtn');
-    if (wl.indexOf(id) === -1) {
-      wl.push(id);
-      if (btn) btn.classList.add('pdp-wishlisted');
-      alert('Added to wishlist!');
-    } else {
-      alert('Already in wishlist.');
-    }
-    localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
-  } catch(e) {}
-}
-
-/* ══ Share ═════════════════════════════════════════════════ */
-function pdpShare() {
-  if (navigator.share) {
-    navigator.share({ title: '{{ product.title | escape }}', url: window.location.href });
-  } else {
-    navigator.clipboard.writeText(window.location.href).then(function() {
-      alert('Link copied to clipboard!');
-    });
-  }
-}
-
-/* ══ Modals ════════════════════════════════════════════════ */
-function pdpOpenModal(id) {
-  document.getElementById(id).style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-function pdpCloseModal(id) {
-  document.getElementById(id).style.display = 'none';
-  document.body.style.overflow = '';
-}
-function pdpCloseModalOutside(e, id) {
-  if (e.target === document.getElementById(id)) pdpCloseModal(id);
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') pdpCloseModal('sizeModal');
-});
-
-
-/* ══ Related quick add ═════════════════════════════════════ */
-function pdpRelatedAdd(variantId, btn) {
-  var orig = btn.innerHTML;
-  btn.innerHTML = 'ADDING...';
-  btn.disabled = true;
-  var fd = new FormData();
-  fd.append('id', variantId); fd.append('quantity', 1);
-  fetch('/cart/add.js', { method: 'POST', body: fd })
-    .then(function(r) { return r.json(); })
-    .then(function() {
-      btn.innerHTML = 'ADDED!';
-      setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 2000);
-    })
-    .catch(function() {
-      btn.innerHTML = 'ERROR';
-      setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 2000);
-    });
-}
-
-/* ══ Recently Viewed ═══════════════════════════════════════ */
-function pdpTrackRecentlyViewed() {
-  try {
-    var key = 'urbnmyth_rv';
-    var current = { id: '{{ product.id }}', title: {{ product.title | json }}, url: '{{ product.url }}', price: '{{ product.price | money }}', img: '{{ product.featured_media | image_url: width: 400 }}' };
-    var list = JSON.parse(localStorage.getItem(key) || '[]');
-    list = list.filter(function(p) { return p.id !== current.id; });
-    list.unshift(current);
-    list = list.slice(0, 6);
-    localStorage.setItem(key, JSON.stringify(list));
-
-    var others = list.filter(function(p) { return p.id !== current.id; });
-    if (others.length === 0) return;
-    var section = document.getElementById('recentlyViewedSection');
-    var grid = document.getElementById('recentlyViewedGrid');
-    section.style.display = 'block';
-    grid.innerHTML = others.map(function(p) {
-      return '<div class="related-card"><a href="' + p.url + '" class="related-img-wrap"><img src="' + p.img + '" alt="' + p.title + '" loading="lazy"><div class="related-qv-overlay"><span>View</span></div></a><div class="related-info"><a href="' + p.url + '" class="related-title">' + p.title + '</a><div class="related-price"><span>' + p.price + '</span></div></div></div>';
-    }).join('');
-  } catch(e) {}
-}
 </script>
 
 {% schema %}

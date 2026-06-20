@@ -1,43 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "landing-page",
-      "blocks": {
-        // "testimonial_1": {
-        //   "type": "testimonial",
-        //   "settings": {
-        //     "stars": 5,
-        //     "quote": "Absolute fire quality. The oversized tee fits perfectly and the fabric is so good. Shipping was super fast too!",
-        //     "name": "Aryan K.",
-        //     "location": "Mumbai"
-        //   }
-        // },
-        // "testimonial_2": {
-        //   "type": "testimonial",
-        //   "settings": {
-        //     "stars": 5,
-        //     "quote": "URBNMYTH is the only brand I trust for streetwear in India. Every drop gets better than the last.",
-        //     "name": "Priya S.",
-        //     "location": "Delhi"
-        //   }
-        // },
-        // "testimonial_3": {
-        //   "type": "testimonial",
-        //   "settings": {
-        //     "stars": 5,
-        //     "quote": "Finally a brand that understands the street culture here. The designs are legit and the quality matches the price.",
-        //     "name": "Rahul M.",
-        //     "location": "Bengaluru"
-        //   }
-        // }
-      },
-      "block_order": [
-        // "testimonial_1",
-        // "testimonial_2",
-        // "testimonial_3"
-      ],
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
