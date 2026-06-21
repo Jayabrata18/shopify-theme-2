@@ -66,7 +66,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 8px;
-    background: #f5f5f5;
+    background: transparent;
     overflow-y: auto;
     scrollbar-width: none;
     max-height: calc(100vh - 80px);
@@ -96,7 +96,7 @@
 
   /* Hero image */
   .gallery-hero {
-    background: #f5f5f5;
+    background: transparent;
     overflow: hidden;
     max-height: calc(100vh - 80px);
     display: flex;
@@ -457,10 +457,39 @@
     fill: #000;
   }
 
+  /* Trust strip */
+  .pdp-trust-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 16px 0 4px;
+  }
+  .pdp-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .pdp-trust-gif {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .pdp-trust-text {
+    font-size: 0.82rem;
+    color: #222;
+    line-height: 1.4;
+  }
+  .pdp-trust-text strong {
+    font-weight: 700;
+  }
+
+
   /* Accordion */
   .detail-accordion {
     border-top: 1px solid #e0e0e0;
-    margin-top: 4px;
+    margin-top: 20px;
   }
   .accordion-row {
     border-bottom: 1px solid #e0e0e0;
@@ -469,22 +498,32 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 12px;
+    justify-content: flex-start;
     padding: 16px 0;
     background: none;
     border: none;
     cursor: pointer;
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: #000;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: #111;
     text-align: left;
+  }
+  .accordion-trigger-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #333;
+  }
+  .accordion-trigger-label {
+    flex: 1;
   }
   .accordion-chevron {
     transition: transform 0.3s;
     flex-shrink: 0;
+    margin-left: auto;
+    color: #666;
   }
   .accordion-trigger.open .accordion-chevron {
     transform: rotate(180deg);
@@ -499,10 +538,10 @@
     padding-bottom: 16px;
   }
   .accordion-body-inner {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     line-height: 1.75;
     color: #555;
-    font-family: 'Open Sans', sans-serif;
+    padding-left: 32px;
   }
   .accordion-body-inner p {
     margin-bottom: 8px;
@@ -1166,6 +1205,18 @@
         </product-form>
       </div>
 
+      <!-- 12b. Trust strip -->
+      <div class="pdp-trust-strip">
+        <div class="pdp-trust-item">
+          <img class="pdp-trust-gif" src="{{ 'shipping.gif' | asset_url }}" alt="Shipping" width="32" height="32">
+          <span class="pdp-trust-text"><strong>Free Express Shipping</strong> PAN India.</span>
+        </div>
+        <div class="pdp-trust-item">
+          <img class="pdp-trust-gif" src="{{ 'return.gif' | asset_url }}" alt="Returns" width="32" height="32">
+          <span class="pdp-trust-text"><strong>Easy Returns</strong> within 7 days.</span>
+        </div>
+      </div>
+
       <!-- 13. Icon row: Wishlist | Compare | Share -->
       <div class="pdp-icon-row">
         <button type="button" class="pdp-icon-btn" id="pdpWishlistBtn" title="Add to Wishlist" onclick="pdpWishlist()">
@@ -1203,56 +1254,57 @@
 
       <!-- 14. Accordion -->
       <div class="detail-accordion">
+
+        <!-- Fit and Feel -->
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
-            Shipping
-            <svg
-              class="accordion-chevron"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="accordion-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2h12M9 2v2m6-2v2M5 22h14a1 1 0 0 0 1-1V8l-3-4H7L4 8v13a1 1 0 0 0 1 1z"/><path d="M9 4c0 3-3 4-3 8m9-8c0 3 3 4 3 8"/>
             </svg>
+            <span class="accordion-trigger-label">Fit and Feel</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>
-                {{
-                  section.settings.shipping_text
-                  | default: 'Free shipping on orders above ₹999. Standard delivery in 5–7 business days. Express available at checkout.'
-                }}
-              </p>
+              <p>{{ section.settings.fit_feel_text | default: 'True to size. We recommend ordering your regular size. The relaxed silhouette offers a comfortable, easy fit — not oversized, not slim.' }}</p>
             </div>
           </div>
         </div>
 
+        <!-- Material and Care -->
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
-            Return / Exchange
-            <svg
-              class="accordion-chevron"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="accordion-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
             </svg>
+            <span class="accordion-trigger-label">Material and Care</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              <p>
-                {{
-                  section.settings.returns_text
-                  | default: '7-day exchange policy. No returns — exchanges only. Item must be unworn, unwashed and with tags.'
-                }}
-              </p>
+              <p>{{ section.settings.material_text | default: '100% premium cotton. Soft, breathable and built to last.' }}</p>
+              <ul>
+                <li>Machine wash cold, gentle cycle</li>
+                <li>Do not bleach</li>
+                <li>Tumble dry low</li>
+                <li>Iron on low heat if needed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Returns & Exchange -->
+        <div class="accordion-row">
+          <button class="accordion-trigger" onclick="pdpAccordion(this)">
+            <svg class="accordion-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/>
+            </svg>
+            <span class="accordion-trigger-label">Returns &amp; Exchange</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>{{ section.settings.returns_text | default: '7-day exchange policy. Item must be unworn, unwashed and with original tags.' }}</p>
               <ul>
                 <li>Initiate within 7 days of delivery</li>
                 <li>Contact: contact.urbnmyth@gmail.com</li>
@@ -1262,28 +1314,27 @@
           </div>
         </div>
 
+        <!-- FAQ's -->
         <div class="accordion-row">
           <button class="accordion-trigger" onclick="pdpAccordion(this)">
-            Product Details
-            <svg
-              class="accordion-chevron"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="accordion-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v.01M12 11a1 1 0 0 1 0 2"/>
             </svg>
+            <span class="accordion-trigger-label">FAQ's</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              {{ product.description }}
-              <p style="margin-top:10px;">Made in India — URBNMYTH Pvt. Ltd., Kolkata</p>
+              <ul>
+                <li><strong>How long does delivery take?</strong> 5–7 business days standard, express available.</li>
+                <li><strong>Can I cancel my order?</strong> Orders can be cancelled within 12 hours of placing.</li>
+                <li><strong>Is COD available?</strong> Yes, Cash on Delivery is available across India.</li>
+                <li><strong>How do I track my order?</strong> You'll receive a tracking link via email/SMS after dispatch.</li>
+              </ul>
             </div>
           </div>
         </div>
+
       </div>
       <!-- /accordion -->
     </div>
@@ -1730,6 +1781,7 @@
       }).join('');
     } catch(e) {}
   }
+
 </script>
 
 {% schema %}

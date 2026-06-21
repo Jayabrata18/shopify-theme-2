@@ -65,7 +65,12 @@
   transition: filter 0.3s ease, transform 0.4s ease;
   filter: brightness(10);    /* white logo by default (transparent bg) */
 }
-/* When white-bg, tint logo red */
+/* Scrolled: always white logo regardless of device */
+.navbar.scrolled .navbar-logo img {
+  filter: brightness(10);
+}
+
+/* When white-bg, tint logo dark */
 .navbar.white-bg .navbar-logo img {
   filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(6000%) hue-rotate(350deg) brightness(95%);
 }
