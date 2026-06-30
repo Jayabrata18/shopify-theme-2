@@ -1,137 +1,124 @@
 <!--
   ═══════════════════════════════════════════════════
-       HERO SECTION
+       VIDEO HERO
   ═══════════════════════════════════════════════════
 -->
 <section class="lp-hero" id="lp-hero">
-  {%- assign hero_bg = section.settings.hero_image | image_url: width: 2000 -%}
-  {%- if section.settings.hero_youtube_id != blank -%}
-    <div class="lp-hero__video-wrap">
-      <iframe
-        class="lp-hero__iframe"
-        src="https://www.youtube.com/embed/{{ section.settings.hero_youtube_id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.hero_youtube_id }}&controls=0&showinfo=0&rel=0&modestbranding=1"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen
-      ></iframe>
-      <div class="lp-hero__overlay"></div>
-    </div>
-  {%- elsif section.settings.hero_image != blank -%}
-    <div class="lp-hero__img-wrap">
-      <img
-        src="{{ hero_bg }}"
-        alt="{{ section.settings.hero_heading | escape }}"
-        width="2000"
-        height="1200"
-        class="lp-hero__img lp-hero__img--kenburns"
-        loading="eager"
-      >
-      <div class="lp-hero__overlay"></div>
-    </div>
-  {%- else -%}
-    <div class="lp-hero__img-wrap">
-      <img
-        src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=2000&q=80&fit=crop"
-        alt="Hero"
-        width="2000"
-        height="1200"
-        class="lp-hero__img lp-hero__img--kenburns"
-        loading="eager"
-      >
-      <div class="lp-hero__overlay"></div>
-    </div>
-  {%- endif -%}
+  <div class="lp-hero__video-wrap">
+    <video autoplay muted loop playsinline preload="metadata" class="lp-hero__video">
+      <source src="https://cdn.shopify.com/videos/c/o/v/7675e1f01f07408b893a3691d38f087b.mp4" type="video/mp4">
+    </video>
+    <div class="lp-hero__overlay"></div>
+  </div>
 
   <div class="lp-hero__content">
-    {%- if section.settings.hero_eyebrow != blank -%}
-      <p class="lp-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
-    {%- endif -%}
-    {%- if section.settings.hero_heading != blank -%}
-      <h1 class="lp-hero__heading">{{ section.settings.hero_heading }}</h1>
-    {%- endif -%}
-    {%- if section.settings.hero_subheading != blank -%}
-      <p class="lp-hero__subheading">{{ section.settings.hero_subheading }}</p>
-    {%- endif -%}
-    <div class="lp-hero__btns">
-      {%- if section.settings.hero_btn1_text != blank -%}
-        <a href="{{ section.settings.hero_btn1_link }}" class="lp-btn lp-btn--primary">
-          {{ section.settings.hero_btn1_text }}
-        </a>
-      {%- endif -%}
-      {%- if section.settings.hero_btn2_text != blank -%}
-        <a href="{{ section.settings.hero_btn2_link }}" class="lp-btn lp-btn--outline">
-          {{ section.settings.hero_btn2_text }}
-        </a>
-      {%- endif -%}
-    </div>
+    <h1 class="lp-hero__heading">It's Only You Against You</h1>
   </div>
 
-  <div class="lp-hero__scroll-hint">
+  {% comment %} <div class="lp-hero__scroll-hint">
     <span class="lp-hero__scroll-line"></span>
     <span class="lp-hero__scroll-label">Scroll</span>
-  </div>
+  </div> {% endcomment %}
 </section>
 
 <!--
   ═══════════════════════════════════════════════════
-       COLLECTIONS WITH PRODUCTS
+       COLLECTION 1
   ═══════════════════════════════════════════════════
 -->
-<div class="lp-cp-wrap">
-  {%- assign col_index = 0 -%}
-  {%- for collection in collections -%}
-    {%- unless collection.handle == 'all' or collection.products_count == 0 -%}
-      {%- assign col_index = col_index | plus: 1 -%}
+{%- assign lp_col_count = 0 -%}
 
-      <!-- ── Editorial break after every 2nd collection ── -->
-      {%- if col_index == 3 -%}
-        {%- if section.settings.editorial_image != blank -%}
-          <div class="lp-editorial">
-            <img
-              src="{{ section.settings.editorial_image | image_url: width: 2000 }}"
-              alt="{{ section.settings.editorial_heading | default: '' | escape }}"
-              class="lp-editorial__img"
-              width="2000"
-              height="1125"
-              loading="lazy"
-            >
-            <div class="lp-editorial__overlay"></div>
-            {%- if section.settings.editorial_heading != blank or section.settings.editorial_btn_text != blank -%}
-              <div class="lp-editorial__content">
-                {%- if section.settings.editorial_eyebrow != blank -%}
-                  <p class="lp-editorial__eyebrow">{{ section.settings.editorial_eyebrow }}</p>
-                {%- endif -%}
-                {%- if section.settings.editorial_heading != blank -%}
-                  <h2 class="lp-editorial__heading">{{ section.settings.editorial_heading }}</h2>
-                {%- endif -%}
-                {%- if section.settings.editorial_btn_text != blank -%}
-                  <a href="{{ section.settings.editorial_btn_link | default: '#' }}" class="lp-editorial__btn">
-                    {{ section.settings.editorial_btn_text }}
-                  </a>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-      {%- endif -%}
+{%- for collection in collections -%}
+  {%- unless collection.handle == 'all' or collection.products_count == 0 -%}
+    {%- assign lp_col_count = lp_col_count | plus: 1 -%}
 
-      <section class="lp-cp">
-        <div class="lp-container">
-          <div class="lp-cp__head">
-            <h2 class="lp-cp__title">{{ collection.title }}</h2>
+    <section class="lp-collection lp-reveal" id="lp-collection-{{ lp_col_count }}">
+      <div class="lp-container">
+        <div class="lp-collection__head">
+          <h2 class="lp-collection__title">{{ collection.title }}</h2>
+          <a href="{{ collection.url }}" class="lp-collection__see-more">
+            See More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+        <div class="lp-collection__grid">
+          {%- for product in collection.products limit: 4 -%}
+            {%- render 'card-product-urbnmyth', product: product -%}
+          {%- endfor -%}
+        </div>
+        <div class="lp-collection__footer">
+          <a href="{{ collection.url }}" class="lp-collection__see-more-btn">
+            See More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      ─────────────────────────────────────────────
+           COMMUNITY SECTION (after 1st collection)
+      ─────────────────────────────────────────────
+    -->
+    {%- if lp_col_count == 1 -%}
+      <section class="lp-community lp-reveal" id="lp-community">
+        <div class="lp-community__bg">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_081506_345983b4-1a13-45d7-8ec3-b7f4ed1f89bc.png?v=1782837020"
+            alt="Community"
+            class="lp-community__img"
+            width="2000"
+            height="1125"
+            loading="lazy"
+          >
+        </div>
+        <div class="lp-community__fog-left"></div>
+        <div class="lp-community__dark-right"></div>
+        <div class="lp-community__layout">
+          <div class="lp-community__left">
+            <p class="lp-community__cs-eyebrow">What's Next</p>
+            <h2 class="lp-community__cs-heading">Coming<br>Soon</h2>
           </div>
-          <div class="lp-cp__grid">
-            {%- for product in collection.products limit: 4 -%}
-              {%- render 'card-product-urbnmyth', product: product -%}
-            {%- endfor -%}
-          </div>
-          <div class="lp-cp__foot">
-            <a href="{{ collection.url }}" class="lp-cp__view-all">View All</a>
+          <div class="lp-community__right">
+            <div class="lp-community__content">
+              <p class="lp-community__eyebrow">Stay updated on upcoming designs</p>
+              <h2 class="lp-community__heading">Join Us On WhatsApp</h2>
+              <a href="#" class="lp-community__btn" target="_blank" rel="noopener">
+                <svg class="lp-community__btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Join the Community
+              </a>
+            </div>
           </div>
         </div>
       </section>
-    {%- endunless -%}
-  {%- endfor -%}
+    {%- endif -%}
+
+    {%- if lp_col_count >= 2 -%}{%- break -%}{%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+<!--
+  ═══════════════════════════════════════════════════
+       FOOTER IMAGE
+  ═══════════════════════════════════════════════════
+-->
+<div class="lp-footer-img lp-reveal" id="lp-footer-img">
+  <img
+    src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_063024_d6a0d67b-3d6a-4d3a-aa22-9f5586bd2dcc.png?v=1782837020"
+    alt="URBNMYTH"
+    class="lp-footer-img__img"
+    width="2000"
+    height="1125"
+    loading="lazy"
+  >
 </div>
 
 <!--
@@ -140,319 +127,202 @@
   ═══════════════════════════════════════════════════
 -->
 <style>
-  /* ── Base ────────────────────────────────────────── */
   .lp-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* ── Buttons ─────────────────────────────────────── */
-  .lp-btn {
-    display: inline-block;
-    padding: 14px 32px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  /* ── Scroll Reveal ── */
+  .lp-reveal {
+    opacity: 0;
+    transform: translateY(44px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lp-reveal.lp-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lp-reveal { opacity: 1; transform: none; transition: none; }
   }
 
-  .lp-btn--primary {
-    background: #fff;
-    color: #111;
-    border-color: #fff;
-  }
-
-  .lp-btn--primary:hover {
-    background: transparent;
-    color: #fff;
-  }
-
-  .lp-btn--outline {
-    background: transparent;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-
-  .lp-btn--outline:hover {
-    background: #fff;
-    color: #111;
-    border-color: #fff;
-  }
-
-  /* ── Hero ────────────────────────────────────────── */
+  /* ── Hero ── */
   .lp-hero {
     position: relative;
     width: 100%;
     height: 100svh;
-    min-height: 560px;
+    min-height: 580px;
     overflow: hidden;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
+    padding-bottom: 14vh;
   }
-
-  .lp-hero__img-wrap,
   .lp-hero__video-wrap {
     position: absolute;
     inset: 0;
     z-index: 0;
   }
-
-  .lp-hero__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
-  }
-
-  .lp-hero__img--kenburns {
-    animation: lpKenBurns 16s ease-in-out infinite alternate;
-    transform-origin: center center;
-  }
-
-  @keyframes lpKenBurns {
-    from {
-      transform: scale(1);
-    }
-    to {
-      transform: scale(1.08);
-    }
-  }
-
-  .lp-hero__iframe {
+  .lp-hero__video {
     position: absolute;
     top: 50%;
     left: 50%;
     width: max(100%, 177.78vh);
     height: max(100%, 56.25vw);
     transform: translate(-50%, -50%);
-    border: none;
+    object-fit: cover;
     pointer-events: none;
   }
-
   .lp-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.75) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.35) 50%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
   }
-
   .lp-hero__content {
     position: relative;
     z-index: 2;
     text-align: center;
     color: #fff;
     padding: 0 24px;
-    max-width: 820px;
+    max-width: 960px;
   }
-
-  .lp-hero__eyebrow {
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0 0 16px;
-  }
-
   .lp-hero__heading {
-    font-family: 'Oswald', sans-serif;
-    font-size: clamp(2.8rem, 8vw, 7rem);
-    font-weight: 700;
-    line-height: 0.95;
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(3rem, 10vw, 8.5rem);
+    font-weight: 900;
+    line-height: 0.92;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    margin: 0 0 20px;
+    margin: 0;
+    color: #fff;
   }
-
-  .lp-hero__subheading {
-    font-size: clamp(0.95rem, 2vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0 0 40px;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .lp-hero__btns {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
   .lp-hero__scroll-hint {
     position: absolute;
-    bottom: 32px;
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
   }
-
   .lp-hero__scroll-line {
     display: block;
     width: 1px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.4);
-    animation: lpScrollPulse 1.8s ease-in-out infinite;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.35);
+    animation: lpScrollPulse 1.9s ease-in-out infinite;
   }
-
+  .lp-hero__scroll-label {
+    font-family: 'CoolveticaCram', sans-serif !important;
+  }
   @keyframes lpScrollPulse {
-    0%,
-    100% {
-      opacity: 0.4;
-      transform: scaleY(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scaleY(0.6);
-    }
+    0%, 100% { opacity: 0.35; transform: scaleY(1); }
+    50%       { opacity: 1;    transform: scaleY(0.55); }
   }
 
-  /* ── Collections with Products ──────────────────── */
-  .lp-cp-wrap {
+  /* ── Collections ── */
+  .lp-collection {
     background: #fff;
-  }
-
-  .lp-cp {
-    padding: 36px 0;
+    padding: 52px 0;
     border-top: 1px solid #f0f0f0;
   }
-
-  .lp-cp:first-child {
+  .lp-collection:first-of-type {
     border-top: none;
-    padding-top: 32px;
+    padding-top: 44px;
   }
-
-  .lp-cp__head {
-    text-align: left;
-    margin-bottom: 20px;
+  .lp-collection__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
   }
-
-  .lp-cp__title {
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    font-weight: 800;
-    letter-spacing: 0.04em;
+  .lp-collection__title {
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 900;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #111;
     margin: 0;
+    line-height: 1;
   }
-
-  .lp-cp__grid {
+  .lp-collection__see-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'CoolveticaCram', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid #111;
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+  }
+  .lp-collection__see-more:hover { opacity: 0.5; }
+  .lp-collection__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
-
-  .lp-cp__foot {
-    text-align: center;
+  .lp-collection__footer {
+    display: flex;
+    justify-content: center;
     margin-top: 36px;
   }
-
-  .lp-cp__view-all {
-    display: inline-block;
-    padding: 12px 36px;
-    border: 1.5px solid #111;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #111;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .lp-cp__view-all:hover {
-    background: #111;
-    color: #fff;
-  }
-
-  /* ── Editorial break ──────────────────────────────── */
-  .lp-editorial {
-    position: relative;
-    overflow: hidden;
-    height: clamp(320px, 45vw, 560px);
-    display: flex;
+  .lp-collection__see-more-btn {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-  }
-
-  .lp-editorial__img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .lp-editorial__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-  }
-
-  .lp-editorial__content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: #fff;
-    padding: 0 20px;
-  }
-
-  .lp-editorial__eyebrow {
-    font-size: 0.7rem;
+    gap: 9px;
+    font-family: 'CoolveticaCram', sans-serif !important;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 10px;
-  }
-
-  .lp-editorial__heading {
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin: 0 0 24px;
-  }
-
-  .lp-editorial__btn {
-    display: inline-block;
-    padding: 13px 40px;
-    border: 1.5px solid #fff;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #fff;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .lp-editorial__btn:hover {
-    background: #fff;
     color: #111;
+    text-decoration: none;
+    padding: 13px 36px;
+    border: 1.5px solid #111;
+    transition: background 0.22s, color 0.22s;
+  }
+  .lp-collection__see-more-btn:hover { background: #111; color: #fff; }
+
+  /* card stagger on scroll reveal */
+  .lp-collection .lp-collection__grid .urbnmyth-product-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card { opacity: 1; transform: translateY(0); }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(1) { transition-delay: 80ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(2) { transition-delay: 170ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(3) { transition-delay: 260ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) { transition-delay: 350ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .lp-collection .lp-collection__grid .urbnmyth-product-card { opacity: 1; transform: none; transition: none; }
   }
 
-  /* ── Product Card (card-product-urbnmyth) ────────── */
-  .lp-cp-wrap .urbnmyth-product-card {
-    background: #fff;
-    position: relative;
-  }
-  .lp-cp-wrap .urbnmyth-product-image {
+  /* ── Product Card ── */
+  .lp-collection .urbnmyth-product-card { background: #fff; position: relative; }
+  .lp-collection .urbnmyth-product-image {
     display: block;
     position: relative;
     width: 100%;
@@ -460,8 +330,8 @@
     overflow: hidden;
     background: #eeebe7;
   }
-  .lp-cp-wrap .urbnmyth-img-primary,
-  .lp-cp-wrap .urbnmyth-img-secondary {
+  .lp-collection .urbnmyth-img-primary,
+  .lp-collection .urbnmyth-img-secondary {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -469,295 +339,333 @@
     object-fit: cover;
     transition: opacity 0.6s ease;
   }
-  .lp-cp-wrap .urbnmyth-img-primary {
-    opacity: 1;
-    z-index: 1;
+  .lp-collection .urbnmyth-img-primary  { opacity: 1; z-index: 1; }
+  .lp-collection .urbnmyth-img-secondary { opacity: 0; z-index: 2; }
+  .lp-collection .urbnmyth-product-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: #eeebe7; color: #ccc;
   }
-  .lp-cp-wrap .urbnmyth-img-secondary {
-    opacity: 0;
-    z-index: 2;
-  }
-  .lp-cp-wrap .urbnmyth-product-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eeebe7;
-    color: #ccc;
-  }
-  .lp-cp-wrap .urbnmyth-badge-tl {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    background: #fff;
-    color: #1a1a1a;
+  .lp-collection .urbnmyth-badge-tl {
+    position: absolute; top: 14px; left: 14px;
+    background: #fff; color: #1a1a1a;
     padding: 4px 10px;
-    font-size: 0.7rem;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    z-index: 10;
-    line-height: 1;
-    white-space: nowrap;
+    font-size: 0.7rem; letter-spacing: 0.2px;
+    z-index: 10; line-height: 1; white-space: nowrap;
   }
-  .lp-cp-wrap .urbnmyth-right-actions {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 20;
+  .lp-collection .urbnmyth-right-actions {
+    position: absolute; top: 14px; right: 14px;
+    display: flex; flex-direction: column; gap: 10px; z-index: 20;
   }
-  .lp-cp-wrap .urbnmyth-circle-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #fff;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #1a1a1a;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    flex-shrink: 0;
-    position: relative;
-    opacity: 0;
-    transform: translateX(14px);
-    pointer-events: none;
+  .lp-collection .urbnmyth-circle-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #1a1a1a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    flex-shrink: 0; position: relative;
+    opacity: 0; transform: translateX(14px); pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
   }
-  .lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn {
-    pointer-events: auto;
-  }
-  .lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) {
-    opacity: 1;
-    transform: translateX(0);
-    transition-delay: 0ms;
-  }
-  .lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) {
-    opacity: 1;
-    transform: translateX(0);
-    transition-delay: 80ms;
-  }
-  .lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) {
-    opacity: 1;
-    transform: translateX(0);
-    transition-delay: 160ms;
-  }
-  .lp-cp-wrap .urbnmyth-circle-btn:hover {
-    background: #f2f2f2;
-  }
-  .lp-cp-wrap .urbnmyth-circle-btn::before {
+  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn { pointer-events: auto; }
+  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0ms; }
+  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 80ms; }
+  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 160ms; }
+  .lp-collection .urbnmyth-circle-btn:hover { background: #f2f2f2; }
+  .lp-collection .urbnmyth-circle-btn::before {
     content: attr(data-tooltip);
-    position: absolute;
-    right: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%);
-    background: #1a1a1a;
-    color: #fff;
-    padding: 4px 9px;
-    font-size: 0.68rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.15s ease;
-    font-family: inherit;
+    position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
+    background: #1a1a1a; color: #fff;
+    padding: 4px 9px; font-size: 0.68rem; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
   }
-  .lp-cp-wrap .urbnmyth-circle-btn:hover::before {
-    opacity: 1;
-  }
-  .lp-cp-wrap .urbnmyth-hover-add {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 15;
+  .lp-collection .urbnmyth-circle-btn:hover::before { opacity: 1; }
+  .lp-collection .urbnmyth-hover-add {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 15;
     transform: translateY(100%);
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 8px 8px;
+    padding: 8px;
   }
-  .lp-cp-wrap .urbnmyth-product-card:hover .urbnmyth-hover-add {
-    transform: translateY(0);
+  .lp-collection .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
+  .lp-collection .urbnmyth-hover-add-btn {
+    width: 100%; padding: 16px 20px;
+    background: #fff; color: #1a1a1a; border: none;
+    font-size: 0.85rem; cursor: pointer; letter-spacing: 0.2px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; transition: background 0.2s ease;
   }
-  .lp-cp-wrap .urbnmyth-hover-add-btn {
-    width: 100%;
-    padding: 16px 20px;
-    background: #fff;
-    color: #1a1a1a;
-    border: none;
-    font-size: 0.85rem;
-    font-weight: 400;
-    cursor: pointer;
-    letter-spacing: 0.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: inherit;
-    transition: background 0.2s ease;
+  .lp-collection .urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
+  .lp-collection .urbnmyth-hover-add-btn:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; }
+  .lp-collection .urbnmyth-product-info { padding: 12px 2px 18px; }
+  .lp-collection .urbnmyth-product-title {
+    display: block; font-size: 0.88rem; font-weight: 400;
+    margin-bottom: 5px; text-decoration: none; color: #1a1a1a;
+    line-height: 1.45; transition: opacity 0.2s;
   }
-  .lp-cp-wrap .urbnmyth-hover-add-btn:hover:not(:disabled) {
-    background: #f5f5f5;
+  .lp-collection .urbnmyth-product-title:hover { opacity: 0.6; }
+  .lp-collection .urbnmyth-product-price {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; font-size: 0.88rem; flex-wrap: wrap; color: #1a1a1a;
   }
-  .lp-cp-wrap .urbnmyth-hover-add-btn:disabled {
-    background: #f0f0f0;
-    color: #aaa;
-    cursor: not-allowed;
-  }
-  .lp-cp-wrap .urbnmyth-product-info {
-    padding: 12px 2px 18px;
-  }
-  .lp-cp-wrap .urbnmyth-product-title {
-    display: block;
-    font-size: 0.88rem;
-    font-weight: 400;
-    margin-bottom: 5px;
-    text-decoration: none;
-    color: #1a1a1a;
-    line-height: 1.45;
-    letter-spacing: 0.05px;
-    transition: opacity 0.2s;
-  }
-  .lp-cp-wrap .urbnmyth-product-title:hover {
-    opacity: 0.6;
-  }
-  .lp-cp-wrap .urbnmyth-product-price {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    font-weight: 400;
-    font-size: 0.88rem;
-    flex-wrap: wrap;
-    color: #1a1a1a;
-  }
-  .lp-cp-wrap .urbnmyth-price-sale {
-    color: #1a1a1a;
-  }
-  .lp-cp-wrap .urbnmyth-price-compare {
-    font-size: 0.82rem;
-    color: #999;
-    text-decoration: line-through;
-  }
-  .lp-cp-wrap .urbnmyth-price-regular {
-    color: #1a1a1a;
-  }
-  .lp-cp-wrap .urbnmyth-sizes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-  .lp-cp-wrap .urbnmyth-size-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 32px;
-    padding: 4px 8px;
-    font-size: 0.68rem;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
-    border: 1px solid #1a1a1a;
-    color: #1a1a1a;
-    background: #fff;
-    line-height: 1;
-    cursor: pointer;
-    font-family: inherit;
+  .lp-collection .urbnmyth-price-compare { font-size: 0.82rem; color: #999; text-decoration: line-through; }
+  .lp-collection .urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
+  .lp-collection .urbnmyth-size-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 32px; padding: 4px 8px;
+    font-size: 0.68rem; letter-spacing: 0.2px; text-transform: uppercase;
+    border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
+    line-height: 1; cursor: pointer; font-family: inherit;
     transition: background 0.18s ease, color 0.18s ease;
   }
-  .lp-cp-wrap .urbnmyth-size-chip:hover,
-  .lp-cp-wrap .urbnmyth-size-chip.urbnmyth-size-selected {
-    background: #1a1a1a;
-    color: #fff;
+  .lp-collection .urbnmyth-size-chip:hover,
+  .lp-collection .urbnmyth-size-chip.urbnmyth-size-selected { background: #1a1a1a; color: #fff; }
+  .lp-collection .urbnmyth-size-chip.urbnmyth-size-sold { border-color: #ddd; color: #bbb; cursor: default; }
+  .lp-collection .urbnmyth-color-swatches { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .lp-collection .urbnmyth-color-dot {
+    display: inline-block; width: 16px; height: 16px;
+    border-radius: 50%; border: 1px solid rgba(0,0,0,0.15);
+    cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .lp-cp-wrap .urbnmyth-size-chip.urbnmyth-size-sold {
-    border-color: #ddd;
-    color: #bbb;
-    cursor: default;
-  }
-  .lp-cp-wrap .urbnmyth-color-swatches {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 8px;
-  }
-  .lp-cp-wrap .urbnmyth-color-dot {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .lp-cp-wrap .urbnmyth-color-dot:hover {
+  .lp-collection .urbnmyth-color-dot:hover {
     transform: scale(1.2);
     box-shadow: 0 0 0 2px #fff, 0 0 0 3px #111;
   }
 
-  /* ── Mobile ──────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .lp-cp__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+  /* ── Community ── */
+  .lp-community {
+    position: relative;
+    overflow: hidden;
+    height: clamp(380px, 55vw, 600px);
+    display: flex;
+    align-items: stretch;
+  }
+  .lp-community__bg {
+    position: absolute;
+    inset: 0;
+  }
+  .lp-community__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.05);
+    transition: transform 8s ease-in-out;
+  }
+  .lp-community.lp-revealed .lp-community__img { transform: scale(1); }
 
-    .lp-cp {
-      padding: 24px 0;
-    }
-    .lp-cp:first-child {
-      padding-top: 20px;
-    }
-    .lp-cp__title {
-      font-size: 1.2rem;
-    }
-    .lp-editorial {
-      height: clamp(220px, 60vw, 360px);
-    }
+  /* white fog + blur on the left half */
+  .lp-community__fog-left {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 50%;
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.82) 50%,
+      rgba(255,255,255,0.0) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+  /* dark overlay on the right half */
+  .lp-community__dark-right {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 50%;
+    background: linear-gradient(
+      90deg,
+      rgba(0,0,0,0.0) 0%,
+      rgba(0,0,0,0.6) 100%
+    );
+    z-index: 1;
   }
 
+  /* two-column layout */
+  .lp-community__layout {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    align-items: center;
+  }
+  .lp-community__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 40px;
+  }
+  .lp-community__right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 40px;
+  }
+
+  /* Coming Soon text on left */
+  .lp-community__cs-eyebrow {
+    font-family: 'CoolveticaCram', sans-serif !important;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.45);
+    margin: 0 0 16px;
+  }
+  .lp-community__cs-heading {
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* WhatsApp content on right */
+  .lp-community__content {
+    position: relative;
+    z-index: 2;
+    text-align: left;
+    color: #fff;
+    padding: 0;
+    max-width: 480px;
+  }
+  .lp-community__eyebrow {
+    font-family: 'CoolveticaCram', sans-serif !important;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin: 0 0 18px;
+  }
+  .lp-community__heading {
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 0.94;
+    text-transform: uppercase;
+    margin: 0 0 36px;
+  }
+  .lp-community__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 36px;
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.75);
+    font-family: 'CoolveticaCram', sans-serif !important;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .lp-community__btn:hover { background: #fff; color: #111; border-color: #fff; }
+  .lp-community__btn-icon { flex-shrink: 0; width: 18px; height: 18px; }
+
+  /* ── Footer Image ── */
+  .lp-footer-img { overflow: hidden; line-height: 0; }
+  .lp-footer-img__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: scale(1.04);
+    transition: transform 8s ease-in-out;
+  }
+  .lp-footer-img.lp-revealed .lp-footer-img__img { transform: scale(1); }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .lp-collection { padding: 36px 0; }
+    .lp-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .lp-community { height: auto; min-height: clamp(480px, 100vw, 600px); }
+    .lp-community__layout {
+      flex-direction: column;
+      padding: 56px 24px;
+      gap: 48px;
+      align-items: flex-start;
+    }
+    .lp-community__left { padding-right: 0; }
+    .lp-community__right { padding-left: 0; }
+    .lp-community__fog-left {
+      right: 0;
+      bottom: 55%;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.96) 0%,
+        rgba(255,255,255,0.82) 60%,
+        rgba(255,255,255,0.0) 100%
+      );
+    }
+    .lp-community__dark-right {
+      left: 0;
+      top: 45%;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.0) 0%,
+        rgba(0,0,0,0.6) 100%
+      );
+    }
+  }
   @media (max-width: 580px) {
-    .lp-cp {
-      padding: 18px 0;
-    }
-    .lp-cp__grid {
-      gap: 10px;
-    }
+    .lp-container { padding: 0 16px; }
+    .lp-collection { padding: 28px 0; }
+    .lp-collection__grid { gap: 10px; }
+    .lp-community__layout { padding: 44px 20px; gap: 36px; }
   }
 </style>
 
+<!--
+  ═══════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════
+-->
 <script>
-  /* ── Card JS for landing page ── */
+  /* ── Scroll Reveal ── */
+  (function () {
+    var els = document.querySelectorAll('.lp-reveal');
+    if (!els.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('lp-revealed'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('lp-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    els.forEach(function (el) { observer.observe(el); });
+  })();
+
+  /* ── Product Card Interactions ── */
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.lp-cp-wrap .urbnmyth-product-image').forEach(function (imageWrap) {
-      const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
-      if (rawImages.length < 2) return;
-      const primary = imageWrap.querySelector('.urbnmyth-img-primary');
-      const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+    document.querySelectorAll('.lp-collection .urbnmyth-product-image').forEach(function (wrap) {
+      var imgs = (wrap.dataset.images || '').split('||').filter(Boolean);
+      if (imgs.length < 2) return;
+      var primary = wrap.querySelector('.urbnmyth-img-primary');
+      var secondary = wrap.querySelector('.urbnmyth-img-secondary');
       if (!primary || !secondary) return;
-      rawImages.forEach(function (src) {
-        const img = new Image();
-        img.src = src;
-      });
-      imageWrap.addEventListener('mouseenter', function () {
-        primary.style.opacity = '0';
-        secondary.style.opacity = '1';
-      });
-      imageWrap.addEventListener('mouseleave', function () {
-        primary.style.opacity = '1';
-        secondary.style.opacity = '0';
-      });
+      imgs.forEach(function (src) { new Image().src = src; });
+      wrap.addEventListener('mouseenter', function () { primary.style.opacity = '0'; secondary.style.opacity = '1'; });
+      wrap.addEventListener('mouseleave', function () { primary.style.opacity = '1'; secondary.style.opacity = '0'; });
     });
 
     try {
-      const wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+      var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
       wl.forEach(function (id) {
-        document
-          .querySelectorAll('.lp-cp-wrap .urbnmyth-wishlist-btn[data-product-id="' + id + '"]')
-          .forEach(function (btn) {
-            btn.classList.add('urbnmyth-wishlisted');
-          });
+        document.querySelectorAll('.lp-collection .urbnmyth-wishlist-btn[data-product-id="' + id + '"]')
+          .forEach(function (btn) { btn.classList.add('urbnmyth-wishlisted'); });
       });
     } catch (e) {}
   });
@@ -765,190 +673,76 @@
   function urbnmythSelectSize(event, btn) {
     event.preventDefault();
     event.stopPropagation();
-    const sizeContainer = btn.closest('.urbnmyth-sizes');
-    if (sizeContainer)
-      sizeContainer.querySelectorAll('.urbnmyth-size-chip').forEach(function (chip) {
-        chip.classList.remove('urbnmyth-size-selected');
-      });
+    var container = btn.closest('.urbnmyth-sizes');
+    if (container) container.querySelectorAll('.urbnmyth-size-chip').forEach(function (c) { c.classList.remove('urbnmyth-size-selected'); });
     btn.classList.add('urbnmyth-size-selected');
-    const card = btn.closest('.urbnmyth-product-card');
+    var card = btn.closest('.urbnmyth-product-card');
     if (card && btn.dataset.variantId) {
-      const quickAddBtn = card.querySelector('.urbnmyth-hover-add-btn');
-      if (quickAddBtn)
-        quickAddBtn.setAttribute('onclick', "urbnmythQuickAddToCart(event, '" + btn.dataset.variantId + "', this)");
+      var addBtn = card.querySelector('.urbnmyth-hover-add-btn');
+      if (addBtn) addBtn.setAttribute('onclick', "urbnmythQuickAddToCart(event,'" + btn.dataset.variantId + "',this)");
     }
   }
 
   function urbnmythQuickAddToCart(event, variantId, button) {
     event.preventDefault();
     event.stopPropagation();
-    const originalHTML = button.innerHTML;
+    var orig = button.innerHTML;
     button.innerHTML = 'Adding...';
     button.disabled = true;
-    const formData = new FormData();
-    formData.append('id', variantId);
-    formData.append('quantity', 1);
-    fetch('/cart/add.js', { method: 'POST', body: formData })
-      .then((r) => r.json())
-      .then(() => {
-        button.innerHTML = 'Added!';
-        setTimeout(() => {
-          window.location.href = '/cart';
-        }, 600);
-      })
-      .catch(() => {
+    var fd = new FormData();
+    fd.append('id', variantId);
+    fd.append('quantity', 1);
+    fetch('/cart/add.js', { method: 'POST', body: fd })
+      .then(function (r) { return r.json(); })
+      .then(function () { button.innerHTML = 'Added!'; setTimeout(function () { window.location.href = '/cart'; }, 600); })
+      .catch(function () {
         button.innerHTML = 'Error — Try Again';
         button.style.background = '#dc3545';
         button.style.color = '#fff';
-        setTimeout(() => {
-          button.innerHTML = originalHTML;
-          button.disabled = false;
-          button.style.background = '';
-          button.style.color = '';
-        }, 2000);
+        setTimeout(function () { button.innerHTML = orig; button.disabled = false; button.style.background = ''; button.style.color = ''; }, 2000);
       });
   }
 
   function urbnmythManualCycle(event, btn) {
     event.preventDefault();
     event.stopPropagation();
-    const imageWrap = btn.closest('.urbnmyth-product-image');
-    if (!imageWrap) return;
-    const rawImages = (imageWrap.dataset.images || '').split('||').filter(Boolean);
-    if (rawImages.length < 2) return;
-    const primary = imageWrap.querySelector('.urbnmyth-img-primary');
-    const secondary = imageWrap.querySelector('.urbnmyth-img-secondary');
+    var wrap = btn.closest('.urbnmyth-product-image');
+    if (!wrap) return;
+    var imgs = (wrap.dataset.images || '').split('||').filter(Boolean);
+    if (imgs.length < 2) return;
+    var primary = wrap.querySelector('.urbnmyth-img-primary');
+    var secondary = wrap.querySelector('.urbnmyth-img-secondary');
     if (!primary || !secondary) return;
-    let idx = parseInt(imageWrap.dataset.manualIndex || '1', 10);
-    idx = (idx + 1) % rawImages.length;
-    imageWrap.dataset.manualIndex = idx;
-    secondary.src = rawImages[idx];
+    var idx = (parseInt(wrap.dataset.manualIndex || '1', 10) + 1) % imgs.length;
+    wrap.dataset.manualIndex = idx;
+    secondary.src = imgs[idx];
     primary.style.opacity = '0';
     secondary.style.opacity = '1';
   }
 
-  function urbnmythQuickView(event, productUrl) {
+  function urbnmythQuickView(event, url) {
     event.preventDefault();
     event.stopPropagation();
-    window.open(productUrl + '?quickview=1', '_blank', 'noopener');
+    window.open(url + '?quickview=1', '_blank', 'noopener');
   }
 
   function urbnmythToggleWishlist(event, productId, btn) {
     event.preventDefault();
     event.stopPropagation();
     try {
-      let wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
-      const idx = wl.indexOf(String(productId));
-      if (idx === -1) {
-        wl.push(String(productId));
-        btn.classList.add('urbnmyth-wishlisted');
-      } else {
-        wl.splice(idx, 1);
-        btn.classList.remove('urbnmyth-wishlisted');
-      }
+      var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
+      var idx = wl.indexOf(String(productId));
+      if (idx === -1) { wl.push(String(productId)); btn.classList.add('urbnmyth-wishlisted'); }
+      else            { wl.splice(idx, 1);           btn.classList.remove('urbnmyth-wishlisted'); }
       localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
     } catch (e) {}
   }
 </script>
 
-<!--
-  ═══════════════════════════════════════════════════
-       SCHEMA
-  ═══════════════════════════════════════════════════
--->
 {% schema %}
 {
   "name": "Landing Page",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Hero"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero Background Image"
-    },
-    {
-      "type": "text",
-      "id": "hero_youtube_id",
-      "label": "YouTube Video ID (overrides image)",
-      "info": "e.g. dQw4w9WgXcQ — autoplay, muted, looped"
-    },
-    {
-      "type": "text",
-      "id": "hero_eyebrow",
-      "label": "Eyebrow Text",
-      "default": "New Collection 2024"
-    },
-    {
-      "type": "text",
-      "id": "hero_heading",
-      "label": "Heading",
-      "default": "Born On The Streets"
-    },
-    {
-      "type": "textarea",
-      "id": "hero_subheading",
-      "label": "Subheading",
-      "default": "Premium streetwear crafted for those who live outside the ordinary."
-    },
-    {
-      "type": "text",
-      "id": "hero_btn1_text",
-      "label": "Primary Button Text",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "hero_btn1_link",
-      "label": "Primary Button Link"
-    },
-    {
-      "type": "text",
-      "id": "hero_btn2_text",
-      "label": "Secondary Button Text",
-      "default": "Our Story"
-    },
-    {
-      "type": "url",
-      "id": "hero_btn2_link",
-      "label": "Secondary Button Link"
-    },
-    {
-      "type": "header",
-      "content": "Editorial Break (between Collection 2 & 3)"
-    },
-    {
-      "type": "image_picker",
-      "id": "editorial_image",
-      "label": "Editorial Background Image"
-    },
-    {
-      "type": "text",
-      "id": "editorial_eyebrow",
-      "label": "Editorial Eyebrow Text"
-    },
-    {
-      "type": "text",
-      "id": "editorial_heading",
-      "label": "Editorial Heading"
-    },
-    {
-      "type": "text",
-      "id": "editorial_btn_text",
-      "label": "Editorial Button Text"
-    },
-    {
-      "type": "url",
-      "id": "editorial_btn_link",
-      "label": "Editorial Button Link"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Landing Page"
-    }
-  ]
+  "settings": [],
+  "presets": [{ "name": "Landing Page" }]
 }
 {% endschema %}

@@ -59,7 +59,7 @@
   var img = new Image();
   img.crossOrigin = 'anonymous';
   img.src = '{{ "um-logo.jpg" | asset_url }}';
-  img.onerror = dismiss;
+  img.onerror = function () { dismissSilently(); };
 
   img.onload = function () {
     /* Sample logo pixels into an offscreen canvas */
@@ -67,7 +67,13 @@
     off.width = off.height = SIZE;
     var oCtx = off.getContext('2d');
     oCtx.drawImage(img, 0, 0, SIZE, SIZE);
-    var src = oCtx.getImageData(0, 0, SIZE, SIZE).data;
+    var src;
+    try {
+      src = oCtx.getImageData(0, 0, SIZE, SIZE).data;
+    } catch (e) {
+      dismissSilently();
+      return;
+    }
 
     /* Collect logo pixels grouped by column (x) */
     var cols = [];
@@ -100,7 +106,7 @@
       goDown = !goDown;
     }
     var N = pathX.length;
-    if (N === 0) { dismiss(); return; }
+    if (N === 0) { dismissSilently(); return; }
 
     /* Initialise pixel buffer: dark bg + white logo */
     var imgData = ctx.createImageData(SIZE, SIZE);
@@ -189,6 +195,11 @@
   /* ── Dismiss ──────────────────────────────── */
   function dismiss() {
     try { localStorage.setItem('urbnmyth_ls_seen', '1'); } catch(e) {}
+    dismissSilently();
+  }
+
+  /* Remove overlay without marking as seen (used for error/timeout fallback) */
+  function dismissSilently() {
     document.body.classList.remove('ls-active');
     overlay.classList.add('ls-fade');
     setTimeout(function () {
@@ -198,8 +209,8 @@
     }, 700);
   }
 
-  /* Safety: always dismiss within 7s */
-  setTimeout(dismiss, 7000);
+  /* Safety: always dismiss within 7s (without marking seen, so it retries next load) */
+  setTimeout(dismissSilently, 7000);
 })();
 </script>
 {% endunless %}
