@@ -23,6 +23,12 @@
     width: min(52vw, 52vh);
     height: min(52vw, 52vh);
   }
+  @media (max-width: 768px) {
+    #ls-canvas {
+      width: min(78vw, 48vh);
+      height: min(78vw, 48vh);
+    }
+  }
   body.ls-active {
     overflow: hidden;
   }
@@ -32,11 +38,14 @@
 (function () {
   var overlay = document.getElementById('ls-overlay');
 
-  /* Show only once per user — skip immediately on return visits */
-  if (localStorage.getItem('urbnmyth_ls_seen')) {
+  /* Show once per browser session — resets when tab/browser is closed */
+  if (sessionStorage.getItem('urbnmyth_ls_v2')) {
+    window.lsDone = true;
     if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
     return;
   }
+
+  window.lsDone = false;
 
   var canvas  = document.getElementById('ls-canvas');
   var ctx     = canvas.getContext('2d', { willReadFrequently: true });
@@ -194,7 +203,7 @@
 
   /* ── Dismiss ──────────────────────────────── */
   function dismiss() {
-    try { localStorage.setItem('urbnmyth_ls_seen', '1'); } catch(e) {}
+    try { sessionStorage.setItem('urbnmyth_ls_v2', '1'); } catch(e) {}
     dismissSilently();
   }
 
@@ -206,6 +215,8 @@
       if (overlay && overlay.parentNode) {
         overlay.parentNode.removeChild(overlay);
       }
+      window.lsDone = true;
+      window.dispatchEvent(new CustomEvent('ls:done'));
     }, 700);
   }
 

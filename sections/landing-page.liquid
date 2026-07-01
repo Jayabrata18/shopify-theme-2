@@ -5,7 +5,7 @@
 -->
 <section class="lp-hero" id="lp-hero">
   <div class="lp-hero__video-wrap">
-    <video autoplay muted loop playsinline preload="metadata" class="lp-hero__video">
+    <video muted loop playsinline preload="auto" class="lp-hero__video" id="lp-hero-video">
       <source src="https://cdn.shopify.com/videos/c/o/v/7675e1f01f07408b893a3691d38f087b.mp4" type="video/mp4">
     </video>
     <div class="lp-hero__overlay"></div>
@@ -36,13 +36,13 @@
       <div class="lp-container">
         <div class="lp-collection__head">
           <h2 class="lp-collection__title">{{ collection.title }}</h2>
-          <a href="{{ collection.url }}" class="lp-collection__see-more">
+          {% comment %} <a href="{{ collection.url }}" class="lp-collection__see-more">
             See More
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12"/>
               <polyline points="12 5 19 12 12 19"/>
             </svg>
-          </a>
+          </a> {% endcomment %}
         </div>
         <div class="lp-collection__grid">
           {%- for product in collection.products limit: 4 -%}
@@ -69,24 +69,29 @@
     {%- if lp_col_count == 1 -%}
       <section class="lp-community lp-reveal" id="lp-community">
         <div class="lp-community__bg">
-          <img
-            src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_081506_345983b4-1a13-45d7-8ec3-b7f4ed1f89bc.png?v=1782837020"
-            alt="Community"
-            class="lp-community__img"
-            width="2000"
-            height="1125"
-            loading="lazy"
-          >
+          <picture>
+            <source
+              media="(max-width: 900px)"
+              srcset="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/Coming_Soon_1.jpg?v=1782930471"
+            >
+            <img
+              src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/Coming_Soon_1.jpg?v=1782930471"
+              alt="Coming Soon"
+              class="lp-community__img"
+              width="2000"
+              height="1125"
+              loading="lazy"
+            >
+          </picture>
         </div>
         <div class="lp-community__fog-left"></div>
         <div class="lp-community__dark-right"></div>
         <div class="lp-community__layout">
-          <div class="lp-community__left">
-            <p class="lp-community__cs-eyebrow">What's Next</p>
-            <h2 class="lp-community__cs-heading">Coming<br>Soon</h2>
-          </div>
+          <div class="lp-community__left"></div>
           <div class="lp-community__right">
             <div class="lp-community__content">
+              <p class="lp-community__cs-eyebrow">What's Next</p>
+              <h2 class="lp-community__cs-heading">Coming Soon</h2>
               <p class="lp-community__eyebrow">Stay updated on upcoming designs</p>
               <h2 class="lp-community__heading">Join Us On WhatsApp</h2>
               <a href="#" class="lp-community__btn" target="_blank" rel="noopener">
@@ -156,9 +161,8 @@
     min-height: 580px;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    padding-bottom: 14vh;
   }
   .lp-hero__video-wrap {
     position: absolute;
@@ -300,6 +304,7 @@
     text-decoration: none;
     padding: 13px 36px;
     border: 1.5px solid #111;
+    border-radius: 6px;
     transition: background 0.22s, color 0.22s;
   }
   .lp-collection__see-more-btn:hover { background: #111; color: #fff; }
@@ -321,7 +326,7 @@
   }
 
   /* ── Product Card ── */
-  .lp-collection .urbnmyth-product-card { background: #fff; position: relative; }
+  .lp-collection .urbnmyth-product-card { background: #fff; position: relative; border-radius: 10px; overflow: hidden; }
   .lp-collection .urbnmyth-product-image {
     display: block;
     position: relative;
@@ -329,6 +334,7 @@
     aspect-ratio: 3 / 4;
     overflow: hidden;
     background: #eeebe7;
+    border-radius: 8px;
   }
   .lp-collection .urbnmyth-img-primary,
   .lp-collection .urbnmyth-img-secondary {
@@ -352,6 +358,7 @@
     padding: 4px 10px;
     font-size: 0.7rem; letter-spacing: 0.2px;
     z-index: 10; line-height: 1; white-space: nowrap;
+    border-radius: 4px;
   }
   .lp-collection .urbnmyth-right-actions {
     position: absolute; top: 14px; right: 14px;
@@ -390,6 +397,7 @@
   .lp-collection .urbnmyth-hover-add-btn {
     width: 100%; padding: 16px 20px;
     background: #fff; color: #1a1a1a; border: none;
+    border-radius: 6px;
     font-size: 0.85rem; cursor: pointer; letter-spacing: 0.2px;
     display: flex; align-items: center; justify-content: center;
     font-family: inherit; transition: background 0.2s ease;
@@ -414,6 +422,7 @@
     min-width: 32px; padding: 4px 8px;
     font-size: 0.68rem; letter-spacing: 0.2px; text-transform: uppercase;
     border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
+    border-radius: 4px;
     line-height: 1; cursor: pointer; font-family: inherit;
     transition: background 0.18s ease, color 0.18s ease;
   }
@@ -435,37 +444,19 @@
   .lp-community {
     position: relative;
     overflow: hidden;
-    height: clamp(380px, 55vw, 600px);
-    display: flex;
-    align-items: stretch;
   }
   .lp-community__bg {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    line-height: 0;
   }
   .lp-community__img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transform: scale(1.05);
-    transition: transform 8s ease-in-out;
+    height: auto;
+    display: block;
   }
-  .lp-community.lp-revealed .lp-community__img { transform: scale(1); }
 
-  /* white fog + blur on the left half */
   .lp-community__fog-left {
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 50%;
-    background: linear-gradient(
-      90deg,
-      rgba(255,255,255,0.96) 0%,
-      rgba(255,255,255,0.82) 50%,
-      rgba(255,255,255,0.0) 100%
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 1;
+    display: none;
   }
   /* dark overlay on the right half */
   .lp-community__dark-right {
@@ -474,19 +465,17 @@
     background: linear-gradient(
       90deg,
       rgba(0,0,0,0.0) 0%,
-      rgba(0,0,0,0.6) 100%
+      rgba(0,0,0,0.3) 100%
     );
     z-index: 1;
   }
 
-  /* two-column layout */
+  /* two-column layout overlaid on the image */
   .lp-community__layout {
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 2;
     display: flex;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
     padding: 0 48px;
     align-items: center;
   }
@@ -494,35 +483,37 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding-right: 40px;
+    text-align: center;
   }
   .lp-community__right {
     flex: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 48px;
   }
 
-  /* Coming Soon text on left */
+  /* Coming Soon text — centered over jacket */
   .lp-community__cs-eyebrow {
     font-family: 'CoolveticaCram', sans-serif !important;
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(0,0,0,0.45);
-    margin: 0 0 16px;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 10px;
   }
   .lp-community__cs-heading {
     font-family: 'CoolveticaDisplay', sans-serif !important;
-    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-size: clamp(2rem, 5vw, 4.2rem);
     font-weight: 900;
-    line-height: 0.88;
+    line-height: 0.94;
     text-transform: uppercase;
-    color: #111;
-    margin: 0;
+    color: #fff;
+    margin: 0 0 28px;
     letter-spacing: -0.01em;
+    white-space: nowrap;
   }
 
   /* WhatsApp content on right */
@@ -558,6 +549,7 @@
     background: transparent;
     color: #fff;
     border: 1.5px solid rgba(255,255,255,0.75);
+    border-radius: 6px;
     font-family: 'CoolveticaCram', sans-serif !important;
     font-size: 0.78rem;
     letter-spacing: 0.14em;
@@ -583,7 +575,6 @@
   @media (max-width: 900px) {
     .lp-collection { padding: 36px 0; }
     .lp-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .lp-community { height: auto; min-height: clamp(480px, 100vw, 600px); }
     .lp-community__layout {
       flex-direction: column;
       padding: 56px 24px;
@@ -592,23 +583,14 @@
     }
     .lp-community__left { padding-right: 0; }
     .lp-community__right { padding-left: 0; }
-    .lp-community__fog-left {
-      right: 0;
-      bottom: 55%;
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.96) 0%,
-        rgba(255,255,255,0.82) 60%,
-        rgba(255,255,255,0.0) 100%
-      );
-    }
+    .lp-community__fog-left { display: none; }
     .lp-community__dark-right {
       left: 0;
       top: 45%;
       background: linear-gradient(
         180deg,
         rgba(0,0,0,0.0) 0%,
-        rgba(0,0,0,0.6) 100%
+        rgba(0,0,0,0.35) 100%
       );
     }
   }
@@ -626,6 +608,23 @@
   ═══════════════════════════════════════════════════
 -->
 <script>
+  /* ── Hero Video: play after loading screen dismisses ── */
+  (function () {
+    var video = document.getElementById('lp-hero-video');
+    if (!video) return;
+
+    function playVideo() {
+      video.play().catch(function () {});
+    }
+
+    if (window.lsDone) {
+      playVideo();
+    } else {
+      window.addEventListener('ls:done', playVideo, { once: true });
+      setTimeout(playVideo, 8000);
+    }
+  })();
+
   /* ── Scroll Reveal ── */
   (function () {
     var els = document.querySelectorAll('.lp-reveal');
