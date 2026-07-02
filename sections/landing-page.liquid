@@ -72,7 +72,7 @@
           <picture>
             <source
               media="(max-width: 900px)"
-              srcset="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/Coming_Soon_1.jpg?v=1782930471"
+              srcset="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/Coming_Soon_Mobile.jpg?v=1782929680"
             >
             <img
               src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/Coming_Soon_1.jpg?v=1782930471"
@@ -90,11 +90,11 @@
           <div class="lp-community__left"></div>
           <div class="lp-community__right">
             <div class="lp-community__content">
-              <p class="lp-community__cs-eyebrow">What's Next</p>
-              <h2 class="lp-community__cs-heading">Coming Soon</h2>
-              <p class="lp-community__eyebrow">Stay updated on upcoming designs</p>
-              <h2 class="lp-community__heading">Join Us On WhatsApp</h2>
-              <a href="#" class="lp-community__btn" target="_blank" rel="noopener">
+              <p class="lp-community__cs-eyebrow lp-fade-up">What's Next</p>
+              <h2 class="lp-community__cs-heading" data-lp-split>Coming Soon</h2>
+              <p class="lp-community__eyebrow lp-fade-up">Stay updated on upcoming designs</p>
+              <h2 class="lp-community__heading" data-lp-split>Join Us On WhatsApp</h2>
+              <a href="#" class="lp-community__btn lp-fade-up" target="_blank" rel="noopener">
                 <svg class="lp-community__btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
@@ -115,7 +115,7 @@
        FOOTER IMAGE
   ═══════════════════════════════════════════════════
 -->
-<div class="lp-footer-img lp-reveal" id="lp-footer-img">
+{% comment %} <div class="lp-footer-img lp-reveal" id="lp-footer-img">
   <img
     src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_063024_d6a0d67b-3d6a-4d3a-aa22-9f5586bd2dcc.png?v=1782837020"
     alt="URBNMYTH"
@@ -124,7 +124,7 @@
     height="1125"
     loading="lazy"
   >
-</div>
+</div> {% endcomment %}
 
 <!--
   ═══════════════════════════════════════════════════
@@ -230,7 +230,7 @@
     animation: lpScrollPulse 1.9s ease-in-out infinite;
   }
   .lp-hero__scroll-label {
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
   }
   @keyframes lpScrollPulse {
     0%, 100% { opacity: 0.35; transform: scaleY(1); }
@@ -268,7 +268,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -295,7 +295,7 @@
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -492,12 +492,12 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 48px;
+    padding-left: 140px;
   }
 
   /* Coming Soon text — centered over jacket */
   .lp-community__cs-eyebrow {
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
     font-size: 0.6rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
@@ -505,14 +505,14 @@
     margin: 0 0 10px;
   }
   .lp-community__cs-heading {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
-    font-size: clamp(2rem, 5vw, 4.2rem);
-    font-weight: 900;
-    line-height: 0.94;
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: clamp(1.8rem, 4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1;
     text-transform: uppercase;
     color: #fff;
     margin: 0 0 28px;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.06em;
     white-space: nowrap;
   }
 
@@ -526,7 +526,7 @@
     max-width: 480px;
   }
   .lp-community__eyebrow {
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
     font-size: 0.72rem;
     letter-spacing: 0.24em;
     text-transform: uppercase;
@@ -534,12 +534,14 @@
     margin: 0 0 18px;
   }
   .lp-community__heading {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
-    font-size: clamp(2rem, 5vw, 4.2rem);
-    font-weight: 900;
-    line-height: 0.94;
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: clamp(1.8rem, 4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
     margin: 0 0 36px;
+    white-space: nowrap;
   }
   .lp-community__btn {
     display: inline-flex;
@@ -550,7 +552,7 @@
     color: #fff;
     border: 1.5px solid rgba(255,255,255,0.75);
     border-radius: 6px;
-    font-family: 'CoolveticaCram', sans-serif !important;
+    font-family: 'CoolveticaCond', sans-serif !important;
     font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -575,23 +577,87 @@
   @media (max-width: 900px) {
     .lp-collection { padding: 36px 0; }
     .lp-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    /* Community mobile: content anchored bottom-center, over darker gradient */
     .lp-community__layout {
       flex-direction: column;
-      padding: 56px 24px;
-      gap: 48px;
-      align-items: flex-start;
+      padding: 24px 24px 44px;
+      gap: 0;
+      align-items: center;
+      justify-content: flex-end;
     }
-    .lp-community__left { padding-right: 0; }
-    .lp-community__right { padding-left: 0; }
+    .lp-community__left { display: none; }
+    .lp-community__right {
+      flex: initial;
+      padding-left: 0;
+      justify-content: center;
+      width: 100%;
+    }
+    .lp-community__content {
+      max-width: 100%;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lp-community__cs-heading,
+    .lp-community__heading {
+      white-space: normal;
+      font-size: clamp(2rem, 8.4vw, 3rem);
+      letter-spacing: 0.04em;
+      margin: 0 0 22px;
+      text-align: center;
+    }
+    .lp-community__heading { margin-bottom: 28px; }
     .lp-community__fog-left { display: none; }
     .lp-community__dark-right {
       left: 0;
-      top: 45%;
+      top: 40%;
       background: linear-gradient(
         180deg,
         rgba(0,0,0,0.0) 0%,
-        rgba(0,0,0,0.35) 100%
+        rgba(0,0,0,0.55) 60%,
+        rgba(0,0,0,0.75) 100%
       );
+    }
+
+    /* ── Scroll-linked letter reveal ── */
+    .lp-letter-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      line-height: 1.05;
+      padding-bottom: 0.08em;
+    }
+    .lp-letter {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.45s ease-out;
+      will-change: transform, opacity;
+    }
+    .lp-letter.is-in {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .lp-word { display: inline-block; }
+    .lp-space { display: inline-block; width: 0.28em; }
+
+    /* Staggered fade-up for eyebrows and button */
+    .lp-fade-up {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, opacity;
+    }
+    .lp-fade-up.is-in {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   @media (max-width: 580px) {
@@ -645,6 +711,80 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     els.forEach(function (el) { observer.observe(el); });
+  })();
+
+  /* ── Community: mobile scroll-linked letter reveal ── */
+  (function () {
+    var section = document.getElementById('lp-community');
+    if (!section) return;
+    if (window.matchMedia('(min-width: 901px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    /* Split target headings into per-letter masked spans */
+    section.querySelectorAll('[data-lp-split]').forEach(function (el) {
+      var words = el.textContent.trim().split(/\s+/);
+      var html = words.map(function (word, wi) {
+        var letters = word.split('').map(function (ch) {
+          return '<span class="lp-letter-mask"><span class="lp-letter">' + ch + '</span></span>';
+        }).join('');
+        return '<span class="lp-word">' + letters + '</span>' +
+               (wi < words.length - 1 ? '<span class="lp-space"></span>' : '');
+      }).join('');
+      el.innerHTML = html;
+    });
+
+    var letters = Array.prototype.slice.call(section.querySelectorAll('.lp-letter'));
+    var fades   = Array.prototype.slice.call(section.querySelectorAll('.lp-fade-up'));
+    var N = letters.length;
+    var M = fades.length;
+    if (!N && !M) return;
+
+    var ticking = false;
+
+    function apply() {
+      ticking = false;
+      var rect = section.getBoundingClientRect();
+      var vh   = window.innerHeight || document.documentElement.clientHeight;
+
+      /* Progress: 0 when section top is at 90% of viewport, 1 when 70% scrolled through */
+      var enter  = vh * 0.90;
+      var finish = -rect.height * 0.15;
+      var range  = enter - finish;
+      var p      = (enter - rect.top) / range;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
+
+      /* Letters ride the scroll — reveal count = progress * (N + padding) */
+      var revealCount = Math.floor(p * (N + 10));
+      for (var i = 0; i < N; i++) {
+        var want = i < revealCount;
+        if (letters[i]._on !== want) {
+          letters[i].classList.toggle('is-in', want);
+          letters[i]._on = want;
+        }
+      }
+
+      /* Eyebrows + button — staggered thresholds across scroll range */
+      for (var j = 0; j < M; j++) {
+        var t = 0.12 + (j / Math.max(M - 1, 1)) * 0.55;
+        var showFade = p >= t;
+        if (fades[j]._on !== showFade) {
+          fades[j].classList.toggle('is-in', showFade);
+          fades[j]._on = showFade;
+        }
+      }
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(apply);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    apply();
   })();
 
   /* ── Product Card Interactions ── */

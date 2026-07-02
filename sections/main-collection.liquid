@@ -162,8 +162,6 @@
 
     {% endpaginate %}
 
-    {% render 'founder-story-whatsapp' %}
-
     <!-- Collection Description -->
     {% if collection.description != blank %}
       <div class="col-desc">
@@ -336,6 +334,8 @@
 .urbnmyth-product-card {
   background: #fff;
   position: relative;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* ─── Product Image ─────────────────────────────────────── */
@@ -346,6 +346,7 @@
   aspect-ratio: 3 / 4;
   overflow: hidden;
   background: #eeebe7;
+  border-radius: 8px;
 }
 .urbnmyth-img-primary,
 .urbnmyth-img-secondary {
@@ -432,12 +433,13 @@
   position: absolute; bottom: 0; left: 0; right: 0;
   z-index: 15; transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  padding-bottom: 12px;
+  padding: 8px;
 }
 .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
 .urbnmyth-hover-add-btn {
   width: 100%; padding: 16px 20px;
   background: #fff; color: #1a1a1a; border: none;
+  border-radius: 6px;
   font-size: 0.85rem; font-weight: 400;
   cursor: pointer; letter-spacing: 0.2px;
   display: flex; align-items: center; justify-content: center;
@@ -470,6 +472,7 @@
   font-size: 0.68rem; font-weight: 400;
   letter-spacing: 0.2px; text-transform: uppercase;
   border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
+  border-radius: 4px;
   line-height: 1; cursor: pointer; font-family: inherit;
   transition: background 0.18s ease, color 0.18s ease;
 }

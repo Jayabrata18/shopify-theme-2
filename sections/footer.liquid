@@ -1,8 +1,14 @@
 {%- style -%}
   .ft {
-    background: #0d0d0d;
-    color: #fff;
+    background: #fff;
+    color: #111;
     font-family: var(--font-body, sans-serif);
+    position: relative;
+  }
+
+  .ft-main {
+    position: relative;
+    z-index: 2;
   }
 
   /* -- Top grid ------------------------------------- */
@@ -21,23 +27,23 @@
     .ft-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr 1.5fr; gap: 2rem; }
   }
 
-  /* -- Column headings ----------------------------------------------------------------------------------- */
+  /* -- Column headings ---------------------------------- */
   .ft-col__heading {
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: 1rem;
+    letter-spacing: 0;
     text-transform: uppercase;
-    font-weight: 800;
-    color: #fff;
+    font-weight: 400;
+    color: #111;
     margin: 0 0 1.25rem;
   }
 
-  /* -- Contact column -------------------------------------------------------------------------------------- */
+  /* -- Contact column ----------------------------------- */
   .ft-logo {
     display: block;
     height: 1.6rem;
     width: auto;
     margin-bottom: 1.5rem;
-    filter: brightness(0) invert(1);
   }
 
   .ft-contact-list {
@@ -59,12 +65,12 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(0,0,0,0.14);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: rgba(255,255,255,0.55);
+    color: rgba(0,0,0,0.6);
   }
 
   .ft-contact-item__icon svg {
@@ -73,16 +79,21 @@
   }
 
   .ft-contact-item__body strong {
+    font-family: 'CoolveticaRg', sans-serif !important;
     display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 1px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: #111;
+    margin-bottom: 2px;
   }
 
   .ft-contact-item__body span {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.35);
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(0,0,0,0.55);
   }
 
   .ft-contact-item a {
@@ -90,14 +101,15 @@
     color: inherit;
   }
 
-  /* -- Social icons -------------------------------------------------------------------------------------------- */
+  /* -- Social icons ------------------------------------ */
   .ft-social-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.28em;
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: 0.9rem;
+    letter-spacing: 0;
     text-transform: uppercase;
-    font-weight: 700;
-    color: rgba(255,255,255,0.38);
-    margin-bottom: 0.75rem;
+    font-weight: 400;
+    color: #111;
+    margin-bottom: 0.85rem;
   }
 
   .ft-social-icons {
@@ -113,8 +125,8 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.55);
+    background: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.65);
     text-decoration: none;
     transition: background 0.25s, color 0.25s, transform 0.2s;
   }
@@ -130,7 +142,7 @@
     height: 0.85rem;
   }
 
-  /* -- Link columns -------------------------------------------------------------------------------------------- */
+  /* -- Link columns ------------------------------------- */
   .ft-links {
     list-style: none;
     padding: 0;
@@ -141,8 +153,10 @@
   }
 
   .ft-links a {
-    font-size: 0.875rem;
-    color: rgba(255,255,255,0.5);
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    color: rgba(0,0,0,0.6);
     text-decoration: none;
     transition: color 0.2s;
     display: inline-flex;
@@ -150,22 +164,25 @@
     gap: 0.3rem;
   }
 
-  .ft-links a:hover { color: #fff; }
+  .ft-links a:hover { color: #111; }
 
-  /* -- Newsletter column ----------------------------------------------------------------------------- */
+  /* -- Newsletter column -------------------------------- */
   .ft-newsletter__heading {
-    font-family: var(--font-heading, serif);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 0.5rem;
-    line-height: 1.3;
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: #111;
+    margin: 0 0 0.6rem;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .ft-newsletter__sub {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.38);
-    line-height: 1.6;
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.85rem;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.55;
     margin: 0 0 1.25rem;
   }
 
@@ -177,41 +194,50 @@
 
   .ft-newsletter__input {
     width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 0.75rem 1rem;
-    font-size: 0.8rem;
-    color: #fff;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    color: #111;
     outline: none;
-    font-family: inherit;
+    font-family: 'CoolveticaCond', sans-serif !important;
+    letter-spacing: 0.01em;
     box-sizing: border-box;
+    border-radius: 6px;
     transition: border-color 0.25s;
   }
 
-  .ft-newsletter__input::placeholder { color: rgba(255,255,255,0.25); }
-  .ft-newsletter__input:focus { border-color: rgba(255,255,255,0.4); }
+  .ft-newsletter__input::placeholder { color: rgba(0,0,0,0.35); }
+  .ft-newsletter__input:focus { border-color: rgba(0,0,0,0.5); }
 
   .ft-newsletter__btn {
     width: 100%;
-    background: #fff;
-    color: #111;
+    background: #111;
+    color: #fff;
     border: none;
-    padding: 0.75rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
+    padding: 0.85rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     cursor: pointer;
-    font-family: inherit;
-    transition: background 0.25s, color 0.25s;
+    font-family: 'CoolveticaRg', sans-serif !important;
+    border-radius: 6px;
+    transition: background 0.25s;
   }
 
-  .ft-newsletter__btn:hover { background: #e0e0e0; }
+  .ft-newsletter__btn:hover { background: #333; }
 
-  /* -- Bottom bar -------------------------------------------------------------------------------------------------- */
+  /* -- Bottom bar (black, sits after brand image) -------- */
   .ft-bottom {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 1.25rem 1.25rem;
+    background: #0d0d0d;
+    color: #fff;
+  }
+
+  .ft-bottom__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -220,7 +246,7 @@
   }
 
   @media (min-width: 640px) {
-    .ft-bottom {
+    .ft-bottom__inner {
       flex-direction: row;
       justify-content: space-between;
       text-align: left;
@@ -228,8 +254,12 @@
   }
 
   .ft-bottom__copy {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.2);
+    font-family: 'CoolveticaRg', sans-serif !important;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #fff;
     margin: 0;
   }
 
@@ -241,17 +271,21 @@
     justify-content: center;
   }
 
-  .ft-bottom__links a {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.2);
+  .ft-bottom__links a,
+  .ft-bottom__made {
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(255,255,255,0.65);
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .ft-bottom__links a:hover { color: rgba(255,255,255,0.5); }
+  .ft-bottom__links a:hover { color: #fff; }
 
   .ft-bottom__sep {
-    color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.25);
     font-size: 0.6rem;
   }
 
@@ -263,7 +297,40 @@
     border-radius: 50%;
   }
 
-  /* -- Mobile tweaks ----------------------------------------------------------------------------------------- */
+  /* -- Brand image with soft white fade at top ---------- */
+  .ft-brand {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+    line-height: 0;
+    margin-top: -1px;
+  }
+
+  .ft-brand::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(
+      to bottom,
+      #fff 0%,
+      rgba(255,255,255,0.85) 30%,
+      rgba(255,255,255,0.4) 65%,
+      rgba(255,255,255,0) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ft-brand__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* -- Mobile tweaks ------------------------------------ */
   @media (max-width: 639px) {
     .ft-grid > *:nth-child(5) { grid-column: span 1; }
   }
@@ -276,155 +343,164 @@
 {%- endstyle -%}
 
 <footer class="ft">
-  <div class="ft-grid">
+  <div class="ft-main">
+    <div class="ft-grid">
 
-    <!-- 1. Contact + Social -->
-    <div class="ft-col">
-      <img
-        src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/URBNMYTH_word_mark_1.svg?v=1778783944"
-        alt="{{ shop.name }}"
-        class="ft-logo"
-        width="160"
-        height="40"
-        loading="lazy"
-      >
-
-      <p class="ft-col__heading">Need Help</p>
-
-      <ul class="ft-contact-list">
-        <li class="ft-contact-item">
-          <span class="ft-contact-item__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </span>
-          <div class="ft-contact-item__body">
-            <a href="https://wa.me/919999999999"><strong>Whatsapp Us</strong></a>
-            <span>Mon-Fri: 11am-6:00pm</span>
-          </div>
-        </li>
-        <li class="ft-contact-item">
-          <span class="ft-contact-item__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          </span>
-          <div class="ft-contact-item__body">
-            <a href="mailto:hello@urbnmyth.in"><strong>Email Us</strong></a>
-            <span>Mon-Fri: 11am-6:00pm</span>
-          </div>
-        </li>
-      </ul>
-
-      <p class="ft-social-label">Connect With Us</p>
-      <div class="ft-social-icons">
-        <!-- Facebook -->
-        <a href="https://facebook.com" title="Facebook" aria-label="Facebook" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-        </a>
-        <!-- WhatsApp -->
-        <a href="https://wa.me/919999999999" title="WhatsApp" aria-label="WhatsApp" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
-        <!-- Instagram -->
-        <a href="https://instagram.com" title="Instagram" aria-label="Instagram" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </a>
-        <!-- YouTube -->
-        <a href="https://youtube.com" title="YouTube" aria-label="YouTube" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        </a>
-        <!-- Pinterest -->
-        <a href="https://pinterest.com" title="Pinterest" aria-label="Pinterest" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-        </a>
-        <!-- X / Twitter -->
-        <a href="https://x.com" title="X (Twitter)" aria-label="X" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.26 5.632 5.903-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <!-- LinkedIn -->
-        <a href="https://linkedin.com" title="LinkedIn" aria-label="LinkedIn" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- 2. Shop (dynamic collections) -->
-    <div class="ft-col">
-      <p class="ft-col__heading">Shop</p>
-      <ul class="ft-links">
-        {%- for collection in collections -%}
-          {%- unless collection.handle == 'all' -%}
-            <li>
-              <a href="{{ collection.url }}">{{ collection.title }}</a>
-            </li>
-          {%- endunless -%}
-        {%- endfor -%}
-        <li><a href="{{ routes.root_url }}blogs/news">Blogs</a></li>
-      </ul>
-    </div>
-
-    <!-- 3. Customer Support -->
-    <div class="ft-col">
-      <p class="ft-col__heading">Customer Support</p>
-      <ul class="ft-links">
-        <li><a href="{{ routes.account_url }}">My Account</a></li>
-        <li><a href="{{ routes.root_url }}policies/refund-policy">Return Policy</a></li>
-        <li><a href="{{ routes.root_url }}policies/refund-policy">Return / Exchange</a></li>
-        <li><a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a></li>
-        <li><a href="{{ routes.root_url }}pages/track-order">Track Order</a></li>
-      </ul>
-    </div>
-
-    <!-- 4. Help -->
-    <div class="ft-col">
-      <p class="ft-col__heading">Help</p>
-      <ul class="ft-links">
-        <li><a href="{{ routes.root_url }}pages/faq">FAQ</a></li>
-        <li><a href="{{ routes.root_url }}pages/contact">Contact Us</a></li>
-        <li><a href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a></li>
-        <li><a href="{{ routes.root_url }}policies/terms-of-service">Terms of Services</a></li>
-        <li><a href="{{ routes.root_url }}pages/size-guide">Size Guide</a></li>
-      </ul>
-    </div>
-
-    <!-- 5. Newsletter -->
-    <div class="ft-col">
-      <p class="ft-newsletter__heading">Let's Get in Touch</p>
-      <p class="ft-newsletter__sub">Sign up for early access to fresh collections, hot deals &amp; insider perks.</p>
-      <form
-        class="ft-newsletter__form"
-        action="/contact#contact_form"
-        method="post"
-        accept-charset="UTF-8"
-      >
-        <input type="hidden" name="form_type" value="customer">
-        <input type="hidden" name="utf8" value="&#x2713;">
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <input
-          type="email"
-          name="contact[email]"
-          class="ft-newsletter__input"
-          placeholder="Email address..."
-          required
-          autocomplete="email"
+      <!-- 1. Contact + Social -->
+      <div class="ft-col">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/URBNMYTH_word_mark_1.svg?v=1778783944"
+          alt="{{ shop.name }}"
+          class="ft-logo"
+          width="160"
+          height="40"
+          loading="lazy"
         >
-        <button type="submit" class="ft-newsletter__btn">Subscribe</button>
-      </form>
-    </div>
 
+        <p class="ft-col__heading">Need Help</p>
+
+        <ul class="ft-contact-list">
+          <li class="ft-contact-item">
+            <span class="ft-contact-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </span>
+            <div class="ft-contact-item__body">
+              <a href="https://wa.me/919999999999"><strong>Whatsapp Us</strong></a>
+              <span>Mon-Fri: 11am-6:00pm</span>
+            </div>
+          </li>
+          <li class="ft-contact-item">
+            <span class="ft-contact-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </span>
+            <div class="ft-contact-item__body">
+              <a href="mailto:hello@urbnmyth.in"><strong>Email Us</strong></a>
+              <span>Mon-Fri: 11am-6:00pm</span>
+            </div>
+          </li>
+        </ul>
+
+        <p class="ft-social-label">Connect With Us</p>
+        <div class="ft-social-icons">
+          <a href="https://facebook.com" title="Facebook" aria-label="Facebook" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          </a>
+          <a href="https://wa.me/919999999999" title="WhatsApp" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="https://instagram.com" title="Instagram" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://youtube.com" title="YouTube" aria-label="YouTube" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+          <a href="https://pinterest.com" title="Pinterest" aria-label="Pinterest" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          </a>
+          <a href="https://x.com" title="X (Twitter)" aria-label="X" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.26 5.632 5.903-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://linkedin.com" title="LinkedIn" aria-label="LinkedIn" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Shop (dynamic collections) -->
+      <div class="ft-col">
+        <p class="ft-col__heading">Shop</p>
+        <ul class="ft-links">
+          {%- for collection in collections -%}
+            {%- unless collection.handle == 'all' -%}
+              <li>
+                <a href="{{ collection.url }}">{{ collection.title }}</a>
+              </li>
+            {%- endunless -%}
+          {%- endfor -%}
+          <li><a href="{{ routes.root_url }}blogs/news">Blogs</a></li>
+        </ul>
+      </div>
+
+      <!-- 3. Customer Support -->
+      <div class="ft-col">
+        <p class="ft-col__heading">Customer Support</p>
+        <ul class="ft-links">
+          <li><a href="{{ routes.account_url }}">My Account</a></li>
+          <li><a href="{{ routes.root_url }}policies/refund-policy">Return Policy</a></li>
+          <li><a href="{{ routes.root_url }}policies/refund-policy">Return / Exchange</a></li>
+          <li><a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a></li>
+          <li><a href="{{ routes.root_url }}pages/track-order">Track Order</a></li>
+        </ul>
+      </div>
+
+      <!-- 4. Help -->
+      <div class="ft-col">
+        <p class="ft-col__heading">Help</p>
+        <ul class="ft-links">
+          <li><a href="{{ routes.root_url }}pages/faq">FAQ</a></li>
+          <li><a href="{{ routes.root_url }}pages/contact">Contact Us</a></li>
+          <li><a href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a></li>
+          <li><a href="{{ routes.root_url }}policies/terms-of-service">Terms of Services</a></li>
+          <li><a href="{{ routes.root_url }}pages/size-guide">Size Guide</a></li>
+        </ul>
+      </div>
+
+      <!-- 5. Newsletter -->
+      <div class="ft-col">
+        <p class="ft-newsletter__heading">Let's Get in Touch</p>
+        <p class="ft-newsletter__sub">Sign up for early access to fresh collections, hot deals &amp; insider perks.</p>
+        <form
+          class="ft-newsletter__form"
+          action="/contact#contact_form"
+          method="post"
+          accept-charset="UTF-8"
+        >
+          <input type="hidden" name="form_type" value="customer">
+          <input type="hidden" name="utf8" value="&#x2713;">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input
+            type="email"
+            name="contact[email]"
+            class="ft-newsletter__input"
+            placeholder="Email address..."
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="ft-newsletter__btn">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
   </div>
 
-  <!-- Bottom bar -->
+  <!-- Brand image (fades in softly from the white content above) -->
+  <div class="ft-brand">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_063024_d6a0d67b-3d6a-4d3a-aa22-9f5586bd2dcc.png?v=1782837020"
+      alt="URBNMYTH"
+      class="ft-brand__img"
+      width="2000"
+      height="1125"
+      loading="lazy"
+    >
+  </div>
+
+  <!-- Bottom bar (below the image, black bg) -->
   <div class="ft-bottom">
-    <p class="ft-bottom__copy">
-      &copy; {{ 'now' | date: '%Y' }} URBNMYTH.IN &mdash; All Rights Reserved.
-    </p>
-    <div class="ft-bottom__links">
-      <span class="ft-bottom__dot"></span>
-      <span style="color:rgba(255,255,255,0.2);font-size:0.72rem;">Made in India</span>
-      <span class="ft-bottom__sep">&middot;</span>
-      <a href="{{ routes.root_url }}policies/privacy-policy">Privacy</a>
-      <span class="ft-bottom__sep">&middot;</span>
-      <a href="{{ routes.root_url }}policies/terms-of-service">Terms</a>
-      <span class="ft-bottom__sep">&middot;</span>
-      <a href="{{ routes.root_url }}policies/shipping-policy">Shipping</a>
+    <div class="ft-bottom__inner">
+      <p class="ft-bottom__copy">
+        &copy; {{ 'now' | date: '%Y' }} URBNMYTH.IN &mdash; All Rights Reserved.
+      </p>
+      <div class="ft-bottom__links">
+        <span class="ft-bottom__dot"></span>
+        <span class="ft-bottom__made">Made in India</span>
+        <span class="ft-bottom__sep">&middot;</span>
+        <a href="{{ routes.root_url }}policies/privacy-policy">Privacy</a>
+        <span class="ft-bottom__sep">&middot;</span>
+        <a href="{{ routes.root_url }}policies/terms-of-service">Terms</a>
+        <span class="ft-bottom__sep">&middot;</span>
+        <a href="{{ routes.root_url }}policies/shipping-policy">Shipping</a>
+      </div>
     </div>
   </div>
 </footer>

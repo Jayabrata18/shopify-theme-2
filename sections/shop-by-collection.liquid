@@ -1,0 +1,355 @@
+{% comment %}
+  Section: shop-by-collection
+  A curated, editorial-style grid for the /collections listing page.
+{% endcomment %}
+
+<section class="sbc" id="sbc-{{ section.id }}">
+  <div class="sbc__wrap">
+
+    <header class="sbc__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="sbc__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="sbc__title">{{ section.settings.heading | default: 'Shop By Collection' }}</h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="sbc__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- assign col_count = 0 -%}
+    <div class="sbc__grid">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
+          {%- assign col_count = col_count | plus: 1 -%}
+          <a href="{{ collection.url }}"
+             class="sbc__tile"
+             style="--i: {{ col_count }};"
+             aria-label="Shop {{ collection.title | escape }}">
+
+            <div class="sbc__tile-media">
+              {%- if collection.image != blank -%}
+                <img
+                  src="{{ collection.image | image_url: width: 900 }}"
+                  alt="{{ collection.title | escape }}"
+                  class="sbc__tile-img"
+                  loading="lazy"
+                  width="900"
+                  height="{{ 900 | divided_by: collection.image.aspect_ratio | round }}"
+                >
+              {%- elsif collection.products.first.featured_image != blank -%}
+                <img
+                  src="{{ collection.products.first.featured_image | image_url: width: 900 }}"
+                  alt="{{ collection.title | escape }}"
+                  class="sbc__tile-img"
+                  loading="lazy"
+                  width="900"
+                  height="1200"
+                >
+              {%- else -%}
+                <div class="sbc__tile-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="42" height="42">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+              {%- endif -%}
+              <div class="sbc__tile-veil"></div>
+            </div>
+
+            <div class="sbc__tile-body">
+              <div class="sbc__tile-top">
+                <span class="sbc__tile-eyebrow">Collection</span>
+                <span class="sbc__tile-count">
+                  {{ collection.products_count }} {% if collection.products_count == 1 %}item{% else %}items{% endif %}
+                </span>
+              </div>
+              <h2 class="sbc__tile-title">{{ collection.title }}</h2>
+              <span class="sbc__tile-cta">
+                Shop Now
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+
+      {%- if col_count == 0 -%}
+        <p class="sbc__empty">No collections to display yet.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sbc {
+    background: #fff;
+    padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 8vw, 120px);
+    color: #111;
+  }
+  .sbc__wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 40px);
+  }
+
+  /* ── Heading ── */
+  .sbc__head {
+    text-align: center;
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .sbc__eyebrow {
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.85rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #C41E1E;
+    margin: 0 0 14px;
+  }
+  .sbc__title {
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(2.2rem, 5.5vw, 4.4rem);
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+  }
+  .sbc__sub {
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    color: rgba(0,0,0,0.55);
+    max-width: 640px;
+    margin: 16px auto 0;
+    line-height: 1.55;
+  }
+
+  /* ── Grid ── */
+  .sbc__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 28px);
+  }
+  .sbc__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: rgba(0,0,0,0.5);
+    padding: 60px 0;
+  }
+
+  /* ── Tile ── */
+  .sbc__tile {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    isolation: isolate;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: sbcRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 1) * 60ms + 100ms);
+    box-shadow: 0 12px 32px -18px rgba(0,0,0,0.35);
+    transition: box-shadow 0.35s ease, transform 0.35s ease;
+  }
+  .sbc__tile:hover {
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+  }
+  @keyframes sbcRise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sbc__tile { opacity: 1; transform: none; animation: none; }
+    .sbc__tile:hover { transform: none; }
+  }
+
+  /* Media wrapper */
+  .sbc__tile-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  .sbc__tile-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s ease;
+    filter: saturate(1.02);
+  }
+  .sbc__tile:hover .sbc__tile-img {
+    transform: scale(1.08);
+    filter: saturate(1.1) contrast(1.02);
+  }
+  .sbc__tile-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    color: rgba(255,255,255,0.25);
+  }
+  .sbc__tile-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0)   0%,
+      rgba(0,0,0,0.1) 40%,
+      rgba(0,0,0,0.65) 78%,
+      rgba(0,0,0,0.85) 100%
+    );
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+  .sbc__tile:hover .sbc__tile-veil {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.35) 45%,
+      rgba(0,0,0,0.8)  78%,
+      rgba(0,0,0,0.92) 100%
+    );
+  }
+
+  /* Body — bottom aligned over image */
+  .sbc__tile-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: clamp(18px, 2.4vw, 28px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+  }
+  .sbc__tile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+  }
+  .sbc__tile-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sbc__tile-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: #fff;
+  }
+  .sbc__tile-count {
+    color: rgba(255,255,255,0.6);
+  }
+  .sbc__tile-title {
+    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 4px 0 6px;
+    color: #fff;
+  }
+  .sbc__tile-cta {
+    font-family: 'CoolveticaCond', sans-serif !important;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 4px;
+    transform: translateY(6px);
+    opacity: 0.85;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.3s ease;
+  }
+  .sbc__tile-cta svg {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .sbc__tile:hover .sbc__tile-cta {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .sbc__tile:hover .sbc__tile-cta svg {
+    transform: translateX(6px);
+  }
+
+  /* ── Feature the first tile: taller ── */
+  @media (min-width: 900px) {
+    .sbc__grid > .sbc__tile:first-child {
+      grid-row: span 2;
+    }
+    .sbc__grid > .sbc__tile:first-child .sbc__tile-media {
+      aspect-ratio: 4 / 8.4;
+    }
+    .sbc__grid > .sbc__tile:first-child .sbc__tile-title {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .sbc__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .sbc__grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .sbc__tile-media {
+      aspect-ratio: 4 / 3.4;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Shop By Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop By Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Curated drops, seasonal edits, and signature staples."
+    }
+  ],
+  "presets": [{ "name": "Shop By Collection" }]
+}
+{% endschema %}
