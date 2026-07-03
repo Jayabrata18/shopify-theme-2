@@ -1,6 +1,8 @@
 {% assign product_form_id = 'product-form-' | append: section.id %}
 {%- assign sv = product.selected_or_first_available_variant -%}
 
+{%- render 'urbnmyth-product-card-styles' -%}
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
@@ -1072,138 +1074,31 @@
     margin-top: 28px;
   }
 
-  .pdp-product-grid .urbnmyth-product-card {
-    background: #fff;
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .pdp-product-grid .urbnmyth-product-image {
-    display: block;
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background: #eeebe7;
-    border-radius: 8px;
-  }
-  .pdp-product-grid .urbnmyth-img-primary,
-  .pdp-product-grid .urbnmyth-img-secondary {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.6s ease;
-  }
-  .pdp-product-grid .urbnmyth-img-primary  { opacity: 1; z-index: 1; }
-  .pdp-product-grid .urbnmyth-img-secondary { opacity: 0; z-index: 2; }
-  .pdp-product-grid .urbnmyth-product-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    background: #eeebe7; color: #ccc;
-  }
-  .pdp-product-grid .urbnmyth-badge-tl {
-    position: absolute; top: 14px; left: 14px;
-    background: #fff; color: #1a1a1a;
-    padding: 4px 10px;
-    font-size: 0.7rem; letter-spacing: 0.2px;
-    z-index: 10; line-height: 1; white-space: nowrap;
-    border-radius: 4px;
-  }
-  .pdp-product-grid .urbnmyth-right-actions {
-    position: absolute; top: 14px; right: 14px;
-    display: flex; flex-direction: column; gap: 10px; z-index: 20;
-  }
-  .pdp-product-grid .urbnmyth-circle-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: #fff; border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: #1a1a1a;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    flex-shrink: 0; position: relative;
-    opacity: 0; transform: translateX(14px); pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
-  }
-  .pdp-product-grid .urbnmyth-product-card:hover .urbnmyth-circle-btn { pointer-events: auto; }
-  .pdp-product-grid .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0ms; }
-  .pdp-product-grid .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 80ms; }
-  .pdp-product-grid .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 160ms; }
-  .pdp-product-grid .urbnmyth-circle-btn:hover { background: #f2f2f2; }
-  .pdp-product-grid .urbnmyth-circle-btn::before {
-    content: attr(data-tooltip);
-    position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
-    background: #1a1a1a; color: #fff;
-    padding: 4px 9px; font-size: 0.68rem; white-space: nowrap;
-    border-radius: 4px;
-    opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
-  }
-  .pdp-product-grid .urbnmyth-circle-btn:hover::before { opacity: 1; }
-  .pdp-product-grid .urbnmyth-hover-add {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 15;
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 8px;
-  }
-  .pdp-product-grid .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
+  /* Layout, hover, action & swatch styles come from the shared snippet
+     'urbnmyth-product-card-styles' rendered at the top of this section.
+     Below: PDP-only typography overrides (uppercase title, Coolvetica fonts,
+     slightly roomier padding). */
   .pdp-product-grid .urbnmyth-hover-add-btn {
-    width: 100%; padding: 14px 20px;
-    background: #fff; color: #1a1a1a; border: none;
-    border-radius: 6px;
+    padding: 14px 20px;
     font-family: 'CoolveticaRg', sans-serif !important;
-    font-size: 0.85rem; cursor: pointer; letter-spacing: 0.2px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s ease;
   }
-  .pdp-product-grid .urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
-  .pdp-product-grid .urbnmyth-hover-add-btn:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; }
   .pdp-product-grid .urbnmyth-product-info { padding: 14px 4px 20px; }
   .pdp-product-grid .urbnmyth-product-title {
-    display: block;
     font-family: 'CoolveticaRg', sans-serif !important;
-    font-size: 0.95rem; font-weight: 400;
-    margin-bottom: 6px; text-decoration: none; color: #1a1a1a;
-    line-height: 1.4; text-transform: uppercase;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    text-transform: uppercase;
     letter-spacing: 0.02em;
-    transition: opacity 0.2s;
   }
-  .pdp-product-grid .urbnmyth-product-title:hover { opacity: 0.6; }
   .pdp-product-grid .urbnmyth-product-price {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 10px;
     font-family: 'CoolveticaCond', sans-serif !important;
-    font-size: 0.9rem; flex-wrap: wrap; color: #1a1a1a;
+    font-size: 0.9rem;
   }
-  .pdp-product-grid .urbnmyth-price-compare {
-    font-size: 0.82rem; color: #999; text-decoration: line-through;
-  }
-  .pdp-product-grid .urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
   .pdp-product-grid .urbnmyth-size-chip {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-width: 32px; padding: 4px 8px;
     font-family: 'CoolveticaCond', sans-serif !important;
-    font-size: 0.7rem; letter-spacing: 0.2px; text-transform: uppercase;
-    border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
-    border-radius: 4px;
-    line-height: 1; cursor: pointer;
-    transition: background 0.18s ease, color 0.18s ease;
+    font-size: 0.7rem;
   }
-  .pdp-product-grid .urbnmyth-size-chip:hover,
-  .pdp-product-grid .urbnmyth-size-chip.urbnmyth-size-selected {
-    background: #1a1a1a; color: #fff;
-  }
-  .pdp-product-grid .urbnmyth-size-chip.urbnmyth-size-sold {
-    border-color: #ddd; color: #bbb; cursor: default;
-  }
-  .pdp-product-grid .urbnmyth-color-swatches {
-    display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px;
-  }
-  .pdp-product-grid .urbnmyth-color-dot {
-    display: inline-block; width: 16px; height: 16px;
-    border-radius: 50%; border: 1px solid rgba(0,0,0,0.15);
-    cursor: pointer; transition: transform 0.15s ease;
-  }
-  .pdp-product-grid .urbnmyth-color-dot:hover { transform: scale(1.2); }
 
   @media (max-width: 900px) {
     .products-section { padding: 44px 16px; }

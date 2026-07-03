@@ -126,6 +126,8 @@
   >
 </div> {% endcomment %}
 
+{%- render 'urbnmyth-product-card-styles' -%}
+
 <!--
   ═══════════════════════════════════════════════════
        STYLES
@@ -323,121 +325,6 @@
   .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) { transition-delay: 350ms; }
   @media (prefers-reduced-motion: reduce) {
     .lp-collection .lp-collection__grid .urbnmyth-product-card { opacity: 1; transform: none; transition: none; }
-  }
-
-  /* ── Product Card ── */
-  .lp-collection .urbnmyth-product-card { background: #fff; position: relative; border-radius: 10px; overflow: hidden; }
-  .lp-collection .urbnmyth-product-image {
-    display: block;
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background: #eeebe7;
-    border-radius: 8px;
-  }
-  .lp-collection .urbnmyth-img-primary,
-  .lp-collection .urbnmyth-img-secondary {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.6s ease;
-  }
-  .lp-collection .urbnmyth-img-primary  { opacity: 1; z-index: 1; }
-  .lp-collection .urbnmyth-img-secondary { opacity: 0; z-index: 2; }
-  .lp-collection .urbnmyth-product-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    background: #eeebe7; color: #ccc;
-  }
-  .lp-collection .urbnmyth-badge-tl {
-    position: absolute; top: 14px; left: 14px;
-    background: #fff; color: #1a1a1a;
-    padding: 4px 10px;
-    font-size: 0.7rem; letter-spacing: 0.2px;
-    z-index: 10; line-height: 1; white-space: nowrap;
-    border-radius: 4px;
-  }
-  .lp-collection .urbnmyth-right-actions {
-    position: absolute; top: 14px; right: 14px;
-    display: flex; flex-direction: column; gap: 10px; z-index: 20;
-  }
-  .lp-collection .urbnmyth-circle-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: #fff; border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: #1a1a1a;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    flex-shrink: 0; position: relative;
-    opacity: 0; transform: translateX(14px); pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
-  }
-  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn { pointer-events: auto; }
-  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0ms; }
-  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 80ms; }
-  .lp-collection .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 160ms; }
-  .lp-collection .urbnmyth-circle-btn:hover { background: #f2f2f2; }
-  .lp-collection .urbnmyth-circle-btn::before {
-    content: attr(data-tooltip);
-    position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
-    background: #1a1a1a; color: #fff;
-    padding: 4px 9px; font-size: 0.68rem; white-space: nowrap;
-    opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
-  }
-  .lp-collection .urbnmyth-circle-btn:hover::before { opacity: 1; }
-  .lp-collection .urbnmyth-hover-add {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 15;
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 8px;
-  }
-  .lp-collection .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
-  .lp-collection .urbnmyth-hover-add-btn {
-    width: 100%; padding: 16px 20px;
-    background: #fff; color: #1a1a1a; border: none;
-    border-radius: 6px;
-    font-size: 0.85rem; cursor: pointer; letter-spacing: 0.2px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: inherit; transition: background 0.2s ease;
-  }
-  .lp-collection .urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
-  .lp-collection .urbnmyth-hover-add-btn:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; }
-  .lp-collection .urbnmyth-product-info { padding: 12px 2px 18px; }
-  .lp-collection .urbnmyth-product-title {
-    display: block; font-size: 0.88rem; font-weight: 400;
-    margin-bottom: 5px; text-decoration: none; color: #1a1a1a;
-    line-height: 1.45; transition: opacity 0.2s;
-  }
-  .lp-collection .urbnmyth-product-title:hover { opacity: 0.6; }
-  .lp-collection .urbnmyth-product-price {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 10px; font-size: 0.88rem; flex-wrap: wrap; color: #1a1a1a;
-  }
-  .lp-collection .urbnmyth-price-compare { font-size: 0.82rem; color: #999; text-decoration: line-through; }
-  .lp-collection .urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
-  .lp-collection .urbnmyth-size-chip {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-width: 32px; padding: 4px 8px;
-    font-size: 0.68rem; letter-spacing: 0.2px; text-transform: uppercase;
-    border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff;
-    border-radius: 4px;
-    line-height: 1; cursor: pointer; font-family: inherit;
-    transition: background 0.18s ease, color 0.18s ease;
-  }
-  .lp-collection .urbnmyth-size-chip:hover,
-  .lp-collection .urbnmyth-size-chip.urbnmyth-size-selected { background: #1a1a1a; color: #fff; }
-  .lp-collection .urbnmyth-size-chip.urbnmyth-size-sold { border-color: #ddd; color: #bbb; cursor: default; }
-  .lp-collection .urbnmyth-color-swatches { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-  .lp-collection .urbnmyth-color-dot {
-    display: inline-block; width: 16px; height: 16px;
-    border-radius: 50%; border: 1px solid rgba(0,0,0,0.15);
-    cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .lp-collection .urbnmyth-color-dot:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #111;
   }
 
   /* ── Community ── */

@@ -74,6 +74,99 @@
         font-display: swap;
       }
 
+      /* ══════════════════════════════════════════════════════════
+         URBNMYTH — DESIGN TOKENS
+         Single source of truth for color, type, spacing, radius,
+         shadow, motion. Consume via var(--um-*) everywhere.
+         ══════════════════════════════════════════════════════════ */
+      :root {
+        /* ── INK / neutrals ── */
+        --um-ink:        #0f0f0f;
+        --um-ink-soft:   #3a3a3a;
+        --um-muted:      #6b6b6b;
+        --um-line:       #e5e5e5;
+        --um-surface:    #ffffff;
+        --um-surface-2:  #fafafa;
+        --um-cream:      #eeebe7;
+
+        /* ── Brand ── */
+        --um-red:        #C41E1E;
+        --um-red-soft:   #d94848;
+
+        /* ── Type ── */
+        --um-font-display: 'CoolveticaDisplay', system-ui, sans-serif;
+        --um-font-body:    'CoolveticaCond',    system-ui, sans-serif;
+        --um-font-ui:      'CoolveticaRg',      system-ui, sans-serif;
+        --um-font-italic:  'CoolveticaIt',      system-ui, sans-serif;
+
+        /* ── Space (8-pt grid) ── */
+        --um-s-1: 4px;
+        --um-s-2: 8px;
+        --um-s-3: 12px;
+        --um-s-4: 16px;
+        --um-s-5: 24px;
+        --um-s-6: 32px;
+        --um-s-7: 48px;
+        --um-s-8: 64px;
+        --um-s-9: 96px;
+
+        /* ── Radii ── */
+        --um-r-1: 4px;
+        --um-r-2: 6px;
+        --um-r-3: 10px;
+        --um-r-4: 14px;
+        --um-r-5: 22px;
+        --um-r-round: 999px;
+
+        /* ── Shadow ── */
+        --um-shadow-1: 0 1px 2px rgba(15, 15, 15, 0.06);
+        --um-shadow-2: 0 6px 20px -8px rgba(15, 15, 15, 0.18);
+        --um-shadow-3: 0 20px 48px -18px rgba(15, 15, 15, 0.28);
+
+        /* ── Motion ── */
+        --um-ease:      cubic-bezier(0.22, 1, 0.36, 1);
+        --um-ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --um-dur-1: 180ms;
+        --um-dur-2: 320ms;
+        --um-dur-3: 620ms;
+
+        /* ── Focus ring (used later by :focus-visible) ── */
+        --um-focus-ring: 0 0 0 3px rgba(196, 30, 30, 0.35);
+      }
+
+      /* ══════════════════════════════════════════════════════════
+         GLOBAL INTERACTION POLISH
+         Focus, press, scroll — one place, works everywhere.
+         ══════════════════════════════════════════════════════════ */
+
+      /* ── Focus-visible ring on every interactive element ── */
+      :where(a, button, input, select, textarea, summary, [tabindex], [role="button"]):focus-visible {
+        outline: none;
+        box-shadow: var(--um-focus-ring);
+        border-radius: var(--um-r-2);
+      }
+
+      /* ── Press state: buttons compress on active ── */
+      :where(button, [role="button"], input[type="submit"], input[type="button"]):not(:disabled) {
+        transition: transform var(--um-dur-1) var(--um-ease-soft),
+                    background-color var(--um-dur-1) var(--um-ease-soft),
+                    color var(--um-dur-1) var(--um-ease-soft);
+      }
+      :where(button, [role="button"], input[type="submit"], input[type="button"]):not(:disabled):active {
+        transform: translateY(1px) scale(0.98);
+      }
+
+      /* ── Smooth in-page scroll + header-aware anchor offset ── */
+      html { scroll-behavior: smooth; }
+      section, [id] {
+        scroll-margin-top: calc(var(--header-height, 60px) + 20px);
+      }
+
+      /* ── Respect reduced-motion for scroll ── */
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+
       /* ── All text: Coolvetica Rg Cond ── */
       *, *::before, *::after {
         font-family: 'CoolveticaCond', sans-serif !important;

@@ -1,0 +1,293 @@
+{% comment %}
+  Snippet: urbnmyth-product-card-styles
+  Single source of truth for the .urbnmyth-product-card styles.
+  Render once from any section that includes 'card-product-urbnmyth':
+
+    {% render 'urbnmyth-product-card-styles' %}
+
+  Everything here is unscoped so the card looks identical anywhere
+  it's placed — landing page, collection, PDP, wishlist, search results.
+{% endcomment %}
+
+<style>
+  /* ══════════════════════════════════════════════════════════
+     URBNMYTH PRODUCT CARD — shared component styles
+     ══════════════════════════════════════════════════════════ */
+
+  /* ── Card shell ── */
+  .urbnmyth-product-card {
+    background: var(--um-surface, #fff);
+    position: relative;
+    border-radius: var(--um-r-3, 10px);
+    overflow: hidden;
+  }
+
+  /* ── Image wrap ── */
+  .urbnmyth-product-image {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--um-cream, #eeebe7);
+    border-radius: var(--um-r-2, 8px);
+  }
+
+  /* Skeleton shimmer — sits behind the image (z-index 0).
+     Once the img paints opaque pixels (z-index 1+), it visually
+     covers the shimmer — no JS state toggle required. */
+  .urbnmyth-product-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.42) 50%,
+      transparent 100%
+    );
+    animation: um-shimmer 1.6s var(--um-ease, cubic-bezier(0.22, 1, 0.36, 1)) infinite;
+    pointer-events: none;
+  }
+  @keyframes um-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .urbnmyth-product-image::before { animation: none; }
+  }
+
+  .urbnmyth-img-primary,
+  .urbnmyth-img-secondary {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity var(--um-dur-3, 0.6s) ease;
+  }
+  .urbnmyth-img-primary  { opacity: 1; z-index: 1; }
+  .urbnmyth-img-secondary { opacity: 0; z-index: 2; }
+
+  .urbnmyth-product-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--um-cream, #eeebe7);
+    color: #ccc;
+  }
+
+  /* ── Top-left badge (SALE, NEW, category) ── */
+  .urbnmyth-badge-tl {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--um-surface, #fff);
+    color: var(--um-ink, #1a1a1a);
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2px;
+    z-index: 10;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: var(--um-r-1, 4px);
+  }
+
+  /* ── Right-side action buttons (wishlist / cycle / quick view) ── */
+  .urbnmyth-right-actions {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+  }
+  .urbnmyth-circle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--um-r-round, 999px);
+    background: var(--um-surface, #fff);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--um-ink, #1a1a1a);
+    box-shadow: var(--um-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.12));
+    flex-shrink: 0;
+    position: relative;
+    opacity: 0;
+    transform: translateX(14px);
+    pointer-events: none;
+    transition:
+      opacity var(--um-dur-2, 0.3s) ease,
+      transform var(--um-dur-2, 0.3s) ease,
+      background var(--um-dur-1, 0.2s) ease;
+  }
+  .urbnmyth-product-card:hover .urbnmyth-circle-btn {
+    pointer-events: auto;
+  }
+  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) {
+    opacity: 1; transform: translateX(0); transition-delay: 0ms;
+  }
+  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) {
+    opacity: 1; transform: translateX(0); transition-delay: 80ms;
+  }
+  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) {
+    opacity: 1; transform: translateX(0); transition-delay: 160ms;
+  }
+  .urbnmyth-circle-btn:hover {
+    background: #f2f2f2;
+    transform: translateX(0) scale(1.07);
+  }
+  .urbnmyth-wishlist-btn.urbnmyth-wishlisted svg { fill: var(--um-ink, #1a1a1a); }
+
+  /* Tooltip */
+  .urbnmyth-circle-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--um-ink, #1a1a1a);
+    color: var(--um-surface, #fff);
+    padding: 4px 9px;
+    font-size: 0.68rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: var(--um-r-1, 4px);
+    transition: opacity 0.15s ease;
+    font-family: inherit;
+  }
+  .urbnmyth-circle-btn:hover::before { opacity: 1; }
+
+  /* ── Add to Cart bar (slides up from bottom on hover) ── */
+  .urbnmyth-hover-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 15;
+    transform: translateY(100%);
+    transition: transform 0.35s var(--um-ease-soft, cubic-bezier(0.25, 0.46, 0.45, 0.94));
+    padding: 8px;
+  }
+  .urbnmyth-product-card:hover .urbnmyth-hover-add { transform: translateY(0); }
+
+  .urbnmyth-hover-add-btn {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--um-surface, #fff);
+    color: var(--um-ink, #1a1a1a);
+    border: none;
+    border-radius: var(--um-r-2, 6px);
+    font-size: 0.85rem;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    transition: background var(--um-dur-1, 0.2s) ease;
+  }
+  .urbnmyth-hover-add-btn:hover:not(:disabled) { background: #f5f5f5; }
+  .urbnmyth-hover-add-btn:disabled {
+    background: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+
+  /* ── Info block (title, price, sizes, colors) ── */
+  .urbnmyth-product-info { padding: 12px 2px 18px; }
+
+  .urbnmyth-product-title {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 400;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: var(--um-ink, #1a1a1a);
+    line-height: 1.45;
+    letter-spacing: 0.05px;
+    transition: opacity var(--um-dur-1, 0.2s);
+  }
+  .urbnmyth-product-title:hover { opacity: 0.6; }
+
+  .urbnmyth-product-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    flex-wrap: wrap;
+    color: var(--um-ink, #1a1a1a);
+  }
+  .urbnmyth-price-compare {
+    font-size: 0.82rem;
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  /* ── Size chips ── */
+  .urbnmyth-sizes { display: flex; flex-wrap: wrap; gap: 5px; }
+  .urbnmyth-size-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    border: 1px solid var(--um-ink, #1a1a1a);
+    color: var(--um-ink, #1a1a1a);
+    background: var(--um-surface, #fff);
+    border-radius: var(--um-r-1, 4px);
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    transition:
+      background var(--um-dur-1, 0.18s) ease,
+      color var(--um-dur-1, 0.18s) ease;
+  }
+  .urbnmyth-size-chip:hover,
+  .urbnmyth-size-chip.urbnmyth-size-selected {
+    background: var(--um-ink, #1a1a1a);
+    color: var(--um-surface, #fff);
+  }
+  .urbnmyth-size-chip.urbnmyth-size-sold {
+    border-color: #ddd;
+    color: #bbb;
+    cursor: default;
+  }
+
+  /* ── Color swatches ── */
+  .urbnmyth-color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .urbnmyth-color-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--um-r-round, 999px);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .urbnmyth-color-dot:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px var(--um-surface, #fff), 0 0 0 3px var(--um-ink, #111);
+  }
+</style>
