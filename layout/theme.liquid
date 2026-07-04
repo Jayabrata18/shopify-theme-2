@@ -40,7 +40,7 @@
     <style>
       /* ── Coolvetica: Heavy Compressed — hero display, biggest headlines ── */
       @font-face {
-        font-family: 'CoolveticaDisplay';
+        font-family: 'CoolveticaRg';
         src: url('{{ "CoolveticaHvComp.otf" | asset_url }}') format('opentype');
         font-weight: 900;
         font-style: normal;
@@ -58,7 +58,7 @@
 
       /* ── Coolvetica Rg Cond — body text, descriptions, paragraphs, UI ── */
       @font-face {
-        font-family: 'CoolveticaCond';
+        font-family: 'CoolveticaRg';
         src: url('{{ "CoolveticaRgCond.otf" | asset_url }}') format('opentype');
         font-weight: normal;
         font-style: normal;
@@ -94,8 +94,8 @@
         --um-red-soft:   #d94848;
 
         /* ── Type ── */
-        --um-font-display: 'CoolveticaDisplay', system-ui, sans-serif;
-        --um-font-body:    'CoolveticaCond',    system-ui, sans-serif;
+        --um-font-display: 'CoolveticaRg', system-ui, sans-serif;
+        --um-font-body:    'CoolveticaRg',    system-ui, sans-serif;
         --um-font-ui:      'CoolveticaRg',      system-ui, sans-serif;
         --um-font-italic:  'CoolveticaIt',      system-ui, sans-serif;
 
@@ -169,7 +169,7 @@
 
       /* ── All text: Coolvetica Rg Cond ── */
       *, *::before, *::after {
-        font-family: 'CoolveticaCond', sans-serif !important;
+        font-family: 'CoolveticaRg', sans-serif !important;
       }
     </style>
   </head>
@@ -208,7 +208,6 @@
           headerGroupHeight += element.offsetHeight;
         }
 
-        
         // Check for transparent header special case
         if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
           headerGroupHeight += headerHeight;
@@ -262,9 +261,8 @@
       {{ content_for_layout }}
     </main>
 
-        {% section 'customer-support' %}
-        {% section 'footer' %}
-
+    {% section 'customer-support' %}
+    {% section 'footer' %}
 
     {% render 'search-modal' %}
 

@@ -5,7 +5,6 @@
 
 <section class="sbc" id="sbc-{{ section.id }}">
   <div class="sbc__wrap">
-
     <header class="sbc__head">
       {%- if section.settings.eyebrow != blank -%}
         <p class="sbc__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -21,11 +20,12 @@
       {%- for collection in collections -%}
         {%- unless collection.handle == 'all' or collection.handle == 'frontpage' -%}
           {%- assign col_count = col_count | plus: 1 -%}
-          <a href="{{ collection.url }}"
-             class="sbc__tile"
-             style="--i: {{ col_count }};"
-             aria-label="Shop {{ collection.title | escape }}">
-
+          <a
+            href="{{ collection.url }}"
+            class="sbc__tile"
+            style="--i: {{ col_count }};"
+            aria-label="Shop {{ collection.title | escape }}"
+          >
             <div class="sbc__tile-media">
               {%- if collection.image != blank -%}
                 <img
@@ -61,13 +61,23 @@
               <div class="sbc__tile-top">
                 <span class="sbc__tile-eyebrow">Collection</span>
                 <span class="sbc__tile-count">
-                  {{ collection.products_count }} {% if collection.products_count == 1 %}item{% else %}items{% endif %}
+                  {{ collection.products_count }}
+                  {% if collection.products_count == 1 %}item{% else %}items{% endif %}
                 </span>
               </div>
               <h2 class="sbc__tile-title">{{ collection.title }}</h2>
               <span class="sbc__tile-cta">
                 Shop Now
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <line x1="5" y1="12" x2="19" y2="12"/>
                   <polyline points="12 5 19 12 12 19"/>
                 </svg>
@@ -102,15 +112,15 @@
     margin-bottom: clamp(32px, 5vw, 56px);
   }
   .sbc__eyebrow {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.85rem;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #C41E1E;
+    color: #c41e1e;
     margin: 0 0 14px;
   }
   .sbc__title {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: clamp(2.2rem, 5.5vw, 4.4rem);
     font-weight: 900;
     letter-spacing: 0.01em;
@@ -120,9 +130,9 @@
     margin: 0;
   }
   .sbc__sub {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-    color: rgba(0,0,0,0.55);
+    color: rgba(0, 0, 0, 0.55);
     max-width: 640px;
     margin: 16px auto 0;
     line-height: 1.55;
@@ -137,7 +147,7 @@
   .sbc__empty {
     grid-column: 1 / -1;
     text-align: center;
-    color: rgba(0,0,0,0.5);
+    color: rgba(0, 0, 0, 0.5);
     padding: 60px 0;
   }
 
@@ -155,19 +165,28 @@
     transform: translateY(28px);
     animation: sbcRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: calc(var(--i, 1) * 60ms + 100ms);
-    box-shadow: 0 12px 32px -18px rgba(0,0,0,0.35);
+    box-shadow: 0 12px 32px -18px rgba(0, 0, 0, 0.35);
     transition: box-shadow 0.35s ease, transform 0.35s ease;
   }
   .sbc__tile:hover {
-    box-shadow: 0 20px 44px -18px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 44px -18px rgba(0, 0, 0, 0.5);
     transform: translateY(-4px);
   }
   @keyframes sbcRise {
-    to { opacity: 1; transform: translateY(0); }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .sbc__tile { opacity: 1; transform: none; animation: none; }
-    .sbc__tile:hover { transform: none; }
+    .sbc__tile {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .sbc__tile:hover {
+      transform: none;
+    }
   }
 
   /* Media wrapper */
@@ -183,8 +202,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                filter 0.5s ease;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
     filter: saturate(1.02);
   }
   .sbc__tile:hover .sbc__tile-img {
@@ -198,17 +216,17 @@
     align-items: center;
     justify-content: center;
     background: #1a1a1a;
-    color: rgba(255,255,255,0.25);
+    color: rgba(255, 255, 255, 0.25);
   }
   .sbc__tile-veil {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(0,0,0,0)   0%,
-      rgba(0,0,0,0.1) 40%,
-      rgba(0,0,0,0.65) 78%,
-      rgba(0,0,0,0.85) 100%
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.1) 40%,
+      rgba(0, 0, 0, 0.65) 78%,
+      rgba(0, 0, 0, 0.85) 100%
     );
     transition: opacity 0.4s ease;
     z-index: 1;
@@ -216,10 +234,10 @@
   .sbc__tile:hover .sbc__tile-veil {
     background: linear-gradient(
       180deg,
-      rgba(0,0,0,0.15) 0%,
-      rgba(0,0,0,0.35) 45%,
-      rgba(0,0,0,0.8)  78%,
-      rgba(0,0,0,0.92) 100%
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      rgba(0, 0, 0, 0.8) 78%,
+      rgba(0, 0, 0, 0.92) 100%
     );
   }
 
@@ -240,11 +258,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.72);
+    color: rgba(255, 255, 255, 0.72);
   }
   .sbc__tile-eyebrow {
     display: inline-flex;
@@ -259,10 +277,10 @@
     background: #fff;
   }
   .sbc__tile-count {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
   }
   .sbc__tile-title {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: clamp(1.4rem, 2.4vw, 2rem);
     font-weight: 900;
     letter-spacing: 0.01em;
@@ -272,7 +290,7 @@
     color: #fff;
   }
   .sbc__tile-cta {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -283,8 +301,7 @@
     padding-top: 4px;
     transform: translateY(6px);
     opacity: 0.85;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
   }
   .sbc__tile-cta svg {
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);

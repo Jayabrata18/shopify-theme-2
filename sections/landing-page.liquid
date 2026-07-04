@@ -15,10 +15,12 @@
     <h1 class="lp-hero__heading">It's Only You Against You</h1>
   </div>
 
-  {% comment %} <div class="lp-hero__scroll-hint">
-    <span class="lp-hero__scroll-line"></span>
-    <span class="lp-hero__scroll-label">Scroll</span>
-  </div> {% endcomment %}
+  {% comment %}
+    <div class="lp-hero__scroll-hint">
+      <span class="lp-hero__scroll-line"></span>
+      <span class="lp-hero__scroll-label">Scroll</span>
+    </div>
+  {% endcomment %}
 </section>
 
 <!--
@@ -36,13 +38,15 @@
       <div class="lp-container">
         <div class="lp-collection__head">
           <h2 class="lp-collection__title">{{ collection.title }}</h2>
-          {% comment %} <a href="{{ collection.url }}" class="lp-collection__see-more">
-            See More
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a> {% endcomment %}
+          {% comment %}
+            <a href="{{ collection.url }}" class="lp-collection__see-more">
+              See More
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          {% endcomment %}
         </div>
         <div class="lp-collection__grid">
           {%- for product in collection.products limit: 4 -%}
@@ -115,16 +119,18 @@
        FOOTER IMAGE
   ═══════════════════════════════════════════════════
 -->
-{% comment %} <div class="lp-footer-img lp-reveal" id="lp-footer-img">
-  <img
-    src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_063024_d6a0d67b-3d6a-4d3a-aa22-9f5586bd2dcc.png?v=1782837020"
-    alt="URBNMYTH"
-    class="lp-footer-img__img"
-    width="2000"
-    height="1125"
-    loading="lazy"
-  >
-</div> {% endcomment %}
+{% comment %}
+  <div class="lp-footer-img lp-reveal" id="lp-footer-img">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/hf_20260629_063024_d6a0d67b-3d6a-4d3a-aa22-9f5586bd2dcc.png?v=1782837020"
+      alt="URBNMYTH"
+      class="lp-footer-img__img"
+      width="2000"
+      height="1125"
+      loading="lazy"
+    >
+  </div>
+{% endcomment %}
 
 {%- render 'urbnmyth-product-card-styles' -%}
 
@@ -144,15 +150,18 @@
   .lp-reveal {
     opacity: 0;
     transform: translateY(44px);
-    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .lp-reveal.lp-revealed {
     opacity: 1;
     transform: translateY(0);
   }
   @media (prefers-reduced-motion: reduce) {
-    .lp-reveal { opacity: 1; transform: none; transition: none; }
+    .lp-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* ── Hero ── */
@@ -184,12 +193,7 @@
   .lp-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.05) 0%,
-      rgba(0, 0, 0, 0.35) 50%,
-      rgba(0, 0, 0, 0.75) 100%
-    );
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.75) 100%);
   }
   .lp-hero__content {
     position: relative;
@@ -200,7 +204,7 @@
     max-width: 960px;
   }
   .lp-hero__heading {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: clamp(3rem, 10vw, 8.5rem);
     font-weight: 900;
     line-height: 0.92;
@@ -232,11 +236,18 @@
     animation: lpScrollPulse 1.9s ease-in-out infinite;
   }
   .lp-hero__scroll-label {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
   }
   @keyframes lpScrollPulse {
-    0%, 100% { opacity: 0.35; transform: scaleY(1); }
-    50%       { opacity: 1;    transform: scaleY(0.55); }
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scaleY(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(0.55);
+    }
   }
 
   /* ── Collections ── */
@@ -257,7 +268,7 @@
     gap: 16px;
   }
   .lp-collection__title {
-    font-family: 'CoolveticaDisplay', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: clamp(1.6rem, 3.5vw, 2.6rem);
     font-weight: 900;
     letter-spacing: 0.02em;
@@ -270,7 +281,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -282,7 +293,9 @@
     padding-bottom: 1px;
     transition: opacity 0.2s;
   }
-  .lp-collection__see-more:hover { opacity: 0.5; }
+  .lp-collection__see-more:hover {
+    opacity: 0.5;
+  }
   .lp-collection__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -297,7 +310,7 @@
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -309,22 +322,39 @@
     border-radius: 6px;
     transition: background 0.22s, color 0.22s;
   }
-  .lp-collection__see-more-btn:hover { background: #111; color: #fff; }
+  .lp-collection__see-more-btn:hover {
+    background: #111;
+    color: #fff;
+  }
 
   /* card stagger on scroll reveal */
   .lp-collection .lp-collection__grid .urbnmyth-product-card {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card { opacity: 1; transform: translateY(0); }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(1) { transition-delay: 80ms; }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(2) { transition-delay: 170ms; }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(3) { transition-delay: 260ms; }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) { transition-delay: 350ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(1) {
+    transition-delay: 80ms;
+  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(2) {
+    transition-delay: 170ms;
+  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(3) {
+    transition-delay: 260ms;
+  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) {
+    transition-delay: 350ms;
+  }
   @media (prefers-reduced-motion: reduce) {
-    .lp-collection .lp-collection__grid .urbnmyth-product-card { opacity: 1; transform: none; transition: none; }
+    .lp-collection .lp-collection__grid .urbnmyth-product-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* ── Community ── */
@@ -348,12 +378,11 @@
   /* dark overlay on the right half */
   .lp-community__dark-right {
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 50%;
-    background: linear-gradient(
-      90deg,
-      rgba(0,0,0,0.0) 0%,
-      rgba(0,0,0,0.3) 100%
-    );
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
     z-index: 1;
   }
 
@@ -384,11 +413,11 @@
 
   /* Coming Soon text — centered over jacket */
   .lp-community__cs-eyebrow {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.6rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255, 255, 255, 0.55);
     margin: 0 0 10px;
   }
   .lp-community__cs-heading {
@@ -413,11 +442,11 @@
     max-width: 480px;
   }
   .lp-community__eyebrow {
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.72rem;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
+    color: rgba(255, 255, 255, 0.65);
     margin: 0 0 18px;
   }
   .lp-community__heading {
@@ -437,20 +466,31 @@
     padding: 15px 36px;
     background: transparent;
     color: #fff;
-    border: 1.5px solid rgba(255,255,255,0.75);
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
     border-radius: 6px;
-    font-family: 'CoolveticaCond', sans-serif !important;
+    font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     transition: background 0.25s, color 0.25s, border-color 0.25s;
   }
-  .lp-community__btn:hover { background: #fff; color: #111; border-color: #fff; }
-  .lp-community__btn-icon { flex-shrink: 0; width: 18px; height: 18px; }
+  .lp-community__btn:hover {
+    background: #fff;
+    color: #111;
+    border-color: #fff;
+  }
+  .lp-community__btn-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
 
   /* ── Footer Image ── */
-  .lp-footer-img { overflow: hidden; line-height: 0; }
+  .lp-footer-img {
+    overflow: hidden;
+    line-height: 0;
+  }
   .lp-footer-img__img {
     width: 100%;
     height: auto;
@@ -458,12 +498,19 @@
     transform: scale(1.04);
     transition: transform 8s ease-in-out;
   }
-  .lp-footer-img.lp-revealed .lp-footer-img__img { transform: scale(1); }
+  .lp-footer-img.lp-revealed .lp-footer-img__img {
+    transform: scale(1);
+  }
 
   /* ── Mobile ── */
   @media (max-width: 900px) {
-    .lp-collection { padding: 36px 0; }
-    .lp-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .lp-collection {
+      padding: 36px 0;
+    }
+    .lp-collection__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
 
     /* Community mobile: content anchored bottom-center, over darker gradient */
     .lp-community__layout {
@@ -473,7 +520,9 @@
       align-items: center;
       justify-content: flex-end;
     }
-    .lp-community__left { display: none; }
+    .lp-community__left {
+      display: none;
+    }
     .lp-community__right {
       flex: initial;
       padding-left: 0;
@@ -496,17 +545,16 @@
       margin: 0 0 22px;
       text-align: center;
     }
-    .lp-community__heading { margin-bottom: 28px; }
-    .lp-community__fog-left { display: none; }
+    .lp-community__heading {
+      margin-bottom: 28px;
+    }
+    .lp-community__fog-left {
+      display: none;
+    }
     .lp-community__dark-right {
       left: 0;
       top: 40%;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.0) 0%,
-        rgba(0,0,0,0.55) 60%,
-        rgba(0,0,0,0.75) 100%
-      );
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 60%, rgba(0, 0, 0, 0.75) 100%);
     }
 
     /* ── Scroll-linked letter reveal ── */
@@ -521,25 +569,26 @@
       display: inline-block;
       transform: translateY(110%);
       opacity: 0;
-      transition:
-        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.45s ease-out;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease-out;
       will-change: transform, opacity;
     }
     .lp-letter.is-in {
       transform: translateY(0);
       opacity: 1;
     }
-    .lp-word { display: inline-block; }
-    .lp-space { display: inline-block; width: 0.28em; }
+    .lp-word {
+      display: inline-block;
+    }
+    .lp-space {
+      display: inline-block;
+      width: 0.28em;
+    }
 
     /* Staggered fade-up for eyebrows and button */
     .lp-fade-up {
       opacity: 0;
       transform: translateY(26px);
-      transition:
-        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: transform, opacity;
     }
     .lp-fade-up.is-in {
@@ -548,10 +597,19 @@
     }
   }
   @media (max-width: 580px) {
-    .lp-container { padding: 0 16px; }
-    .lp-collection { padding: 28px 0; }
-    .lp-collection__grid { gap: 10px; }
-    .lp-community__layout { padding: 44px 20px; gap: 36px; }
+    .lp-container {
+      padding: 0 16px;
+    }
+    .lp-collection {
+      padding: 28px 0;
+    }
+    .lp-collection__grid {
+      gap: 10px;
+    }
+    .lp-community__layout {
+      padding: 44px 20px;
+      gap: 36px;
+    }
   }
 </style>
 
@@ -584,20 +642,27 @@
     if (!els.length) return;
 
     if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('lp-revealed'); });
+      els.forEach(function (el) {
+        el.classList.add('lp-revealed');
+      });
       return;
     }
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('lp-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('lp-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
 
-    els.forEach(function (el) { observer.observe(el); });
+    els.forEach(function (el) {
+      observer.observe(el);
+    });
   })();
 
   /* ── Community: mobile scroll-linked letter reveal ── */
@@ -610,18 +675,27 @@
     /* Split target headings into per-letter masked spans */
     section.querySelectorAll('[data-lp-split]').forEach(function (el) {
       var words = el.textContent.trim().split(/\s+/);
-      var html = words.map(function (word, wi) {
-        var letters = word.split('').map(function (ch) {
-          return '<span class="lp-letter-mask"><span class="lp-letter">' + ch + '</span></span>';
-        }).join('');
-        return '<span class="lp-word">' + letters + '</span>' +
-               (wi < words.length - 1 ? '<span class="lp-space"></span>' : '');
-      }).join('');
+      var html = words
+        .map(function (word, wi) {
+          var letters = word
+            .split('')
+            .map(function (ch) {
+              return '<span class="lp-letter-mask"><span class="lp-letter">' + ch + '</span></span>';
+            })
+            .join('');
+          return (
+            '<span class="lp-word">' +
+            letters +
+            '</span>' +
+            (wi < words.length - 1 ? '<span class="lp-space"></span>' : '')
+          );
+        })
+        .join('');
       el.innerHTML = html;
     });
 
     var letters = Array.prototype.slice.call(section.querySelectorAll('.lp-letter'));
-    var fades   = Array.prototype.slice.call(section.querySelectorAll('.lp-fade-up'));
+    var fades = Array.prototype.slice.call(section.querySelectorAll('.lp-fade-up'));
     var N = letters.length;
     var M = fades.length;
     if (!N && !M) return;
@@ -631,13 +705,13 @@
     function apply() {
       ticking = false;
       var rect = section.getBoundingClientRect();
-      var vh   = window.innerHeight || document.documentElement.clientHeight;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
 
       /* Progress: 0 when section top is at 90% of viewport, 1 when 70% scrolled through */
-      var enter  = vh * 0.90;
+      var enter = vh * 0.9;
       var finish = -rect.height * 0.15;
-      var range  = enter - finish;
-      var p      = (enter - rect.top) / range;
+      var range = enter - finish;
+      var p = (enter - rect.top) / range;
       if (p < 0) p = 0;
       if (p > 1) p = 1;
 
@@ -682,16 +756,27 @@
       var primary = wrap.querySelector('.urbnmyth-img-primary');
       var secondary = wrap.querySelector('.urbnmyth-img-secondary');
       if (!primary || !secondary) return;
-      imgs.forEach(function (src) { new Image().src = src; });
-      wrap.addEventListener('mouseenter', function () { primary.style.opacity = '0'; secondary.style.opacity = '1'; });
-      wrap.addEventListener('mouseleave', function () { primary.style.opacity = '1'; secondary.style.opacity = '0'; });
+      imgs.forEach(function (src) {
+        new Image().src = src;
+      });
+      wrap.addEventListener('mouseenter', function () {
+        primary.style.opacity = '0';
+        secondary.style.opacity = '1';
+      });
+      wrap.addEventListener('mouseleave', function () {
+        primary.style.opacity = '1';
+        secondary.style.opacity = '0';
+      });
     });
 
     try {
       var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
       wl.forEach(function (id) {
-        document.querySelectorAll('.lp-collection .urbnmyth-wishlist-btn[data-product-id="' + id + '"]')
-          .forEach(function (btn) { btn.classList.add('urbnmyth-wishlisted'); });
+        document
+          .querySelectorAll('.lp-collection .urbnmyth-wishlist-btn[data-product-id="' + id + '"]')
+          .forEach(function (btn) {
+            btn.classList.add('urbnmyth-wishlisted');
+          });
       });
     } catch (e) {}
   });
@@ -700,7 +785,10 @@
     event.preventDefault();
     event.stopPropagation();
     var container = btn.closest('.urbnmyth-sizes');
-    if (container) container.querySelectorAll('.urbnmyth-size-chip').forEach(function (c) { c.classList.remove('urbnmyth-size-selected'); });
+    if (container)
+      container.querySelectorAll('.urbnmyth-size-chip').forEach(function (c) {
+        c.classList.remove('urbnmyth-size-selected');
+      });
     btn.classList.add('urbnmyth-size-selected');
     var card = btn.closest('.urbnmyth-product-card');
     if (card && btn.dataset.variantId) {
@@ -719,13 +807,25 @@
     fd.append('id', variantId);
     fd.append('quantity', 1);
     fetch('/cart/add.js', { method: 'POST', body: fd })
-      .then(function (r) { return r.json(); })
-      .then(function () { button.innerHTML = 'Added!'; setTimeout(function () { window.location.href = '/cart'; }, 600); })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function () {
+        button.innerHTML = 'Added!';
+        setTimeout(function () {
+          window.location.href = '/cart';
+        }, 600);
+      })
       .catch(function () {
         button.innerHTML = 'Error — Try Again';
         button.style.background = '#dc3545';
         button.style.color = '#fff';
-        setTimeout(function () { button.innerHTML = orig; button.disabled = false; button.style.background = ''; button.style.color = ''; }, 2000);
+        setTimeout(function () {
+          button.innerHTML = orig;
+          button.disabled = false;
+          button.style.background = '';
+          button.style.color = '';
+        }, 2000);
       });
   }
 
@@ -758,8 +858,13 @@
     try {
       var wl = JSON.parse(localStorage.getItem('urbnmyth_wishlist') || '[]');
       var idx = wl.indexOf(String(productId));
-      if (idx === -1) { wl.push(String(productId)); btn.classList.add('urbnmyth-wishlisted'); }
-      else            { wl.splice(idx, 1);           btn.classList.remove('urbnmyth-wishlisted'); }
+      if (idx === -1) {
+        wl.push(String(productId));
+        btn.classList.add('urbnmyth-wishlisted');
+      } else {
+        wl.splice(idx, 1);
+        btn.classList.remove('urbnmyth-wishlisted');
+      }
       localStorage.setItem('urbnmyth_wishlist', JSON.stringify(wl));
     } catch (e) {}
   }
