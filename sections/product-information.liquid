@@ -1188,17 +1188,6 @@
 </style>
 
 <div class="urbnmyth-product-page">
-  <!-- Breadcrumb -->
-  <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a>
-    <span>›</span>
-    {%- if product.collections.size > 0 -%}
-      <a href="{{ product.collections.first.url }}">{{ product.collections.first.title | escape }}</a>
-      <span>›</span>
-    {%- endif -%}
-    {{ product.title | escape }}
-  </nav>
-
   <!--
     ═══════════════════════════════════════════════════
          PRODUCT SPLIT: 60% Gallery | 40% Details
@@ -1325,6 +1314,8 @@
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price }}"
                     data-compare="{{ variant.compare_at_price }}"
+                    data-money="{{ variant.price | money }}"
+                    data-compare-money="{{ variant.compare_at_price | money }}"
                     data-avail="{{ variant.available }}"
                     onclick="pdpSelectSize(this)"
                     {% unless variant.available %}
@@ -1345,6 +1336,8 @@
                   data-variant-id="{{ variant.id }}"
                   data-price="{{ variant.price }}"
                   data-compare="{{ variant.compare_at_price }}"
+                  data-money="{{ variant.price | money }}"
+                  data-compare-money="{{ variant.compare_at_price | money }}"
                   data-avail="{{ variant.available }}"
                   onclick="pdpSelectSize(this)"
                   {% unless variant.available %}
@@ -1677,32 +1670,162 @@
       </div>
     </div>
   {%- endif -%}
-  <!-- Start of Judge.me code -->
-  {% assign has_legacy = false -%}
-  {%- if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}
-  <div style="clear:both"></div>
-  <div
-    id="judgeme_product_reviews"
-    class="jdgm-widget jdgm-review-widget"
-    data-product-title="{{ product.title | escape }}"
-    data-id="{{ product.id }}"
-    data-product-id="{{ product.id }}"
-    data-widget="review"
-    data-auto-install="false"
-    data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
-    data-entry-point="review_widget.js"
-    data-entry-key="review-widget/main.js"
-  >
-    {% if has_legacy %}
-      <div class="jdgm-legacy-widget-content" style="display: none;">{{ product.metafields.judgeme.widget }}</div>
+  <!-- Customer Reviews Section -->
+  <style>
+    .pdp-reviews-section {
+      padding: 64px 40px 0;
+      border-top: 1px solid #e8e8e8;
+    }
+    .pdp-reviews-heading {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111;
+      text-align: center;
+      margin-bottom: 40px;
+      letter-spacing: 0.01em;
+    }
+    .pdp-reviews-summary-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid #e5e5e5;
+      border-radius: 2px;
+      max-width: 860px;
+      margin: 0 auto 40px;
+      overflow: hidden;
+    }
+    .pdp-reviews-summary-left {
+      flex: 1;
+      padding: 28px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pdp-reviews-stars {
+      display: flex;
+      gap: 4px;
+    }
+    .pdp-reviews-stars svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #4a5c2e;
+      stroke-width: 1.5;
+    }
+    .pdp-reviews-summary-text {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.92rem;
+      color: #333;
+    }
+    .pdp-reviews-divider {
+      width: 1px;
+      align-self: stretch;
+      background: #e0e0e0;
+      flex-shrink: 0;
+    }
+    .pdp-reviews-summary-right {
+      flex: 1;
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pdp-reviews-write-btn {
+      background: #2d3b1f;
+      color: #fff;
+      border: none;
+      padding: 16px 40px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      max-width: 320px;
+    }
+    .pdp-reviews-write-btn:hover {
+      background: #1e2914;
+    }
+    @media (max-width: 900px) {
+      .pdp-reviews-section {
+        padding: 48px 16px 0;
+      }
+      .pdp-reviews-heading {
+        font-size: 1.4rem;
+        margin-bottom: 28px;
+      }
+      .pdp-reviews-summary-row {
+        flex-direction: column;
+      }
+      .pdp-reviews-divider {
+        width: 100%;
+        height: 1px;
+        align-self: auto;
+      }
+      .pdp-reviews-summary-left,
+      .pdp-reviews-summary-right {
+        padding: 20px 24px;
+        width: 100%;
+      }
+      .pdp-reviews-write-btn {
+        max-width: 100%;
+      }
+    }
+  </style>
+
+  <div class="pdp-reviews-section">
+    <h2 class="pdp-reviews-heading">Customer Reviews</h2>
+    <div class="pdp-reviews-summary-row">
+      <div class="pdp-reviews-summary-left">
+        <div class="pdp-reviews-stars">
+          {%- for i in (1..5) -%}
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <span class="pdp-reviews-summary-text">Be the first to write a review</span>
+      </div>
+      <div class="pdp-reviews-divider"></div>
+      <div class="pdp-reviews-summary-right">
+        <button
+          class="pdp-reviews-write-btn"
+          onclick="document.querySelector('.jdgm-write-rev-link, [data-jdgm-target=write-review]')?.click() || document.getElementById('judgeme_product_reviews')?.scrollIntoView({behavior:'smooth'})"
+        >
+          Write a review
+        </button>
+      </div>
+    </div>
+
+    <!-- Start of Judge.me code -->
+    {% assign has_legacy = false -%}
+    {%- if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}
+    <div style="clear:both"></div>
+    <div
+      id="judgeme_product_reviews"
+      class="jdgm-widget jdgm-review-widget"
+      data-product-title="{{ product.title | escape }}"
+      data-id="{{ product.id }}"
+      data-product-id="{{ product.id }}"
+      data-widget="review"
+      data-auto-install="false"
+      data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
+      data-entry-point="review_widget.js"
+      data-entry-key="review-widget/main.js"
+    >
+      {% if has_legacy %}
+        <div class="jdgm-legacy-widget-content" style="display: none;">{{ product.metafields.judgeme.widget }}</div>
+      {% endif %}
+    </div>
+    {% if product.metafields.judgeme.review_widget_data %}
+      <script>
+        jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}
+      </script>
     {% endif %}
+    <!-- End of Judge.me code -->
   </div>
-  {% if product.metafields.judgeme.review_widget_data %}
-    <script>
-      jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}
-    </script>
-  {% endif %}
-  <!-- End of Judge.me code -->
 
   <!--
     ═══════════════════════════════════════════════════
@@ -1883,17 +2006,19 @@
 
     var price = parseInt(btn.dataset.price);
     var compare = parseInt(btn.dataset.compare);
+    var money = btn.dataset.money;
+    var compareMoney = btn.dataset.compareMoney;
     var avail = btn.dataset.avail === 'true';
     var block = document.getElementById('pdpPriceBlock');
 
     if (compare && compare > price) {
       var disc = Math.round((compare - price) / compare * 100);
       block.innerHTML =
-        '<span class="detail-price-sale">&#8377;' + (price/100).toFixed(0) + '</span>' +
-        '<span class="detail-price-compare">&#8377;' + (compare/100).toFixed(0) + '</span>' +
+        '<span class="detail-price-sale">' + money + '</span>' +
+        '<span class="detail-price-compare">' + compareMoney + '</span>' +
         '<span class="detail-price-badge">' + disc + '% OFF</span>';
     } else {
-      block.innerHTML = '<span class="detail-price-regular">&#8377;' + (price/100).toFixed(0) + '</span>';
+      block.innerHTML = '<span class="detail-price-regular">' + money + '</span>';
     }
 
     var addBtn = document.getElementById('pdpAddBtn');

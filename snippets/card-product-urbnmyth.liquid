@@ -10,15 +10,6 @@
   {% assign image_urls = image_urls | append: img_url | append: '||' %}
 {% endfor %}
 
-{% assign badge_text = '' %}
-{% if product.compare_at_price > product.price %}
-  {% assign badge_text = 'SALE' %}
-{% elsif product.tags contains 'new' %}
-  {% assign badge_text = 'NEW' %}
-{% elsif product.type != blank %}
-  {% assign badge_text = product.type %}
-{% endif %}
-
 {% if product.images.size > 1 %}
   {% assign secondary_img_src = product.images[1] | image_url: width: 800 %}
 {% else %}
@@ -56,11 +47,6 @@
           <polyline points="21 15 16 10 5 21"/>
         </svg>
       </div>
-    {% endif %}
-
-    <!-- Top-left badge -->
-    {% if badge_text != '' %}
-      <div class="urbnmyth-badge-tl">{{ badge_text }}</div>
     {% endif %}
 
     <!-- Right-side action buttons: appear on hover with stagger -->
