@@ -1207,6 +1207,8 @@
             <img
               src="{{ media | image_url: width: 200 }}"
               alt="{{ media.alt | escape | default: product.title }}"
+              width="200"
+              height="{{ 200 | divided_by: media.aspect_ratio | round }}"
               loading="lazy"
             >
           </div>
@@ -1645,7 +1647,7 @@
   </div>
 
   <!-- Exit intent popup -->
-  <div class="exit-popup" id="exitPopup" role="dialog" aria-modal="true" aria-label="Special offer">
+  {% comment %} <div class="exit-popup" id="exitPopup" role="dialog" aria-modal="true" aria-label="Special offer">
     <div class="exit-popup__box">
       <button class="exit-popup__close" onclick="closeExitPopup()" aria-label="Close">✕</button>
       <p class="exit-popup__tag">Wait — before you go</p>
@@ -1655,7 +1657,7 @@
       <button class="exit-popup__btn" onclick="copyExitCode()">Copy Code &amp; Continue Shopping</button>
       <button class="exit-popup__dismiss" onclick="closeExitPopup()">No thanks, I'll pay full price</button>
     </div>
-  </div>
+  </div> {% endcomment %}
 
   <!--
     ═══════════════════════════════════════════════════
@@ -2077,6 +2079,15 @@
         .then(function(r) { return r.json(); })
         .then(function() {
           txt.textContent = 'ADDED!';
+          if (typeof fbq === 'function') {
+            fbq('track', 'AddToCart', {
+              content_ids: ['{{ product.id }}'],
+              content_name: {{ product.title | json }},
+              content_type: 'product',
+              value: {{ product.price | divided_by: 100.0 }},
+              currency: '{{ shop.currency }}'
+            });
+          }
           setTimeout(function() { window.location.href = '/cart'; }, 600);
         })
         .catch(function() {
@@ -2285,7 +2296,7 @@
     document.body.style.overflow = '';
   }
 
-  function copyExitCode() {
+  {% comment %} function copyExitCode() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText('URBN10').then(function() {
         var btn = document.querySelector('.exit-popup__btn');
@@ -2297,7 +2308,7 @@
     } else {
       closeExitPopup();
     }
-  }
+  } {% endcomment %}
 
   /* ══ SHARED PRODUCT-CARD HANDLERS (matches landing page) ═══ */
   document.addEventListener('DOMContentLoaded', function () {

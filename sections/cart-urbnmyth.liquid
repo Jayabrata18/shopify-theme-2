@@ -355,11 +355,7 @@
 
       <!-- ── Sidebar ── -->
       <aside class="uc-sidebar">
-        <div class="uc-sidebar__assist">
-          <span>Need assistance?</span>
-          <a href="/pages/contact" class="uc-sidebar__assist-link">Click Here</a>
-        </div>
-        <p class="uc-sidebar__subtotal">Subtotal: {{ cart.total_price | money }}</p>
+<p class="uc-sidebar__subtotal">Subtotal: {{ cart.total_price | money }}</p>
         <p class="uc-sidebar__note">
           Tax included. Shipping calculated at checkout.<br><br>
           All charges are billed in {{ cart.currency.iso_code }}.

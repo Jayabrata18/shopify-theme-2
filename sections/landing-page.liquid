@@ -49,14 +49,9 @@
           {% endcomment %}
         </div>
         <div class="lp-collection__grid">
-          {%- for product in collection.products limit: 4 -%}
+          {%- for product in collection.products -%}
             {%- render 'card-product-urbnmyth', product: product -%}
           {%- endfor -%}
-        </div>
-        <div class="lp-collection__footer">
-          <a href="{{ collection.url }}" class="lp-collection__see-more-btn">
-            See More
-          </a>
         </div>
       </div>
     </section>
@@ -90,7 +85,7 @@
           <div class="lp-community__left"></div>
           <div class="lp-community__right">
             <div class="lp-community__content">
-              <p class="lp-community__cs-eyebrow lp-fade-up">What's Next</p>
+              {% comment %} <p class="lp-community__cs-eyebrow lp-fade-up">What's Next</p> {% endcomment %}
               <h2 class="lp-community__cs-heading" data-lp-split>Coming Soon</h2>
               <p class="lp-community__eyebrow lp-fade-up">Stay updated on upcoming designs</p>
               <h2 class="lp-community__heading" data-lp-split>Join Us On WhatsApp</h2>
@@ -294,8 +289,8 @@
   }
   .lp-collection__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   .lp-collection__footer {
     display: flex;
@@ -333,18 +328,15 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(1) {
-    transition-delay: 80ms;
-  }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(2) {
-    transition-delay: 170ms;
-  }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(3) {
-    transition-delay: 260ms;
-  }
-  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) {
-    transition-delay: 350ms;
-  }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(1) { transition-delay: 60ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(2) { transition-delay: 130ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(3) { transition-delay: 200ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(4) { transition-delay: 270ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(5) { transition-delay: 340ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(6) { transition-delay: 410ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(7) { transition-delay: 480ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(8) { transition-delay: 550ms; }
+  .lp-collection.lp-revealed .lp-collection__grid .urbnmyth-product-card:nth-child(9) { transition-delay: 620ms; }
   @media (prefers-reduced-motion: reduce) {
     .lp-collection .lp-collection__grid .urbnmyth-product-card {
       opacity: 1;
