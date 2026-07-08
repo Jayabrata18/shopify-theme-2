@@ -1,0 +1,717 @@
+<style>
+  /* Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+  .privacy-policy-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .privacy-policy-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .privacy-policy-header-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .privacy-policy-header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .privacy-policy-header-icon {
+    font-size: 2.5rem;
+  }
+
+  .privacy-policy-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Introduction */
+  .privacy-policy-introduction {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .privacy-policy-intro-text {
+    color: #374151;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .privacy-policy-intro-bold {
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Highlights Grid */
+  .privacy-policy-highlights {
+    background-color: #f9fafb;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .privacy-policy-highlights-container {
+    max-width: 72rem;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .privacy-policy-highlights-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .privacy-policy-highlight-card {
+    background-color: white;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+  }
+
+  .privacy-policy-highlight-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem auto;
+    background-color: black;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: white;
+  }
+
+  .privacy-policy-highlight-title {
+    font-weight: bold;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-highlight-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Policy Sections */
+  .privacy-policy-sections-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .privacy-policy-sections-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .privacy-policy-section-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 0;
+  }
+
+  .privacy-policy-section-button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .privacy-policy-section-button:hover {
+    background-color: #f9fafb;
+  }
+
+  .privacy-policy-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .privacy-policy-section-icon {
+    font-size: 1.5rem;
+  }
+
+  .privacy-policy-section-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-section-arrow {
+    font-size: 1.25rem;
+    color: #374151;
+    flex-shrink: 0;
+  }
+
+  .privacy-policy-section-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    display: none;
+  }
+
+  .privacy-policy-section-text {
+    color: #374151;
+    line-height: 1.75;
+    white-space: pre-line;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Contact Section */
+  .privacy-policy-contact-section {
+    background-color: black;
+    color: white;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .privacy-policy-contact-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .privacy-policy-contact-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-contact-text {
+    color: #d1d5db;
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .privacy-policy-contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .privacy-policy-contact-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy-policy-contact-label {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .privacy-policy-contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1.125rem;
+    transition: color 0.2s;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .privacy-policy-contact-link:hover {
+    color: #d1d5db;
+  }
+
+  .privacy-policy-contact-website {
+    color: white;
+    text-decoration: none;
+    font-size: 1.125rem;
+    transition: color 0.2s;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .privacy-policy-contact-website:hover {
+    color: #d1d5db;
+  }
+
+  .privacy-policy-contact-icon {
+    font-size: 1.25rem;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .privacy-policy-header-title {
+      font-size: 3.75rem;
+    }
+
+    .privacy-policy-highlights-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .privacy-policy-introduction,
+    .privacy-policy-sections-container,
+    .privacy-policy-contact-section {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .privacy-policy-section-button {
+      padding: 1rem 1.5rem;
+    }
+
+    .privacy-policy-contact-details {
+      flex-direction: row;
+      justify-content: center;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .privacy-policy-header-title {
+      font-size: 4.5rem;
+    }
+
+    .privacy-policy-highlights-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .privacy-policy-contact-button {
+      padding: 0.875rem 2rem;
+    }
+  }
+
+  /* Animation for section expansion */
+  .privacy-policy-section-content {
+    animation: privacy-policy-fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes privacy-policy-fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .privacy-policy-section-button:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  .privacy-policy-contact-link:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  /* Ensure full width on all elements */
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<script>
+  let privacyPolicyExpandedSection = null;
+
+  function privacyPolicyToggleSection(index) {
+    if (privacyPolicyExpandedSection === index) {
+      privacyPolicyExpandedSection = null;
+    } else {
+      privacyPolicyExpandedSection = index;
+    }
+
+    // Update all sections
+    document.querySelectorAll('.privacy-policy-section-content').forEach((content, i) => {
+      content.style.display = i === privacyPolicyExpandedSection ? 'block' : 'none';
+    });
+
+    document.querySelectorAll('.privacy-policy-section-arrow').forEach((arrow, i) => {
+      arrow.textContent = i === privacyPolicyExpandedSection ? '▲' : '▼';
+    });
+  }
+</script>
+
+<div class="privacy-policy-page">
+  <!-- Header -->
+  <div class="privacy-policy-header">
+    <div class="privacy-policy-header-container">
+      <div class="privacy-policy-header-content">
+        <div class="privacy-policy-header-icon">🛡️</div>
+        <h1 class="privacy-policy-header-title">Privacy Policy</h1>
+      </div>
+      <p class="privacy-policy-header-subtitle">Effective Date: {{ 'now' | date: '%B %Y' }}</p>
+      <p class="privacy-policy-header-subtitle">Last Updated: {{ 'now' | date: '%B %Y' }}</p>
+    </div>
+  </div>
+
+  <!-- Introduction -->
+  <div class="privacy-policy-introduction">
+    <p class="privacy-policy-intro-text">
+      URBNMYTH ("we", "us", "our") values and respects your privacy. This Privacy Policy explains how we collect, use,
+      disclose, and safeguard your personal information when you visit or make a purchase from
+      <span class="privacy-policy-intro-bold">www.urbnmyth.in</span>
+      ("Website"), or interact with us through other online and offline channels.
+    </p>
+    <p class="privacy-policy-intro-text privacy-policy-intro-bold">
+      By accessing or using our Website, you agree to the terms of this Privacy Policy.
+    </p>
+  </div>
+
+  <!-- Highlights Grid -->
+  <div class="privacy-policy-highlights">
+    <div class="privacy-policy-highlights-container">
+      <h2 class="privacy-policy-highlights-title">Your Privacy at a Glance</h2>
+      <div class="privacy-policy-highlights-grid">
+        <!-- Highlight 1 -->
+        <div class="privacy-policy-highlight-card">
+          <div class="privacy-policy-highlight-icon">🛡️</div>
+          <h3 class="privacy-policy-highlight-title">Your Data is Protected</h3>
+          <p class="privacy-policy-highlight-description">
+            We use industry-standard security measures to safeguard your information.
+          </p>
+        </div>
+
+        <!-- Highlight 2 -->
+        <div class="privacy-policy-highlight-card">
+          <div class="privacy-policy-highlight-icon">🔒</div>
+          <h3 class="privacy-policy-highlight-title">Secure Payments</h3>
+          <p class="privacy-policy-highlight-description">
+            We never store your complete credit/debit card information.
+          </p>
+        </div>
+
+        <!-- Highlight 3 -->
+        <div class="privacy-policy-highlight-card">
+          <div class="privacy-policy-highlight-icon">👁️</div>
+          <h3 class="privacy-policy-highlight-title">No Data Selling</h3>
+          <p class="privacy-policy-highlight-description">
+            We do not rent, sell, or trade your personal information to third parties.
+          </p>
+        </div>
+
+        <!-- Highlight 4 -->
+        <div class="privacy-policy-highlight-card">
+          <div class="privacy-policy-highlight-icon">🚫</div>
+          <h3 class="privacy-policy-highlight-title">Your Control</h3>
+          <p class="privacy-policy-highlight-description">
+            You can request data deletion or withdraw consent at any time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy Sections -->
+  <div class="privacy-policy-sections-container">
+    <div class="privacy-policy-sections-wrapper">
+      <!-- Section 1 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(0)">
+          <div class="privacy-policy-section-header">
+            <div class="privacy-policy-section-icon">💾</div>
+            <h2 class="privacy-policy-section-title">1. Information We Collect</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We collect information that helps us provide and improve our products and services. This includes:
+
+            Personal Information: When you interact with us, such as placing an order, signing up for newsletters, or
+            creating an account, we may collect:
+
+            • Name • Email address • Phone number • Shipping and billing addresses • Payment details (processed securely
+            through third-party payment gateways)
+
+            Note: We do not store your complete credit/debit card information.
+
+            Non-Personal and Technical Information: We may automatically collect certain information when you use our
+            Website, such as:
+
+            • Browser type and version • Device details • IP address • Pages visited and time spent • Referring URLs
+
+            We use cookies and similar technologies to enhance user experience and analyze traffic trends. These cookies
+            do not store personally identifiable information.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(1)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">2. How We Use Your Information</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We may use your personal information for the following purposes:
+
+            • To process and fulfill your orders • To communicate order status, offers, and updates • To respond to your
+            queries and requests • To personalize your shopping experience • To improve our Website, products, and
+            services • To send marketing and promotional content (you can opt out anytime) • To comply with legal or
+            regulatory obligations
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(2)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">3. Disclosure of Personal Information</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We do not rent, sell, or trade your personal information to third parties for their marketing purposes.
+
+            We may share your data only in the following cases:
+
+            • With service providers who help us operate our business (e.g., logistics, payment, or analytics partners)
+            • To comply with legal obligations or law enforcement requests • During business transfers such as mergers
+            or acquisitions • With your consent
+
+            All third parties are bound by confidentiality and data protection obligations consistent with this Privacy
+            Policy.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(3)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">4. Cookies and Tracking Technologies</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            Cookies help us recognize you as a returning visitor, store your preferences, and analyze Website
+            performance.
+
+            You can choose to disable cookies through your browser settings, but doing so may affect certain
+            functionalities of our Website.
+
+            Types of cookies we use: • Essential cookies for site functionality • Performance cookies for analytics •
+            Preference cookies to remember your settings
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(4)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">5. Your Rights</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            As a user, you have the right to:
+
+            • Access, review, and correct your personal data • Withdraw consent for processing your data • Request
+            deletion of your personal information
+
+            To exercise these rights, you may contact us at contact.urbnmyth@gmail.com
+
+            Please note: • Withdrawal of consent or deletion requests may affect your access to certain services •
+            Certain data may be retained for compliance, fraud prevention, or legal reasons
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 6 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(5)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">6. Data Retention</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We retain your personal information only for as long as necessary to fulfill the purposes outlined in this
+            Privacy Policy, or as required by applicable law.
+
+            Retention periods vary based on: • Legal and regulatory requirements • Business operational needs • Fraud
+            prevention and security purposes
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 7 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(6)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">7. Security Measures</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We adopt reasonable technical and organizational measures to protect your personal information from
+            unauthorized access, misuse, loss, or alteration.
+
+            Our security practices include: • Encrypted data transmission • Secure payment processing • Regular security
+            audits • Access controls and authentication
+
+            However, no method of electronic transmission or storage is 100% secure, and we cannot guarantee absolute
+            security.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 8 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(7)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">8. Data Deletion Requests</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            You can request deletion of your personal data by contacting contact.urbnmyth@gmail.com
+
+            To process such requests, we may require verification details such as: • Your registered email • Phone
+            number • Order ID
+
+            Once verified, data will be deleted from active systems within a reasonable timeframe, except where
+            retention is required for legitimate business or legal purposes.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 9 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(8)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">9. Children's Privacy</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            Our Website is not directed at children under 18. We do not knowingly collect personal information from
+            minors.
+
+            If we discover that we have inadvertently collected data from a minor, we will delete it promptly.
+
+            Parents or guardians who believe we may have collected information from a child should contact us
+            immediately.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 10 -->
+      <div class="privacy-policy-section-item">
+        <button class="privacy-policy-section-button" onclick="privacyPolicyToggleSection(9)">
+          <div class="privacy-policy-section-header">
+            <h2 class="privacy-policy-section-title">10. Policy Updates</h2>
+          </div>
+          <span class="privacy-policy-section-arrow">▼</span>
+        </button>
+        <div class="privacy-policy-section-content">
+          <p class="privacy-policy-section-text">
+            We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements.
+
+            Any changes will be reflected with a revised "Last Updated" date at the top of this page.
+
+            Continued use of our Website constitutes acceptance of such changes. We encourage you to review this policy
+            regularly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="privacy-policy-contact-section">
+    <div class="privacy-policy-contact-container">
+      <h2 class="privacy-policy-contact-title">Contact Us</h2>
+      <p class="privacy-policy-contact-text">
+        If you have any questions, concerns, or complaints about this Privacy Policy or our data handling practices,
+        please contact us:
+      </p>
+      <div class="privacy-policy-contact-details">
+        <div class="privacy-policy-contact-item">
+          <p class="privacy-policy-contact-label">Email</p>
+          <a
+            href="mailto:contact.urbnmyth@gmail.com"
+            class="privacy-policy-contact-link"
+          >
+            <span class="privacy-policy-contact-icon">✉️</span>
+            contact.urbnmyth@gmail.com
+          </a>
+        </div>
+        <div class="privacy-policy-contact-item">
+          <p class="privacy-policy-contact-label">Website</p>
+          <a
+            href="https://www.urbnmyth.in"
+            class="privacy-policy-contact-website"
+          >
+            www.urbnmyth.in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

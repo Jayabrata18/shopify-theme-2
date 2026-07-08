@@ -1,0 +1,738 @@
+<style>
+  .faq-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  /* Header */
+  .faq-page-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+  }
+
+  .faq-page-header-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .faq-page-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+  }
+
+  .faq-page-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+  }
+
+  /* Search Bar */
+  .faq-page-search-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    margin-top: -2rem;
+  }
+
+  .faq-page-search-bar {
+    background-color: white;
+    border: 2px solid black;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .faq-page-search-icon {
+    margin-left: 0.75rem;
+    color: #9ca3af;
+    font-size: 1.5rem;
+  }
+
+  .faq-page-search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    outline: none;
+    font-size: 1.125rem;
+    border: none;
+  }
+
+  /* Category Filters */
+  .faq-page-categories-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .faq-page-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .faq-page-category-button {
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .faq-page-category-button-active {
+    background-color: black;
+    color: white;
+  }
+
+  .faq-page-category-button-inactive {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  .faq-page-category-button-inactive:hover {
+    background-color: #e5e7eb;
+  }
+
+  .faq-page-category-icon {
+    font-size: 1.125rem;
+  }
+
+  /* FAQ List */
+  .faq-page-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-page-item {
+    border: 1px solid #e5e7eb;
+  }
+
+  .faq-page-question-button {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    background: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+  }
+
+  .faq-page-question-button:hover {
+    background-color: #f9fafb;
+  }
+
+  .faq-page-question-text {
+    font-weight: bold;
+    font-size: 1.125rem;
+    flex: 1;
+    margin: 0;
+  }
+
+  .faq-page-question-arrow {
+    font-size: 1.5rem;
+    color: #374151;
+    flex-shrink: 0;
+  }
+
+  .faq-page-answer {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    display: none;
+  }
+
+  .faq-page-answer-text {
+    color: #374151;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* No Results */
+  .faq-page-no-results {
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .faq-page-no-results-text {
+    color: #6b7280;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .faq-page-clear-filters {
+    color: black;
+    font-weight: bold;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .faq-page-clear-filters:hover {
+    text-decoration: none;
+  }
+
+  /* Still Have Questions Section */
+  .faq-page-contact-section {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+  }
+
+  .faq-page-contact-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .faq-page-contact-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .faq-page-contact-text {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+  }
+
+  .faq-page-contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .faq-page-contact-button-primary {
+    background-color: white;
+    color: black;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .faq-page-contact-button-primary:hover {
+    background-color: #e5e7eb;
+  }
+
+  .faq-page-contact-button-secondary {
+    border: 2px solid white;
+    color: white;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .faq-page-contact-button-secondary:hover {
+    background-color: white;
+    color: black;
+  }
+
+  /* Quick Links */
+  .faq-page-quick-links {
+    background-color: #f9fafb;
+    padding: 3rem 1.5rem;
+  }
+
+  .faq-page-quick-links-container {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .faq-page-quick-links-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-page-quick-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .faq-page-quick-link {
+    padding: 1.5rem;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s;
+    text-align: center;
+  }
+
+  .faq-page-quick-link:hover {
+    border-color: black;
+  }
+
+  .faq-page-quick-link-icon {
+    font-size: 2rem;
+    margin: 0 auto 0.75rem auto;
+    transition: transform 0.2s;
+  }
+
+  .faq-page-quick-link:hover .faq-page-quick-link-icon {
+    transform: scale(1.1);
+  }
+
+  .faq-page-quick-link-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .faq-page-quick-link-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 640px) {
+    .faq-page-contact-buttons {
+      flex-direction: row;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .faq-page-header-title {
+      font-size: 3.75rem;
+    }
+
+    .faq-page-quick-links-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .faq-page-header-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  /* Animation for FAQ expansion */
+  .faq-page-answer {
+    animation: faq-page-fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes faq-page-fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .faq-page-category-button:focus,
+  .faq-page-question-button:focus,
+  .faq-page-clear-filters:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  .faq-page-contact-button-primary:focus,
+  .faq-page-contact-button-secondary:focus,
+  .faq-page-quick-link:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let faqPageExpandedFaq = null;
+    let faqPageActiveCategory = 'all';
+    let faqPageSearchQuery = '';
+
+    // FAQ data
+    const faqPageFaqs = [
+      {
+        category: 'orders',
+        question: 'How do I place an order?',
+        answer:
+          'Browse our collection, select your desired items, choose size and quantity, add to cart, and proceed to checkout. You can checkout as a guest or create an account for faster future purchases. Follow the prompts to enter your shipping information and payment details to complete your order.',
+      },
+      {
+        category: 'orders',
+        question: 'Can I modify or cancel my order after placing it?',
+        answer:
+          'Orders can be modified or cancelled within 2 hours of placement. After that, the order enters processing and cannot be changed. Contact us immediately at contact.urbnmyth@gmail.com with your order number if you need to make changes. Once shipped, orders cannot be cancelled but can be returned according to our return policy.',
+      },
+      {
+        category: 'orders',
+        question: 'How do I track my order?',
+        answer:
+          'Once your order ships, you will receive a tracking number via email. You can track your order by clicking the tracking link in the email or by logging into your URBNMYTH account and viewing your order history. Tracking information is typically updated within 24 hours of shipment.',
+      },
+      {
+        category: 'orders',
+        question: 'What payment methods do you accept?',
+        answer:
+          'We accept all major credit and debit cards (Visa, Mastercard, American Express), UPI, net banking, and digital wallets. All payments are processed securely through encrypted payment gateways. We do not store your complete card information for your security.',
+      },
+      {
+        category: 'shipping',
+        question: 'What are your shipping charges?',
+        answer:
+          'We offer free shipping on all orders above ₹999. For orders below ₹999, a flat shipping fee of ₹99 applies. Shipping costs are calculated at checkout based on your delivery location and order value.',
+      },
+      {
+        category: 'shipping',
+        question: 'How long does delivery take?',
+        answer:
+          'Orders are processed within 2-4 business days. Delivery typically takes 8-10 days depending on your location and pincode. Metro cities usually receive orders faster (5-7 days), while remote areas may take longer. You will receive tracking information once your order ships.',
+      },
+      {
+        category: 'shipping',
+        question: 'Do you ship internationally?',
+        answer:
+          'Currently, we only ship within India. We are working on expanding our shipping to international locations. Subscribe to our newsletter to be notified when international shipping becomes available.',
+      },
+      {
+        category: 'shipping',
+        question: 'What if my delivery is delayed?',
+        answer:
+          'In case of unforeseen delays due to courier issues, weather, or regional restrictions, we will notify you via your registered email. If your order is significantly delayed beyond the estimated delivery date, please contact our support team at contact.urbnmyth@gmail.com with your order number.',
+      },
+      {
+        category: 'returns',
+        question: 'What is your return policy?',
+        answer:
+          'We offer a 7-day return policy from the date of delivery. Items must be unused, unwashed, with original tags attached, and in their original packaging. Sale items and customized products are not eligible for returns. To initiate a return, contact us at contact.urbnmyth@gmail.com with your order number and reason for return.',
+      },
+      {
+        category: 'returns',
+        question: 'How do I exchange an item?',
+        answer:
+          'To exchange an item for a different size or color, initiate a return and place a new order for the desired item. We currently do not offer direct exchanges. Return shipping costs are borne by the customer unless the product is defective or incorrect.',
+      },
+      {
+        category: 'returns',
+        question: 'When will I receive my refund?',
+        answer:
+          'Once we receive and inspect your returned item, refunds are processed within 5-7 business days. The amount will be credited to your original payment method. Bank processing times may vary, typically taking 7-10 business days for the refund to reflect in your account.',
+      },
+      {
+        category: 'returns',
+        question: 'What if I receive a damaged or wrong item?',
+        answer:
+          'We sincerely apologize if you receive a damaged or incorrect item. Please contact us immediately at contact.urbnmyth@gmail.com with your order number and photos of the item. We will arrange a free return pickup and send you a replacement or full refund as per your preference.',
+      },
+      {
+        category: 'payment',
+        question: 'Is it safe to use my credit card on your website?',
+        answer:
+          'Absolutely! All transactions on URBNMYTH are secured with industry-standard SSL encryption. We use trusted payment gateways and do not store your complete credit card information. Your payment details are processed securely and are never shared with unauthorized parties.',
+      },
+      {
+        category: 'payment',
+        question: 'Do you offer Cash on Delivery (COD)?',
+        answer:
+          'No, we do not offer Cash on Delivery for now. COD availability will be shown at checkout based on your delivery pincode. Please note that COD may have additional charges and is subject to order value limits.',
+      },
+      {
+        category: 'payment',
+        question: 'Can I use multiple payment methods for one order?',
+        answer:
+          'Currently, we only accept one payment method per order. You cannot split payments across multiple cards or payment methods. Please ensure you have sufficient funds available on your chosen payment method.',
+      },
+      {
+        category: 'payment',
+        question: 'What should I do if my payment failed?',
+        answer:
+          'If your payment fails, check if the amount was debited from your account. If debited, it will be automatically refunded within 5-7 business days. You can retry the payment or use an alternative payment method. If issues persist, contact your bank or our support team.',
+      },
+      {
+        category: 'account',
+        question: 'Do I need an account to place an order?',
+        answer:
+          'No, you can checkout as a guest without creating an account. However, creating an account allows you to track orders, save addresses, view order history, and enjoy faster checkout on future purchases.',
+      },
+      {
+        category: 'account',
+        question: 'How do I create an account?',
+        answer:
+          'Click on the "Sign Up" or "Create Account" button on our website. Enter your name, email address, and create a password. You will receive a verification email. Click the link in the email to activate your account and start shopping.',
+      },
+      {
+        category: 'account',
+        question: 'I forgot my password. How do I reset it?',
+        answer:
+          'Click on "Forgot Password" on the login page. Enter your registered email address, and we will send you a password reset link. Follow the link to create a new password. If you do not receive the email, check your spam folder or contact support.',
+      },
+      {
+        category: 'account',
+        question: 'How do I update my account information?',
+        answer:
+          'Log in to your account and navigate to "My Account" or "Profile Settings". From there, you can update your personal information, shipping addresses, email preferences, and password. Make sure to save changes before exiting.',
+      },
+      {
+        category: 'orders',
+        question: 'What sizes do you offer?',
+        answer:
+          'We offer a wide range of sizes from XS to 3XL for most products. Each product page includes a detailed size chart to help you find the perfect fit. If you are between sizes, we recommend sizing up for a more relaxed streetwear fit.',
+      },
+      {
+        category: 'orders',
+        question: 'How do I know which size to order?',
+        answer:
+          'Refer to our size chart available on each product page. Measure yourself according to the guidelines provided and compare with our measurements. For the best fit, consider your body measurements rather than your usual size, as sizing may vary across brands.',
+      },
+      {
+        category: 'orders',
+        question: 'Do you restock sold-out items?',
+        answer:
+          'Popular items are restocked regularly, but limited edition pieces may not return. You can sign up for restock notifications on product pages to receive an email alert when items become available again.',
+      },
+      {
+        category: 'returns',
+        question: 'Can I return sale items?',
+        answer:
+          'Sale items, clearance products, and items marked as "Final Sale" cannot be returned or exchanged unless they are defective or damaged. All other return policy terms apply to regular-priced items.',
+      },
+    ];
+
+    // Filter FAQs based on category and search
+    function faqPageFilterFaqs() {
+      const filtered = faqPageFaqs.filter((faq) => {
+        const matchesCategory = faqPageActiveCategory === 'all' || faq.category === faqPageActiveCategory;
+        const matchesSearch =
+          faqPageSearchQuery === '' ||
+          faq.question.toLowerCase().includes(faqPageSearchQuery.toLowerCase()) ||
+          faq.answer.toLowerCase().includes(faqPageSearchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      faqPageRenderFaqs(filtered);
+    }
+
+    // Render FAQs
+    function faqPageRenderFaqs(faqs) {
+      const container = document.querySelector('.faq-page-list');
+      const noResults = document.querySelector('.faq-page-no-results');
+
+      if (faqs.length === 0) {
+        container.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        container.style.display = 'flex';
+        noResults.style.display = 'none';
+
+        container.innerHTML = faqs
+          .map(
+            (faq, index) => `
+          <div class="faq-page-item">
+            <button class="faq-page-question-button" onclick="faqPageToggleFaq(${index})">
+              <span class="faq-page-question-text">${faq.question}</span>
+              <span class="faq-page-question-arrow">▼</span>
+            </button>
+            <div class="faq-page-answer" id="faq-answer-${index}">
+              <p class="faq-page-answer-text">${faq.answer}</p>
+            </div>
+          </div>
+        `
+          )
+          .join('');
+      }
+    }
+
+    // Toggle FAQ
+    window.faqPageToggleFaq = function (index) {
+      if (faqPageExpandedFaq === index) {
+        faqPageExpandedFaq = null;
+      } else {
+        faqPageExpandedFaq = index;
+      }
+
+      // Update all answers
+      document.querySelectorAll('.faq-page-answer').forEach((answer, i) => {
+        answer.style.display = i === faqPageExpandedFaq ? 'block' : 'none';
+      });
+
+      document.querySelectorAll('.faq-page-question-arrow').forEach((arrow, i) => {
+        arrow.textContent = i === faqPageExpandedFaq ? '▲' : '▼';
+      });
+    };
+
+    // Set active category
+    window.faqPageSetActiveCategory = function (category) {
+      faqPageActiveCategory = category;
+      faqPageFilterFaqs();
+
+      // Update active category buttons
+      document.querySelectorAll('.faq-page-category-button').forEach((button) => {
+        if (button.dataset.category === category) {
+          button.className = 'faq-page-category-button faq-page-category-button-active';
+        } else {
+          button.className = 'faq-page-category-button faq-page-category-button-inactive';
+        }
+      });
+    };
+
+    // Search functionality
+    const searchInput = document.querySelector('.faq-page-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function (e) {
+        faqPageSearchQuery = e.target.value;
+        faqPageFilterFaqs();
+      });
+    }
+
+    // Clear filters
+    window.faqPageClearFilters = function () {
+      faqPageSearchQuery = '';
+      faqPageActiveCategory = 'all';
+
+      if (searchInput) {
+        searchInput.value = '';
+      }
+
+      faqPageSetActiveCategory('all');
+      faqPageFilterFaqs();
+    };
+
+    // Initial render
+    faqPageRenderFaqs(faqPageFaqs);
+  });
+</script>
+
+<div class="faq-page">
+  <!-- Header -->
+  <div class="faq-page-header">
+    <div class="faq-page-header-container">
+      <h1 class="faq-page-header-title">FAQs</h1>
+      <p class="faq-page-header-subtitle">Find answers to common questions about URBNMYTH</p>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="faq-page-search-container">
+    <div class="faq-page-search-bar">
+      <div class="faq-page-search-icon">🔍</div>
+      <input type="text" class="faq-page-search-input" placeholder="Search for answers...">
+    </div>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="faq-page-categories-container">
+    <div class="faq-page-categories">
+      <button
+        class="faq-page-category-button faq-page-category-button-active"
+        data-category="all"
+        onclick="faqPageSetActiveCategory('all')"
+      >
+        <span class="faq-page-category-icon">❓</span>
+        All Questions
+      </button>
+      <button
+        class="faq-page-category-button faq-page-category-button-inactive"
+        data-category="orders"
+        onclick="faqPageSetActiveCategory('orders')"
+      >
+        <span class="faq-page-category-icon">📦</span>
+        Orders
+      </button>
+      <button
+        class="faq-page-category-button faq-page-category-button-inactive"
+        data-category="shipping"
+        onclick="faqPageSetActiveCategory('shipping')"
+      >
+        <span class="faq-page-category-icon">🚚</span>
+        Shipping
+      </button>
+      <button
+        class="faq-page-category-button faq-page-category-button-inactive"
+        data-category="returns"
+        onclick="faqPageSetActiveCategory('returns')"
+      >
+        <span class="faq-page-category-icon">🔄</span>
+        Returns
+      </button>
+      <button
+        class="faq-page-category-button faq-page-category-button-inactive"
+        data-category="payment"
+        onclick="faqPageSetActiveCategory('payment')"
+      >
+        <span class="faq-page-category-icon">💳</span>
+        Payment
+      </button>
+      <button
+        class="faq-page-category-button faq-page-category-button-inactive"
+        data-category="account"
+        onclick="faqPageSetActiveCategory('account')"
+      >
+        <span class="faq-page-category-icon">🛡️</span>
+        Account
+      </button>
+    </div>
+
+    <!-- FAQ List -->
+    <div class="faq-page-list"></div>
+
+    <!-- No Results -->
+    <div class="faq-page-no-results" style="display: none;">
+      <p class="faq-page-no-results-text">No questions found matching your search.</p>
+      <button class="faq-page-clear-filters" onclick="faqPageClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- Still Have Questions Section -->
+  <div class="faq-page-contact-section">
+    <div class="faq-page-contact-container">
+      <h2 class="faq-page-contact-title">Still Have Questions?</h2>
+      <p class="faq-page-contact-text">Can't find what you're looking for? Our support team is here to help.</p>
+      <div class="faq-page-contact-buttons">
+        <a href="#contact" class="faq-page-contact-button-primary"> Contact Support </a>
+        <a href="mailto:contact.urbnmyth@gmail.com" class="faq-page-contact-button-secondary"> Email Us </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="faq-page-quick-links">
+    <div class="faq-page-quick-links-container">
+      <h3 class="faq-page-quick-links-title">Quick Links</h3>
+      <div class="faq-page-quick-links-grid">
+        <a href="#track" class="faq-page-quick-link">
+          <div class="faq-page-quick-link-icon">🚚</div>
+          <h4 class="faq-page-quick-link-title">Track Order</h4>
+          <p class="faq-page-quick-link-description">Check your order status</p>
+        </a>
+        <a href="#returns" class="faq-page-quick-link">
+          <div class="faq-page-quick-link-icon">🔄</div>
+          <h4 class="faq-page-quick-link-title">Returns</h4>
+          <p class="faq-page-quick-link-description">View our return policy</p>
+        </a>
+        <a href="#account" class="faq-page-quick-link">
+          <div class="faq-page-quick-link-icon">🛡️</div>
+          <h4 class="faq-page-quick-link-title">My Account</h4>
+          <p class="faq-page-quick-link-description">Manage your profile</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

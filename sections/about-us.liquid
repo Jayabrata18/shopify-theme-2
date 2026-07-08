@@ -1,0 +1,311 @@
+<div class="about-page">
+  <section class="about-hero" data-testid="about-hero">
+    <div class="hero-image-container">
+      <img
+       src="https://cdn.shopify.com/s/files/1/0782/0689/4322/files/1aed122a7b63e47e8d868cbdc1732912.jpg?v=1758807599"
+        alt="About URBNMYTH"
+        class="hero-image"
+        width="1200"
+        height="800"
+      />
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title" data-testid="about-title">
+        OUR STORY
+      </h1>
+    </div>
+  </section>
+
+  <section class="about-content">
+    <div class="content-container">
+      <div class="content-space">
+        <div data-testid="brand-story">
+          <h2 class="content-heading">THE URBNMYTH PHILOSOPHY</h2>
+          <div class="text-content">
+            <p>
+              URBNMYTH was born from the streets of India, where culture collides with creativity
+              and tradition meets rebellion. We're not just a clothing brand — we're a movement
+              that celebrates the bold, the different, and the unapologetic.
+            </p>
+            <p>
+              In a world of mass production and cookie-cutter fashion, we stand for something
+              different. Every piece we create tells a story. Every design challenges the norm.
+              Every collection is a statement about who we are and what we believe in.
+            </p>
+            <p>
+              We draw inspiration from the urban mythology that surrounds us — the legends told
+              in the streets, the art painted on walls, the music that moves generations. This
+              is streetwear with soul, fashion with purpose.
+            </p>
+          </div>
+        </div>
+
+        <div class="values-grid" data-testid="values-section">
+          <div class="value-item">
+            <h3 class="value-title">QUALITY FIRST</h3>
+            <p class="value-text">
+              We use only premium materials and work with skilled artisans to create pieces
+              that last. Every stitch, every print, every detail is crafted with care.
+            </p>
+          </div>
+          <div class="value-item">
+            <h3 class="value-title">BOLD DESIGNS</h3>
+            <p class="value-text">
+              Our designs don't follow trends — they set them. We create pieces that make
+              statements and start conversations.
+            </p>
+          </div>
+          <div class="value-item">
+            <h3 class="value-title">COMMUNITY DRIVEN</h3>
+            <p class="value-text">
+              URBNMYTH is more than a brand. It's a community of individuals who dare to be
+              different and celebrate their uniqueness.
+            </p>
+          </div>
+          <div class="value-item">
+            <h3 class="value-title">SUSTAINABLE FUTURE</h3>
+            <p class="value-text">
+              We're committed to ethical production and sustainable practices. Fashion should
+              make you look good and feel good.
+            </p>
+          </div>
+        </div>
+
+        <div class="cta-section" data-testid="cta-section">
+          <h2 class="cta-title">JOIN THE MOVEMENT</h2>
+          <p class="cta-text">
+            Be part of something bigger. Wear your story. Challenge the ordinary.
+          </p>
+          <a href="/shop">
+            <button
+              class="cta-button"
+              data-testid="shop-collection-button"
+            >
+              SHOP THE COLLECTION
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+.about-page {
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hero Section */
+.about-hero {
+  position: relative;
+  height: 24rem; /* 96px = 24rem */
+  background-color: black;
+  color: white;
+  width: 100%;
+}
+
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+}
+
+.hero-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Content Section */
+.about-content {
+  padding: 5rem 1rem;
+  width: 100%;
+}
+
+.content-container {
+  max-width: 56rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.content-space {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.content-heading {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.text-content p {
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #374151;
+}
+
+/* Values Grid */
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.value-item {
+  margin-bottom: 1rem;
+}
+
+.value-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.value-text {
+  color: #374151;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+  background-color: black;
+  color: white;
+  padding: 3rem;
+  text-align: center;
+  width: 100%;
+}
+
+.cta-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cta-text {
+  margin-bottom: 2rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cta-button:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .about-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .values-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .about-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  .hero-title {
+    font-size: 3.75rem;
+  }
+  
+  .about-hero {
+    height: 32rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Ensure full width on all elements */
+* {
+  box-sizing: border-box;
+}
+</style>

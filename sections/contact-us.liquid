@@ -1,0 +1,601 @@
+<style>
+  /* Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+  .contact-us-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .contact-us-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .contact-us-header-container {
+    max-width: 72rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-us-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+  }
+
+  .contact-us-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    max-width: 42rem;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Contact Info Cards */
+  .contact-us-info-container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .contact-us-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .contact-us-info-card {
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    transition: border-color 0.2s;
+  }
+
+  .contact-us-info-card:hover {
+    border-color: black;
+  }
+
+  .contact-us-info-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem auto;
+    background-color: black;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: white;
+  }
+
+  .contact-us-info-title {
+    font-weight: bold;
+    font-size: 1.125rem;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-us-info-content {
+    color: #374151;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+    display: block;
+  }
+
+  .contact-us-info-content:hover {
+    color: black;
+  }
+
+  .contact-us-info-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Main Content Grid */
+  .contact-us-main-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  /* Contact Form */
+  .contact-us-form-section {
+    margin-bottom: 2rem;
+  }
+
+  .contact-us-form-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-us-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-us-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-us-form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-us-form-input,
+  .contact-us-form-select,
+  .contact-us-form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    transition: border-color 0.2s;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .contact-us-form-input:focus,
+  .contact-us-form-select:focus,
+  .contact-us-form-textarea:focus {
+    border-color: black;
+    outline: none;
+  }
+
+  .contact-us-form-textarea {
+    resize: none;
+    min-height: 9rem;
+  }
+
+  .contact-us-form-button {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .contact-us-form-button:hover {
+    background-color: #374151;
+  }
+
+  .contact-us-form-button-icon {
+    font-size: 1.25rem;
+  }
+
+  .contact-us-form-success {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .contact-us-form-success-text {
+    color: #166534;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Quick Links */
+  .contact-us-quick-links-section {
+    margin-bottom: 2rem;
+  }
+
+  .contact-us-quick-links-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-us-quick-links-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-us-quick-link {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .contact-us-quick-link:hover {
+    border-color: black;
+  }
+
+  .contact-us-quick-link-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact-us-quick-link-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: #f3f4f6;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+    font-size: 1.5rem;
+  }
+
+  .contact-us-quick-link:hover .contact-us-quick-link-icon {
+    background-color: black;
+  }
+
+  .contact-us-quick-link-text {
+    flex: 1;
+  }
+
+  .contact-us-quick-link-title {
+    font-weight: bold;
+    font-size: 1.125rem;
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 0.25rem;
+  }
+
+  .contact-us-quick-link-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Additional Info */
+  .contact-us-additional-info {
+    background-color: black;
+    color: white;
+    padding: 2rem;
+  }
+
+  .contact-us-additional-info-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .contact-us-additional-info-text {
+    color: #d1d5db;
+    margin-bottom: 1rem;
+    line-height: 1.625;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .contact-us-additional-info-note {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* FAQ Teaser */
+  .contact-us-faq-teaser {
+    background-color: #f9fafb;
+    padding: 2rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .contact-us-faq-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .contact-us-faq-text {
+    color: #374151;
+    margin-bottom: 1.5rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .contact-us-faq-button {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .contact-us-faq-button:hover {
+    background-color: #374151;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .contact-us-header-title {
+      font-size: 3.75rem;
+    }
+
+    .contact-us-info-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-us-main-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-us-faq-teaser {
+      padding: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact-us-info-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-us-main-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-us-header-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .contact-us-form-input:focus,
+  .contact-us-form-select:focus,
+  .contact-us-form-textarea:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  .contact-us-form-button:focus,
+  .contact-us-faq-button:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  .contact-us-quick-link:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('.contact-us-form');
+    const successMessage = document.querySelector('.contact-us-form-success');
+    
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show success message
+        if (successMessage) {
+          successMessage.style.display = 'block';
+        }
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Hide success message after 3 seconds
+        setTimeout(function() {
+          if (successMessage) {
+            successMessage.style.display = 'none';
+          }
+        }, 3000);
+      });
+    }
+  });
+</script>
+
+<div class="contact-us-page">
+  <!-- Header -->
+  <div class="contact-us-header">
+    <div class="contact-us-header-container">
+      <h1 class="contact-us-header-title">Get In Touch</h1>
+      <p class="contact-us-header-subtitle">
+        Have questions? We're here to help. Reach out to the URBNMYTH team.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Info Cards -->
+  <div class="contact-us-info-container">
+    <div class="contact-us-info-grid">
+      <!-- Email -->
+      <div class="contact-us-info-card">
+        <div class="contact-us-info-icon">✉️</div>
+        <h3 class="contact-us-info-title">Email Us</h3>
+        <a href="mailto:contact.urbnmyth@gmail.com" class="contact-us-info-content">contact.urbnmyth@gmail.com</a>
+        <p class="contact-us-info-description">Get response within 24 hours</p>
+      </div>
+
+      <!-- Phone -->
+      <div class="contact-us-info-card">
+        <div class="contact-us-info-icon">📞</div>
+        <h3 class="contact-us-info-title">Call Us</h3>
+        <a href="tel:+918967961603" class="contact-us-info-content">+91 8967961603</a>
+        <p class="contact-us-info-description">Mon-Sat, 10 AM - 6 PM IST</p>
+      </div>
+
+      <!-- Address -->
+      <div class="contact-us-info-card">
+        <div class="contact-us-info-icon">📍</div>
+        <h3 class="contact-us-info-title">Visit Us</h3>
+        <span class="contact-us-info-content">Kolkata, West Bengal, India</span>
+        <p class="contact-us-info-description">Our registered office</p>
+      </div>
+
+      <!-- Hours -->
+      <div class="contact-us-info-card">
+        <div class="contact-us-info-icon">🕒</div>
+        <h3 class="contact-us-info-title">Business Hours</h3>
+        <span class="contact-us-info-content">Mon - Sat: 10 AM - 6 PM</span>
+        <p class="contact-us-info-description">Sunday: Closed</p>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="contact-us-main-grid">
+      <!-- Contact Form -->
+      <div class="contact-us-form-section">
+        <h2 class="contact-us-form-title">Send Us a Message</h2>
+        <form class="contact-us-form">
+          <div class="contact-us-form-group">
+            <label class="contact-us-form-label">Full Name *</label>
+            <input type="text" name="name" class="contact-us-form-input" placeholder="Enter your name" required>
+          </div>
+
+          <div class="contact-us-form-group">
+            <label class="contact-us-form-label">Email Address *</label>
+            <input type="email" name="email" class="contact-us-form-input" placeholder="your@email.com" required>
+          </div>
+
+          <div class="contact-us-form-group">
+            <label class="contact-us-form-label">Phone Number</label>
+            <input type="tel" name="phone" class="contact-us-form-input" placeholder="+91 XXXXX XXXXX">
+          </div>
+
+          <div class="contact-us-form-group">
+            <label class="contact-us-form-label">Subject *</label>
+            <select name="subject" class="contact-us-form-select" required>
+              <option value="">Select a subject</option>
+              <option value="order">Order Inquiry</option>
+              <option value="product">Product Question</option>
+              <option value="returns">Returns & Refunds</option>
+              <option value="shipping">Shipping & Delivery</option>
+              <option value="partnership">Partnership Inquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="contact-us-form-group">
+            <label class="contact-us-form-label">Message *</label>
+            <textarea name="message" class="contact-us-form-textarea" placeholder="Tell us how we can help..." required></textarea>
+          </div>
+
+          <button type="submit" class="contact-us-form-button">
+            <span class="contact-us-form-button-icon">📤</span>
+            Send Message
+          </button>
+
+          <div class="contact-us-form-success" style="display: none;">
+            <p class="contact-us-form-success-text">
+              ✓ Message sent successfully! We'll get back to you soon.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Quick Links & Info -->
+      <div class="contact-us-quick-links-section">
+        <h2 class="contact-us-quick-links-title">Quick Links</h2>
+        <div class="contact-us-quick-links-grid">
+          <!-- Track Order -->
+          <a href="#track" class="contact-us-quick-link">
+            <div class="contact-us-quick-link-content">
+              <div class="contact-us-quick-link-icon">📦</div>
+              <div class="contact-us-quick-link-text">
+                <h3 class="contact-us-quick-link-title">Track Your Order</h3>
+                <p class="contact-us-quick-link-description">Check your order status and delivery updates</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Customer Support -->
+          <a href="#support" class="contact-us-quick-link">
+            <div class="contact-us-quick-link-content">
+              <div class="contact-us-quick-link-icon">🎧</div>
+              <div class="contact-us-quick-link-text">
+                <h3 class="contact-us-quick-link-title">Customer Support</h3>
+                <p class="contact-us-quick-link-description">FAQs, returns, and general inquiries</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Feedback -->
+          <a href="#feedback" class="contact-us-quick-link">
+            <div class="contact-us-quick-link-content">
+              <div class="contact-us-quick-link-icon">💬</div>
+              <div class="contact-us-quick-link-text">
+                <h3 class="contact-us-quick-link-title">Feedback</h3>
+                <p class="contact-us-quick-link-description">Share your thoughts and suggestions</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="contact-us-additional-info">
+          <h3 class="contact-us-additional-info-title">Need Immediate Help?</h3>
+          <p class="contact-us-additional-info-text">
+            For urgent inquiries about existing orders, please include your order number 
+            in the message. Our support team responds to all emails within 24 hours.
+          </p>
+          <p class="contact-us-additional-info-note">
+            Response times may vary during weekends and holidays.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Teaser -->
+    <div class="contact-us-faq-teaser">
+      <h2 class="contact-us-faq-title">Looking for Answers?</h2>
+      <p class="contact-us-faq-text">
+        Check out our FAQ section for instant answers to common questions about orders, 
+        shipping, returns, and more.
+      </p>
+      <a href="#faqs" class="contact-us-faq-button">
+        Visit FAQs
+      </a>
+    </div>
+  </div>
+</div>

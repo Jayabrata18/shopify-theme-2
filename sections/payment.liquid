@@ -1,0 +1,680 @@
+<style>
+  /* Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+  .payment-policy-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .payment-policy-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .payment-policy-header-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .payment-policy-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Introduction */
+  .payment-policy-introduction {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .payment-policy-intro-box {
+    background-color: #f9fafb;
+    border-left: 4px solid black;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .payment-policy-intro-text {
+    color: #374151;
+    line-height: 1.75;
+    font-size: 1.125rem;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-intro-bold {
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Accepted Payment Methods */
+  .payment-policy-methods {
+    margin-bottom: 4rem;
+  }
+
+  .payment-policy-methods-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-methods-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .payment-policy-method-card {
+    border: 2px solid black;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .payment-policy-method-card:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .payment-policy-method-icon {
+    font-size: 3rem;
+    margin: 0 auto 1rem auto;
+    transition: transform 0.2s;
+  }
+
+  .payment-policy-method-card:hover .payment-policy-method-icon {
+    transform: scale(1.1);
+  }
+
+  .payment-policy-method-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-method-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    transition: color 0.2s;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-method-card:hover .payment-policy-method-description {
+    color: #d1d5db;
+  }
+
+  .payment-policy-cod-notice {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    text-align: center;
+  }
+
+  .payment-policy-cod-text {
+    color: #991b1b;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  /* Policy Details */
+  .payment-policy-details {
+    margin-bottom: 4rem;
+  }
+
+  .payment-policy-details-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .payment-policy-detail-item {
+    border: 2px solid;
+    padding: 1.5rem;
+  }
+
+  .payment-policy-detail-item-highlight {
+    border-color: black;
+    background-color: black;
+    color: white;
+  }
+
+  .payment-policy-detail-item-normal {
+    border-color: #e5e7eb;
+    transition: border-color 0.2s;
+  }
+
+  .payment-policy-detail-item-normal:hover {
+    border-color: #9ca3af;
+  }
+
+  .payment-policy-detail-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .payment-policy-detail-icon {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+  }
+
+  .payment-policy-detail-icon-highlight {
+    background-color: white;
+    color: black;
+  }
+
+  .payment-policy-detail-icon-normal {
+    background-color: black;
+    color: white;
+  }
+
+  .payment-policy-detail-text {
+    flex: 1;
+  }
+
+  .payment-policy-detail-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-detail-description {
+    line-height: 1.625;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-detail-description-highlight {
+    color: #d1d5db;
+  }
+
+  .payment-policy-detail-description-normal {
+    color: #374151;
+  }
+
+  /* Detailed Sections */
+  .payment-policy-detailed-sections {
+    margin-bottom: 4rem;
+  }
+
+  .payment-policy-detailed-section {
+    margin-bottom: 3rem;
+  }
+
+  .payment-policy-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .payment-policy-section-number {
+    width: 2rem;
+    height: 2rem;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-section-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-section-content {
+    padding-left: 2.75rem;
+    border-left: 2px solid #e5e7eb;
+  }
+
+  .payment-policy-section-text {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-section-bold {
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .payment-policy-section-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #374151;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-section-list-bullet {
+    color: black;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  /* Security Notice */
+  .payment-policy-security {
+    background-color: #f0fdf4;
+    border: 2px solid #16a34a;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .payment-policy-security-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .payment-policy-security-icon {
+    font-size: 2rem;
+    color: #16a34a;
+    flex-shrink: 0;
+  }
+
+  .payment-policy-security-text {
+    flex: 1;
+  }
+
+  .payment-policy-security-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #166534;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-security-description {
+    color: #166534;
+    line-height: 1.625;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Contact Section */
+  .payment-policy-contact {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .payment-policy-contact-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .payment-policy-contact-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-contact-text {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .payment-policy-contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .payment-policy-contact-button-primary {
+    background-color: white;
+    color: black;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-contact-button-primary:hover {
+    background-color: #e5e7eb;
+  }
+
+  .payment-policy-contact-button-secondary {
+    border: 2px solid white;
+    color: white;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .payment-policy-contact-button-secondary:hover {
+    background-color: white;
+    color: black;
+  }
+
+  /* Bottom Notice */
+  .payment-policy-bottom-notice {
+    background-color: #f9fafb;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .payment-policy-bottom-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .payment-policy-header-title {
+      font-size: 3.75rem;
+    }
+
+    .payment-policy-methods-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .payment-policy-contact-buttons {
+      flex-direction: row;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .payment-policy-header-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .payment-policy-contact-button-primary:focus,
+  .payment-policy-contact-button-secondary:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  /* Ensure full width on all elements */
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="payment-policy-page">
+  <!-- Header -->
+  <div class="payment-policy-header">
+    <div class="payment-policy-header-container">
+      <h1 class="payment-policy-header-title">Payment Policy</h1>
+      <p class="payment-policy-header-subtitle">Review our payment terms and accepted methods</p>
+    </div>
+  </div>
+
+  <!-- Introduction -->
+  <div class="payment-policy-introduction">
+    <div class="payment-policy-intro-box">
+      <p class="payment-policy-intro-text">
+        Thank you for shopping with <span class="payment-policy-intro-bold">URBNMYTH</span>. To ensure a smooth and
+        secure transaction experience, please review our payment policy below.
+      </p>
+    </div>
+
+    <!-- Accepted Payment Methods -->
+    <div class="payment-policy-methods">
+      <h2 class="payment-policy-methods-title">Accepted Payment Methods</h2>
+      <div class="payment-policy-methods-grid">
+        <!-- Credit & Debit Cards -->
+        <div class="payment-policy-method-card">
+          <div class="payment-policy-method-icon">💳</div>
+          <h3 class="payment-policy-method-title">Credit & Debit Cards</h3>
+          <p class="payment-policy-method-description">Visa, Mastercard, American Express</p>
+        </div>
+
+        <!-- UPI Payments -->
+        <div class="payment-policy-method-card">
+          <div class="payment-policy-method-icon">₹</div>
+          <h3 class="payment-policy-method-title">UPI Payments</h3>
+          <p class="payment-policy-method-description">Google Pay, PhonePe, Paytm & more</p>
+        </div>
+
+        <!-- Bank Transfers -->
+        <div class="payment-policy-method-card">
+          <div class="payment-policy-method-icon">🏦</div>
+          <h3 class="payment-policy-method-title">Bank Transfers</h3>
+          <p class="payment-policy-method-description">Direct bank transfer options</p>
+        </div>
+      </div>
+      <div class="payment-policy-cod-notice">
+        <p class="payment-policy-cod-text">⚠️ Cash on Delivery (COD) is NOT Available</p>
+      </div>
+    </div>
+
+    <!-- Policy Details -->
+    <div class="payment-policy-details">
+      <h2 class="payment-policy-details-title">Important Payment Terms</h2>
+      <div class="payment-policy-details-list">
+        <!-- Prepaid Orders Only -->
+        <div class="payment-policy-detail-item payment-policy-detail-item-highlight">
+          <div class="payment-policy-detail-content">
+            <div class="payment-policy-detail-icon payment-policy-detail-icon-highlight">🛡️</div>
+            <div class="payment-policy-detail-text">
+              <h3 class="payment-policy-detail-title">Prepaid Orders Only</h3>
+              <p class="payment-policy-detail-description payment-policy-detail-description-highlight">
+                All orders must be prepaid before shipment. We do not accept cash on delivery (COD).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Order Cancellation -->
+        <div class="payment-policy-detail-item payment-policy-detail-item-normal">
+          <div class="payment-policy-detail-content">
+            <div class="payment-policy-detail-icon payment-policy-detail-icon-normal">❌</div>
+            <div class="payment-policy-detail-text">
+              <h3 class="payment-policy-detail-title">No Order Cancellation</h3>
+              <p class="payment-policy-detail-description payment-policy-detail-description-normal">
+                Once payment is made, orders cannot be canceled. Please review your order carefully before completing
+                payment.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Refund Processing -->
+        <div class="payment-policy-detail-item payment-policy-detail-item-normal">
+          <div class="payment-policy-detail-content">
+            <div class="payment-policy-detail-icon payment-policy-detail-icon-normal">🔄</div>
+            <div class="payment-policy-detail-text">
+              <h3 class="payment-policy-detail-title">Refund Processing</h3>
+              <p class="payment-policy-detail-description payment-policy-detail-description-normal">
+                Refunds may not be issued to the original payment method. We will process refunds through an alternative
+                method at our discretion.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Confirmation -->
+        <div class="payment-policy-detail-item payment-policy-detail-item-normal">
+          <div class="payment-policy-detail-content">
+            <div class="payment-policy-detail-icon payment-policy-detail-icon-normal">⚠️</div>
+            <div class="payment-policy-detail-text">
+              <h3 class="payment-policy-detail-title">Payment Confirmation</h3>
+              <p class="payment-policy-detail-description payment-policy-detail-description-normal">
+                No orders will be processed without payment confirmation. Ensure your payment is successful before
+                expecting order processing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Sections -->
+    <div class="payment-policy-detailed-sections">
+      <!-- Order Cancellation -->
+      <div class="payment-policy-detailed-section">
+        <div class="payment-policy-section-header">
+          <div class="payment-policy-section-number">1</div>
+          <h3 class="payment-policy-section-title">Order Cancellation</h3>
+        </div>
+        <div class="payment-policy-section-content">
+          <p class="payment-policy-section-text">
+            Once a payment has been made, the order <span class="payment-policy-section-bold">cannot be canceled</span>.
+            Please double-check your order details, including product selection, size, quantity, and shipping address
+            before completing the payment process.
+          </p>
+        </div>
+      </div>
+
+      <!-- Refunds -->
+      <div class="payment-policy-detailed-section">
+        <div class="payment-policy-section-header">
+          <div class="payment-policy-section-number">2</div>
+          <h3 class="payment-policy-section-title">Refunds</h3>
+        </div>
+        <div class="payment-policy-section-content">
+          <p class="payment-policy-section-text">
+            In case of a return or refund, please note that refunds may not be issued to the original payment method.
+            The refund will be processed through an alternative method at our discretion, depending on:
+          </p>
+          <div class="payment-policy-section-list">
+            <div class="payment-policy-section-list-item">
+              <span class="payment-policy-section-list-bullet">•</span>
+              <span>The nature of the transaction</span>
+            </div>
+            <div class="payment-policy-section-list-item">
+              <span class="payment-policy-section-list-bullet">•</span>
+              <span>Payment method originally used</span>
+            </div>
+            <div class="payment-policy-section-list-item">
+              <span class="payment-policy-section-list-bullet">•</span>
+              <span>Banking and payment gateway policies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prepaid Orders -->
+      <div class="payment-policy-detailed-section">
+        <div class="payment-policy-section-header">
+          <div class="payment-policy-section-number">3</div>
+          <h3 class="payment-policy-section-title">Prepaid Orders Only</h3>
+        </div>
+        <div class="payment-policy-section-content">
+          <p class="payment-policy-section-text">
+            We only accept <span class="payment-policy-section-bold">prepaid orders</span>. No orders will be processed
+            without payment confirmation. This policy ensures efficient order processing and faster delivery times for
+            all our customers.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Notice -->
+    <div class="payment-policy-security">
+      <div class="payment-policy-security-content">
+        <div class="payment-policy-security-icon">🛡️</div>
+        <div class="payment-policy-security-text">
+          <h3 class="payment-policy-security-title">Secure Payments</h3>
+          <p class="payment-policy-security-description">
+            All transactions on URBNMYTH are secured with industry-standard SSL encryption. We use trusted payment
+            gateways and do not store your complete card information. Your payment details are processed securely and
+            are never shared with unauthorized parties.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom Notice -->
+    <div class="payment-policy-bottom-notice">
+      <p class="payment-policy-bottom-text">
+        By completing a purchase on URBNMYTH, you acknowledge that you have read, understood, and agree to our payment
+        policy. This policy is subject to change without prior notice.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="payment-policy-contact">
+    <div class="payment-policy-contact-container">
+      <h2 class="payment-policy-contact-title">Need Payment Assistance?</h2>
+      <p class="payment-policy-contact-text">
+        We appreciate your understanding and cooperation. If you have any questions or need assistance with payments,
+        our customer support team is here to help.
+      </p>
+      <div class="payment-policy-contact-buttons">
+        <a href="#contact" class="payment-policy-contact-button-primary"> Contact Support </a>
+        <a href="mailto:contact.urbnmyth@gmail.com" class="payment-policy-contact-button-secondary">
+          contact.urbnmyth@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

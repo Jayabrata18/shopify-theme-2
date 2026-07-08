@@ -1,0 +1,938 @@
+<style>
+  /* Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+  .cookie-policy-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .cookie-policy-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .cookie-policy-header-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .cookie-policy-header-icon {
+    font-size: 4rem;
+    margin: 0 auto 1rem auto;
+  }
+
+  .cookie-policy-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+  }
+
+  .cookie-policy-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Introduction */
+  .cookie-policy-introduction {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  .cookie-policy-intro-box {
+    background-color: #f9fafb;
+    border-left: 4px solid black;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .cookie-policy-intro-text {
+    color: #374151;
+    line-height: 1.75;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-intro-bold {
+    font-weight: 600;
+  }
+
+  /* What Are Cookies */
+  .cookie-policy-what-are {
+    margin-bottom: 4rem;
+  }
+
+  .cookie-policy-what-are-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-what-are-content {
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .cookie-policy-what-are-text {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Types of Cookies */
+  .cookie-policy-types {
+    margin-bottom: 4rem;
+  }
+
+  .cookie-policy-types-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .cookie-policy-types-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cookie-policy-type-item {
+    border: 2px solid #e5e7eb;
+  }
+
+  .cookie-policy-type-button {
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+  }
+
+  .cookie-policy-type-button:hover {
+    background-color: #f9fafb;
+  }
+
+  .cookie-policy-type-icon {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+  }
+
+  .cookie-policy-type-icon-green {
+    background-color: #059669;
+    border: 2px solid #059669;
+  }
+
+  .cookie-policy-type-icon-blue {
+    background-color: #2563eb;
+    border: 2px solid #2563eb;
+  }
+
+  .cookie-policy-type-icon-purple {
+    background-color: #7c3aed;
+    border: 2px solid #7c3aed;
+  }
+
+  .cookie-policy-type-icon-orange {
+    background-color: #ea580c;
+    border: 2px solid #ea580c;
+  }
+
+  .cookie-policy-type-content {
+    flex: 1;
+  }
+
+  .cookie-policy-type-title {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .cookie-policy-type-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-type-toggle {
+    font-size: 1.5rem;
+    color: #9ca3af;
+    flex-shrink: 0;
+  }
+
+  .cookie-policy-type-details {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: 2px solid #f3f4f6;
+    display: none;
+  }
+
+  .cookie-policy-type-details-text {
+    color: #374151;
+    line-height: 1.75;
+    margin: 1rem 0 1rem 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-type-examples {
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.375rem;
+  }
+
+  .cookie-policy-type-examples-title {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cookie-policy-type-examples-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cookie-policy-type-example {
+    color: #374151;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-type-example-bullet {
+    color: black;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  /* How We Use Cookies */
+  .cookie-policy-usage {
+    margin-bottom: 4rem;
+  }
+
+  .cookie-policy-usage-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-usage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cookie-policy-usage-item {
+    border-left: 4px solid black;
+    padding-left: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .cookie-policy-usage-title-small {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .cookie-policy-usage-text {
+    color: #374151;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Third-Party Cookies */
+  .cookie-policy-third-party {
+    margin-bottom: 4rem;
+  }
+
+  .cookie-policy-third-party-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-third-party-content {
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .cookie-policy-third-party-text {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-third-party-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .cookie-policy-third-party-item {
+    background-color: #f9fafb;
+    padding: 1rem;
+  }
+
+  .cookie-policy-third-party-item-title {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .cookie-policy-third-party-item-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Managing Cookies */
+  .cookie-policy-managing {
+    margin-bottom: 4rem;
+  }
+
+  .cookie-policy-managing-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-managing-notice {
+    background-color: #dbeafe;
+    border: 2px solid #2563eb;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-managing-notice-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .cookie-policy-managing-notice-icon {
+    font-size: 2rem;
+    color: #2563eb;
+    flex-shrink: 0;
+  }
+
+  .cookie-policy-managing-notice-text {
+    flex: 1;
+  }
+
+  .cookie-policy-managing-notice-title {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+  }
+
+  .cookie-policy-managing-notice-description {
+    color: #1e40af;
+    line-height: 1.625;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-managing-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cookie-policy-managing-option {
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+  }
+
+  .cookie-policy-managing-option-title {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cookie-policy-managing-option-text {
+    color: #374151;
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-managing-browsers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cookie-policy-managing-browser {
+    padding: 0.25rem 0.75rem;
+    background-color: #f3f4f6;
+    color: #374151;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 0.25rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Updates to Policy */
+  .cookie-policy-updates {
+    margin-bottom: 3rem;
+  }
+
+  .cookie-policy-updates-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-policy-updates-content {
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .cookie-policy-updates-text {
+    color: #374151;
+    line-height: 1.75;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Contact Section */
+  .cookie-policy-contact {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .cookie-policy-contact-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .cookie-policy-contact-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .cookie-policy-contact-text {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .cookie-policy-contact-button-primary {
+    background-color: white;
+    color: black;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .cookie-policy-contact-button-primary:hover {
+    background-color: #e5e7eb;
+  }
+
+  .cookie-policy-contact-button-secondary {
+    border: 2px solid white;
+    color: white;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .cookie-policy-contact-button-secondary:hover {
+    background-color: white;
+    color: black;
+  }
+
+  /* Footer Notice */
+  .cookie-policy-footer {
+    background-color: #f9fafb;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .cookie-policy-footer-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+    max-width: 48rem;
+    margin: 0 auto 0.5rem auto;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .cookie-policy-footer-bold {
+    font-weight: 600;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .cookie-policy-header-title {
+      font-size: 3.75rem;
+    }
+
+    .cookie-policy-third-party-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cookie-policy-contact-buttons {
+      flex-direction: row;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cookie-policy-header-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  /* Animation for section expansion */
+  .cookie-policy-type-details {
+    animation: cookie-policy-fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes cookie-policy-fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .cookie-policy-type-button:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  .cookie-policy-contact-button-primary:focus,
+  .cookie-policy-contact-button-secondary:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let cookiePolicyExpandedSection = null;
+
+    function cookiePolicyToggleSection(index) {
+      if (cookiePolicyExpandedSection === index) {
+        cookiePolicyExpandedSection = null;
+      } else {
+        cookiePolicyExpandedSection = index;
+      }
+
+      // Update all sections
+      document.querySelectorAll('.cookie-policy-type-details').forEach((details, i) => {
+        details.style.display = i === cookiePolicyExpandedSection ? 'block' : 'none';
+      });
+
+      document.querySelectorAll('.cookie-policy-type-toggle').forEach((toggle, i) => {
+        toggle.textContent = i === cookiePolicyExpandedSection ? '❌' : '⚙️';
+      });
+    }
+
+    // Make function globally available
+    window.cookiePolicyToggleSection = cookiePolicyToggleSection;
+  });
+</script>
+
+<div class="cookie-policy-page">
+  <!-- Header -->
+  <div class="cookie-policy-header">
+    <div class="cookie-policy-header-container">
+      <div class="cookie-policy-header-icon">🍪</div>
+      <h1 class="cookie-policy-header-title">Cookie Policy</h1>
+      <p class="cookie-policy-header-subtitle">How URBNMYTH uses cookies and tracking technologies</p>
+    </div>
+  </div>
+
+  <!-- Introduction -->
+  <div class="cookie-policy-introduction">
+    <div class="cookie-policy-intro-box">
+      <p class="cookie-policy-intro-text">
+        This Cookie Policy explains how <span class="cookie-policy-intro-bold">URBNMYTH</span> ("we", "us", or "our")
+        uses cookies and similar tracking technologies when you visit our website
+        <span class="cookie-policy-intro-bold">urbnmyth.in</span>.
+      </p>
+      <p class="cookie-policy-intro-text">
+        By using our website, you consent to the use of cookies in accordance with this policy. If you do not agree to
+        our use of cookies, you should change your browser settings accordingly or discontinue use of our website.
+      </p>
+    </div>
+
+    <!-- What Are Cookies -->
+    <div class="cookie-policy-what-are">
+      <h2 class="cookie-policy-what-are-title">What Are Cookies?</h2>
+      <div class="cookie-policy-what-are-content">
+        <p class="cookie-policy-what-are-text">
+          Cookies are small text files that are placed on your device (computer, smartphone, or tablet) when you visit a
+          website. They are widely used to make websites work more efficiently and provide information to the website
+          owners.
+        </p>
+        <p class="cookie-policy-what-are-text">
+          Cookies allow us to recognize your device and store some information about your preferences or past actions on
+          our website, enhancing your browsing experience.
+        </p>
+      </div>
+    </div>
+
+    <!-- Types of Cookies -->
+    <div class="cookie-policy-types">
+      <h2 class="cookie-policy-types-title">Types of Cookies We Use</h2>
+      <div class="cookie-policy-types-list">
+        <!-- Essential Cookies -->
+        <div class="cookie-policy-type-item">
+          <button class="cookie-policy-type-button" onclick="cookiePolicyToggleSection(0)">
+            <div class="cookie-policy-type-icon cookie-policy-type-icon-green">✅</div>
+            <div class="cookie-policy-type-content">
+              <h3 class="cookie-policy-type-title">Essential Cookies</h3>
+              <p class="cookie-policy-type-description">Required for the website to function properly</p>
+            </div>
+            <div class="cookie-policy-type-toggle">⚙️</div>
+          </button>
+          <div class="cookie-policy-type-details">
+            <p class="cookie-policy-type-details-text">
+              These cookies are necessary for the website to function and cannot be switched off. They are usually only
+              set in response to actions made by you such as setting your privacy preferences, logging in, or filling in
+              forms.
+            </p>
+            <div class="cookie-policy-type-examples">
+              <p class="cookie-policy-type-examples-title">Examples:</p>
+              <div class="cookie-policy-type-examples-list">
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Session management</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Security features</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Shopping cart functionality</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Cookies -->
+        <div class="cookie-policy-type-item">
+          <button class="cookie-policy-type-button" onclick="cookiePolicyToggleSection(1)">
+            <div class="cookie-policy-type-icon cookie-policy-type-icon-blue">📊</div>
+            <div class="cookie-policy-type-content">
+              <h3 class="cookie-policy-type-title">Analytics Cookies</h3>
+              <p class="cookie-policy-type-description">Help us understand how visitors interact with our website</p>
+            </div>
+            <div class="cookie-policy-type-toggle">⚙️</div>
+          </button>
+          <div class="cookie-policy-type-details">
+            <p class="cookie-policy-type-details-text">
+              These cookies allow us to count visits and traffic sources so we can measure and improve the performance
+              of our site. They help us know which pages are most and least popular and see how visitors move around the
+              site.
+            </p>
+            <div class="cookie-policy-type-examples">
+              <p class="cookie-policy-type-examples-title">Examples:</p>
+              <div class="cookie-policy-type-examples-list">
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Google Analytics</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Page view tracking</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>User behavior analysis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marketing Cookies -->
+        <div class="cookie-policy-type-item">
+          <button class="cookie-policy-type-button" onclick="cookiePolicyToggleSection(2)">
+            <div class="cookie-policy-type-icon cookie-policy-type-icon-purple">🎯</div>
+            <div class="cookie-policy-type-content">
+              <h3 class="cookie-policy-type-title">Marketing Cookies</h3>
+              <p class="cookie-policy-type-description">Used to deliver relevant advertisements</p>
+            </div>
+            <div class="cookie-policy-type-toggle">⚙️</div>
+          </button>
+          <div class="cookie-policy-type-details">
+            <p class="cookie-policy-type-details-text">
+              These cookies may be set through our site by our advertising partners. They may be used by those companies
+              to build a profile of your interests and show you relevant ads on other sites.
+            </p>
+            <div class="cookie-policy-type-examples">
+              <p class="cookie-policy-type-examples-title">Examples:</p>
+              <div class="cookie-policy-type-examples-list">
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Facebook Pixel</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Google Ads</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Retargeting campaigns</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preference Cookies -->
+        <div class="cookie-policy-type-item">
+          <button class="cookie-policy-type-button" onclick="cookiePolicyToggleSection(3)">
+            <div class="cookie-policy-type-icon cookie-policy-type-icon-orange">⚙️</div>
+            <div class="cookie-policy-type-content">
+              <h3 class="cookie-policy-type-title">Preference Cookies</h3>
+              <p class="cookie-policy-type-description">Remember your settings and preferences</p>
+            </div>
+            <div class="cookie-policy-type-toggle">⚙️</div>
+          </button>
+          <div class="cookie-policy-type-details">
+            <p class="cookie-policy-type-details-text">
+              These cookies enable the website to provide enhanced functionality and personalization. They may be set by
+              us or by third party providers whose services we have added to our pages.
+            </p>
+            <div class="cookie-policy-type-examples">
+              <p class="cookie-policy-type-examples-title">Examples:</p>
+              <div class="cookie-policy-type-examples-list">
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Language preferences</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Region selection</span>
+                </div>
+                <div class="cookie-policy-type-example">
+                  <span class="cookie-policy-type-example-bullet">•</span>
+                  <span>Display settings</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How We Use Cookies -->
+    <div class="cookie-policy-usage">
+      <h2 class="cookie-policy-usage-title">How We Use Cookies</h2>
+      <div class="cookie-policy-usage-list">
+        <div class="cookie-policy-usage-item">
+          <h3 class="cookie-policy-usage-title-small">To Improve User Experience</h3>
+          <p class="cookie-policy-usage-text">
+            We use cookies to remember your preferences and settings, making your visits more convenient and
+            personalized.
+          </p>
+        </div>
+        <div class="cookie-policy-usage-item">
+          <h3 class="cookie-policy-usage-title-small">To Analyze Website Traffic</h3>
+          <p class="cookie-policy-usage-text">
+            We use analytics cookies to understand how visitors use our website, which helps us improve our content and
+            functionality.
+          </p>
+        </div>
+        <div class="cookie-policy-usage-item">
+          <h3 class="cookie-policy-usage-title-small">To Enable E-commerce Features</h3>
+          <p class="cookie-policy-usage-text">
+            Essential cookies help maintain your shopping cart, process transactions, and ensure secure access to your
+            account.
+          </p>
+        </div>
+        <div class="cookie-policy-usage-item">
+          <h3 class="cookie-policy-usage-title-small">To Deliver Relevant Marketing</h3>
+          <p class="cookie-policy-usage-text">
+            Marketing cookies help us show you relevant products and offers based on your interests and browsing
+            behavior.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third-Party Cookies -->
+    <div class="cookie-policy-third-party">
+      <h2 class="cookie-policy-third-party-title">Third-Party Cookies</h2>
+      <div class="cookie-policy-third-party-content">
+        <p class="cookie-policy-third-party-text">
+          We may also use third-party cookies from trusted partners to help us understand how our website is used and to
+          deliver targeted advertising. These third parties include:
+        </p>
+        <div class="cookie-policy-third-party-grid">
+          <div class="cookie-policy-third-party-item">
+            <h4 class="cookie-policy-third-party-item-title">Google Analytics</h4>
+            <p class="cookie-policy-third-party-item-description">Website traffic and user behavior analysis</p>
+          </div>
+          <div class="cookie-policy-third-party-item">
+            <h4 class="cookie-policy-third-party-item-title">Facebook Pixel</h4>
+            <p class="cookie-policy-third-party-item-description">Social media advertising and retargeting</p>
+          </div>
+          <div class="cookie-policy-third-party-item">
+            <h4 class="cookie-policy-third-party-item-title">Google Ads</h4>
+            <p class="cookie-policy-third-party-item-description">Targeted advertising campaigns</p>
+          </div>
+          <div class="cookie-policy-third-party-item">
+            <h4 class="cookie-policy-third-party-item-title">Payment Processors</h4>
+            <p class="cookie-policy-third-party-item-description">Secure payment processing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Managing Cookies -->
+    <div class="cookie-policy-managing">
+      <h2 class="cookie-policy-managing-title">Managing Your Cookie Preferences</h2>
+      <div class="cookie-policy-managing-notice">
+        <div class="cookie-policy-managing-notice-content">
+          <div class="cookie-policy-managing-notice-icon">🛡️</div>
+          <div class="cookie-policy-managing-notice-text">
+            <h3 class="cookie-policy-managing-notice-title">You Have Control</h3>
+            <p class="cookie-policy-managing-notice-description">
+              Most web browsers allow you to control cookies through their settings. You can choose to block or delete
+              cookies, but this may affect your ability to use certain features of our website.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cookie-policy-managing-options">
+        <div class="cookie-policy-managing-option">
+          <h4 class="cookie-policy-managing-option-title">Browser Settings</h4>
+          <p class="cookie-policy-managing-option-text">
+            You can modify your browser settings to accept or reject cookies. Here are links to cookie management guides
+            for popular browsers:
+          </p>
+          <div class="cookie-policy-managing-browsers">
+            <span class="cookie-policy-managing-browser">Chrome</span>
+            <span class="cookie-policy-managing-browser">Firefox</span>
+            <span class="cookie-policy-managing-browser">Safari</span>
+            <span class="cookie-policy-managing-browser">Edge</span>
+            <span class="cookie-policy-managing-browser">Opera</span>
+          </div>
+        </div>
+        <div class="cookie-policy-managing-option">
+          <h4 class="cookie-policy-managing-option-title">Opt-Out Tools</h4>
+          <p class="cookie-policy-managing-option-text">
+            You can opt out of targeted advertising by visiting the Network Advertising Initiative opt-out page or the
+            Digital Advertising Alliance opt-out page.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Updates to Policy -->
+    <div class="cookie-policy-updates">
+      <h2 class="cookie-policy-updates-title">Updates to This Policy</h2>
+      <div class="cookie-policy-updates-content">
+        <p class="cookie-policy-updates-text">
+          We may update this Cookie Policy from time to time to reflect changes in our practices or for legal,
+          operational, or regulatory reasons. We encourage you to review this page periodically to stay informed about
+          our use of cookies. The "Last Updated" date at the bottom of this page indicates when this policy was last
+          revised.
+        </p>
+      </div>
+    </div>
+    <div class="cookie-policy-footer">
+      <p class="cookie-policy-footer-text"><span class="cookie-policy-footer-bold">Last Updated:</span> October 2025</p>
+      <p class="cookie-policy-footer-text">
+        By continuing to use urbnmyth.in, you acknowledge that you have read and understood this Cookie Policy.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="cookie-policy-contact">
+    <div class="cookie-policy-contact-container">
+      <h2 class="cookie-policy-contact-title">Questions About Cookies?</h2>
+      <p class="cookie-policy-contact-text">
+        If you have any questions about our use of cookies or this Cookie Policy, please don't hesitate to contact us.
+      </p>
+      <div class="cookie-policy-contact-buttons">
+        <a href="#contact" class="cookie-policy-contact-button-primary"> Contact Us </a>
+        <a href="mailto:contact.urbnmyth@gmail.com" class="cookie-policy-contact-button-secondary">
+          contact.urbnmyth@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

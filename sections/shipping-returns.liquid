@@ -1,0 +1,1216 @@
+<style>
+  /* Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+  .shipping-returns-page {
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .shipping-returns-header {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .shipping-returns-header-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .shipping-returns-header-icon {
+    font-size: 4rem;
+    margin: 0 auto 1rem auto;
+  }
+
+  .shipping-returns-header-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-header-subtitle {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Tab Navigation */
+  .shipping-returns-tabs {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    margin-top: -2rem;
+    width: 100%;
+  }
+
+  .shipping-returns-tab-container {
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    display: flex;
+  }
+
+  .shipping-returns-tab {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-tab-active {
+    background-color: black;
+    color: white;
+  }
+
+  .shipping-returns-tab-inactive {
+    background-color: white;
+    color: black;
+    border-left: 2px solid black;
+  }
+
+  .shipping-returns-tab-inactive:hover {
+    background-color: #f3f4f6;
+  }
+
+  .shipping-returns-tab-icon {
+    font-size: 1.25rem;
+  }
+
+  /* Main Content */
+  .shipping-returns-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+  }
+
+  /* Introduction */
+  .shipping-returns-intro {
+    background-color: #f9fafb;
+    border-left: 4px solid black;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-intro-text {
+    color: #374151;
+    line-height: 1.75;
+    font-size: 1.125rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-intro-bold {
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Free Delivery Highlight */
+  .shipping-returns-free-delivery {
+    background-color: #059669;
+    color: white;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .shipping-returns-free-delivery-icon {
+    font-size: 3rem;
+    margin: 0 auto 1rem auto;
+  }
+
+  .shipping-returns-free-delivery-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-free-delivery-text {
+    font-size: 1.125rem;
+    color: #d1fae5;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Delivery Partners */
+  .shipping-returns-partners {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-partners-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-partners-text {
+    color: #374151;
+    margin-bottom: 1.5rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-partners-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .shipping-returns-partner {
+    border: 2px solid black;
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-partners-note {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Delivery Timeframe */
+  .shipping-returns-timeframe {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-timeframe-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-timeframe-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .shipping-returns-timeframe-card {
+    border: 2px solid black;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .shipping-returns-timeframe-icon {
+    font-size: 2.5rem;
+    margin: 0 auto 0.75rem auto;
+  }
+
+  .shipping-returns-timeframe-days {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-timeframe-label {
+    color: #6b7280;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Important Information */
+  .shipping-returns-info {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-info-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .shipping-returns-info-yellow {
+    border-left: 4px solid #d97706;
+    background-color: #fffbeb;
+    padding: 1.5rem;
+  }
+
+  .shipping-returns-info-red {
+    border-left: 4px solid #dc2626;
+    background-color: #fef2f2;
+    padding: 1.5rem;
+  }
+
+  .shipping-returns-info-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .shipping-returns-info-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .shipping-returns-info-yellow .shipping-returns-info-icon {
+    color: #d97706;
+  }
+
+  .shipping-returns-info-red .shipping-returns-info-icon {
+    color: #dc2626;
+  }
+
+  .shipping-returns-info-text {
+    flex: 1;
+  }
+
+  .shipping-returns-info-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-info-yellow .shipping-returns-info-title {
+    color: #92400e;
+  }
+
+  .shipping-returns-info-red .shipping-returns-info-title {
+    color: #991b1b;
+  }
+
+  .shipping-returns-info-description {
+    line-height: 1.625;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-info-yellow .shipping-returns-info-description {
+    color: #92400e;
+  }
+
+  .shipping-returns-info-red .shipping-returns-info-description {
+    color: #991b1b;
+  }
+
+  /* Order Cancellation */
+  .shipping-returns-cancellation {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-cancellation-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-cancellation-content {
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .shipping-returns-cancellation-text {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Return Window */
+  .shipping-returns-return-window {
+    background-color: black;
+    color: white;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .shipping-returns-return-window-icon {
+    font-size: 3rem;
+    margin: 0 auto 1rem auto;
+  }
+
+  .shipping-returns-return-window-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-return-window-text {
+    font-size: 1.125rem;
+    color: #d1d5db;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Return Conditions */
+  .shipping-returns-conditions {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-conditions-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .shipping-returns-condition {
+    border: 2px solid;
+    padding: 1.5rem;
+  }
+
+  .shipping-returns-condition-allowed {
+    border-color: #059669;
+    background-color: #f0fdf4;
+  }
+
+  .shipping-returns-condition-not-allowed {
+    border-color: #dc2626;
+    background-color: #fef2f2;
+  }
+
+  .shipping-returns-condition-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .shipping-returns-condition-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+  }
+
+  .shipping-returns-condition-allowed .shipping-returns-condition-icon {
+    background-color: #059669;
+  }
+
+  .shipping-returns-condition-not-allowed .shipping-returns-condition-icon {
+    background-color: #dc2626;
+  }
+
+  .shipping-returns-condition-title {
+    flex: 1;
+  }
+
+  .shipping-returns-condition-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-condition-status {
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-condition-allowed .shipping-returns-condition-status {
+    background-color: #059669;
+    color: white;
+  }
+
+  .shipping-returns-condition-not-allowed .shipping-returns-condition-status {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  .shipping-returns-condition-description {
+    color: #374151;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-condition-note {
+    font-size: 0.75rem;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-condition-allowed .shipping-returns-condition-note {
+    color: #065f46;
+  }
+
+  .shipping-returns-condition-not-allowed .shipping-returns-condition-note {
+    color: #991b1b;
+  }
+
+  /* Video Evidence */
+  .shipping-returns-video {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-video-content {
+    border-left: 4px solid #7c3aed;
+    background-color: #faf5ff;
+    padding: 1.5rem;
+  }
+
+  .shipping-returns-video-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .shipping-returns-video-icon {
+    font-size: 2rem;
+    color: #7c3aed;
+    flex-shrink: 0;
+  }
+
+  .shipping-returns-video-text {
+    flex: 1;
+  }
+
+  .shipping-returns-video-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #5b21b6;
+    margin-bottom: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-video-description {
+    color: #5b21b6;
+    line-height: 1.625;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Return Process */
+  .shipping-returns-process {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-process-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .shipping-returns-process-step {
+    border: 2px solid #e5e7eb;
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .shipping-returns-process-number {
+    width: 2rem;
+    height: 2rem;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-process-content {
+    flex: 1;
+  }
+
+  .shipping-returns-process-step-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-process-step-text {
+    color: #374151;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Refund Information */
+  .shipping-returns-refund {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-refund-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-refund-content {
+    border: 2px solid #e5e7eb;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .shipping-returns-refund-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .shipping-returns-refund-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .shipping-returns-refund-icon-check {
+    color: #059669;
+  }
+
+  .shipping-returns-refund-icon-cross {
+    color: #dc2626;
+  }
+
+  .shipping-returns-refund-text {
+    color: #374151;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* General Terms */
+  .shipping-returns-terms {
+    margin-bottom: 3rem;
+  }
+
+  .shipping-returns-terms-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-terms-content {
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .shipping-returns-terms-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: #374151;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-terms-bullet {
+    color: black;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  /* Contact Section */
+  .shipping-returns-contact {
+    background-color: black;
+    color: white;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .shipping-returns-contact-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .shipping-returns-contact-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-contact-text {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .shipping-returns-contact-button {
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-contact-email {
+    background-color: white;
+    color: black;
+  }
+
+  .shipping-returns-contact-email:hover {
+    background-color: #e5e7eb;
+  }
+
+  .shipping-returns-contact-whatsapp {
+    background-color: #059669;
+    color: white;
+  }
+
+  .shipping-returns-contact-whatsapp:hover {
+    background-color: #047857;
+  }
+
+  .shipping-returns-contact-hours {
+    border: 2px solid white;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shipping-returns-contact-hours-label {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .shipping-returns-contact-hours-time {
+    font-size: 0.875rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .shipping-returns-contact-icon {
+    font-size: 1.25rem;
+  }
+
+  /* Footer Notice */
+  .shipping-returns-footer {
+    background-color: #f9fafb;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .shipping-returns-footer-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .shipping-returns-header-title {
+      font-size: 3.75rem;
+    }
+
+    .shipping-returns-partners-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .shipping-returns-timeframe-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .shipping-returns-conditions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .shipping-returns-contact-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .shipping-returns-tab {
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .shipping-returns-header-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .shipping-returns-tab:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  .shipping-returns-contact-button:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  /* Ensure full width on all elements */
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let shippingReturnsActiveTab = 'shipping';
+
+    function shippingReturnsSetActiveTab(tab) {
+      shippingReturnsActiveTab = tab;
+
+      // Update tab buttons
+      document.querySelectorAll('.shipping-returns-tab').forEach((button) => {
+        if (button.dataset.tab === tab) {
+          button.className = 'shipping-returns-tab shipping-returns-tab-active';
+        } else {
+          button.className = 'shipping-returns-tab shipping-returns-tab-inactive';
+        }
+      });
+
+      // Update tab content
+      document.querySelectorAll('.shipping-returns-tab-content').forEach((content) => {
+        content.style.display = content.id === `shipping-returns-${tab}` ? 'block' : 'none';
+      });
+    }
+
+    // Make function globally available
+    window.shippingReturnsSetActiveTab = shippingReturnsSetActiveTab;
+  });
+</script>
+
+<div class="shipping-returns-page">
+  <!-- Header -->
+  <div class="shipping-returns-header">
+    <div class="shipping-returns-header-container">
+      <div class="shipping-returns-header-icon">🚚</div>
+      <h1 class="shipping-returns-header-title">Shipping & Returns</h1>
+      <p class="shipping-returns-header-subtitle">Everything you need to know about delivery and returns</p>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="shipping-returns-tabs">
+    <div class="shipping-returns-tab-container">
+      <button
+        class="shipping-returns-tab shipping-returns-tab-active"
+        data-tab="shipping"
+        onclick="shippingReturnsSetActiveTab('shipping')"
+      >
+        <span class="shipping-returns-tab-icon">🚚</span>
+        Shipping & Delivery
+      </button>
+      <button
+        class="shipping-returns-tab shipping-returns-tab-inactive"
+        data-tab="returns"
+        onclick="shippingReturnsSetActiveTab('returns')"
+      >
+        <span class="shipping-returns-tab-icon">🔄</span>
+        Returns & Exchanges
+      </button>
+    </div>
+  </div>
+
+  <div class="shipping-returns-content">
+    <!-- Shipping Tab -->
+    <div id="shipping-returns-shipping" class="shipping-returns-tab-content">
+      <!-- Introduction -->
+      <div class="shipping-returns-intro">
+        <p class="shipping-returns-intro-text">
+          Thank you for shopping at <span class="shipping-returns-intro-bold">URBNMYTH</span>. We strive to provide you
+          with the best delivery experience, ensuring that your orders arrive in a timely and safe manner.
+        </p>
+      </div>
+
+      <!-- Free Delivery Highlight -->
+      <div class="shipping-returns-free-delivery">
+        <div class="shipping-returns-free-delivery-icon">📦</div>
+        <h2 class="shipping-returns-free-delivery-title">Free Delivery</h2>
+        <p class="shipping-returns-free-delivery-text">Enjoy free delivery on all orders across India</p>
+      </div>
+
+      <!-- Delivery Partners -->
+      <div class="shipping-returns-partners">
+        <h2 class="shipping-returns-partners-title">Our Delivery Partners</h2>
+        <p class="shipping-returns-partners-text">
+          We deliver across all of India through our trusted delivery partners:
+        </p>
+        <div class="shipping-returns-partners-grid">
+          <div class="shipping-returns-partner">Shiprocket</div>
+          <div class="shipping-returns-partner">Delhivery</div>
+          <div class="shipping-returns-partner">IndiaPost</div>
+          <div class="shipping-returns-partner">Xpress Bees</div>
+        </div>
+        <p class="shipping-returns-partners-note">And other reliable logistics companies</p>
+      </div>
+
+      <!-- Delivery Timeframe -->
+      <div class="shipping-returns-timeframe">
+        <h2 class="shipping-returns-timeframe-title">Delivery Timeframe</h2>
+        <div class="shipping-returns-timeframe-grid">
+          <div class="shipping-returns-timeframe-card">
+            <div class="shipping-returns-timeframe-icon">⏰</div>
+            <h3 class="shipping-returns-timeframe-days">5 Days</h3>
+            <p class="shipping-returns-timeframe-label">Minimum Delivery Time</p>
+          </div>
+          <div class="shipping-returns-timeframe-card">
+            <div class="shipping-returns-timeframe-icon">⏰</div>
+            <h3 class="shipping-returns-timeframe-days">12 Days</h3>
+            <p class="shipping-returns-timeframe-label">Maximum Delivery Time</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Important Information -->
+      <div class="shipping-returns-info">
+        <div class="shipping-returns-info-item">
+          <div class="shipping-returns-info-yellow">
+            <div class="shipping-returns-info-content">
+              <div class="shipping-returns-info-icon">⚠️</div>
+              <div class="shipping-returns-info-text">
+                <h3 class="shipping-returns-info-title">Possible Delivery Delays</h3>
+                <p class="shipping-returns-info-description">
+                  Delivery may be delayed due to factors such as product manufacturing or other unforeseen
+                  circumstances. We strive to keep delays to a minimum and will keep you informed of any changes to your
+                  delivery timeline.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shipping-returns-info-item">
+          <div class="shipping-returns-info-red">
+            <div class="shipping-returns-info-content">
+              <div class="shipping-returns-info-icon">📦</div>
+              <div class="shipping-returns-info-text">
+                <h3 class="shipping-returns-info-title">Damaged or Tampered Package</h3>
+                <p class="shipping-returns-info-description">
+                  If you receive a package that appears damaged or tampered with,
+                  <span class="shipping-returns-intro-bold"
+                    >please refuse the delivery and do not accept the package</span
+                  >.
+                </p>
+                <p class="shipping-returns-info-description">
+                  Once you've refused delivery, contact our Customer Care team at
+                  <span class="shipping-returns-intro-bold">contact.urbnmyth@gmail.com</span> (Weekdays: 10.30 am to
+                  6.30 pm) with your order reference number. We will arrange a replacement at the earliest.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Cancellation -->
+      <div class="shipping-returns-cancellation">
+        <h2 class="shipping-returns-cancellation-title">Order Cancellation & Refunds</h2>
+        <div class="shipping-returns-cancellation-content">
+          <p class="shipping-returns-cancellation-text">
+            In the unlikely event that we are unable to ship your order in full within
+            <span class="shipping-returns-intro-bold">12 working days</span>, we may cancel the unshipped portion of the
+            order.
+          </p>
+          <p class="shipping-returns-cancellation-text">
+            If this occurs, you will receive an email notification. Any payments made for the unshipped items will be
+            refunded via your original payment method.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Returns Tab -->
+    <div id="shipping-returns-returns" class="shipping-returns-tab-content" style="display: none;">
+      <!-- Introduction -->
+      <div class="shipping-returns-intro">
+        <p class="shipping-returns-intro-text">
+          We want you to be completely satisfied with your purchase. Please review our returns and exchange policy
+          carefully.
+        </p>
+      </div>
+
+      <!-- Return Window -->
+      <div class="shipping-returns-return-window">
+        <div class="shipping-returns-return-window-icon">⏰</div>
+        <h2 class="shipping-returns-return-window-title">2 Days Return Window</h2>
+        <p class="shipping-returns-return-window-text">
+          Returns must be initiated within 2 days of receiving your product
+        </p>
+      </div>
+
+      <!-- Return Conditions -->
+      <div class="shipping-returns-conditions">
+        <h2 class="shipping-returns-conditions-title">Returns & Exchanges</h2>
+        <div class="shipping-returns-conditions-grid">
+          <!-- Size Exchange -->
+          <div class="shipping-returns-condition shipping-returns-condition-allowed">
+            <div class="shipping-returns-condition-header">
+              <div class="shipping-returns-condition-icon">🔄</div>
+              <div class="shipping-returns-condition-title">
+                <h3 class="shipping-returns-condition-name">Size Exchange</h3>
+                <span class="shipping-returns-condition-status">ALLOWED</span>
+              </div>
+            </div>
+            <p class="shipping-returns-condition-description">
+              Exchanges for size-related issues can be requested once the item is received.
+            </p>
+            <p class="shipping-returns-condition-note">Customer responsible for delivery fees</p>
+          </div>
+
+          <!-- Sale Items -->
+          <div class="shipping-returns-condition shipping-returns-condition-not-allowed">
+            <div class="shipping-returns-condition-header">
+              <div class="shipping-returns-condition-icon">❌</div>
+              <div class="shipping-returns-condition-title">
+                <h3 class="shipping-returns-condition-name">Sale Items</h3>
+                <span class="shipping-returns-condition-status">NOT ALLOWED</span>
+              </div>
+            </div>
+            <p class="shipping-returns-condition-description">
+              No returns or exchanges will be accepted for sale items.
+            </p>
+            <p class="shipping-returns-condition-note">All sales are final</p>
+          </div>
+
+          <!-- Quality Dislike -->
+          <div class="shipping-returns-condition shipping-returns-condition-allowed">
+            <div class="shipping-returns-condition-header">
+              <div class="shipping-returns-condition-icon">🔄</div>
+              <div class="shipping-returns-condition-title">
+                <h3 class="shipping-returns-condition-name">Quality Dislike</h3>
+                <span class="shipping-returns-condition-status">ALLOWED</span>
+              </div>
+            </div>
+            <p class="shipping-returns-condition-description">
+              You may return if you do not like the quality of the product.
+            </p>
+            <p class="shipping-returns-condition-note">Delivery fees will be deducted from refund</p>
+          </div>
+
+          <!-- Custom Orders -->
+          <div class="shipping-returns-condition shipping-returns-condition-not-allowed">
+            <div class="shipping-returns-condition-header">
+              <div class="shipping-returns-condition-icon">❌</div>
+              <div class="shipping-returns-condition-title">
+                <h3 class="shipping-returns-condition-name">Custom Orders</h3>
+                <span class="shipping-returns-condition-status">NOT ALLOWED</span>
+              </div>
+            </div>
+            <p class="shipping-returns-condition-description">No returns on custom orders will be accepted.</p>
+            <p class="shipping-returns-condition-note">Final sale only</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Evidence Requirement -->
+      <div class="shipping-returns-video">
+        <div class="shipping-returns-video-content">
+          <div class="shipping-returns-video-header">
+            <div class="shipping-returns-video-icon">🎥</div>
+            <div class="shipping-returns-video-text">
+              <h3 class="shipping-returns-video-title">Video Evidence Required for Damage Claims</h3>
+              <p class="shipping-returns-video-description">
+                To ensure that claims regarding damaged items are valid,
+                <span class="shipping-returns-intro-bold">please make a video of the unboxing process</span>. This is a
+                mandatory requirement.
+              </p>
+              <p class="shipping-returns-video-description">
+                Any damage claims made without video evidence will not be accepted.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Return Process -->
+      <div class="shipping-returns-process">
+        <h2 class="shipping-returns-process-title">How to Initiate a Return</h2>
+        <div class="shipping-returns-process-steps">
+          <div class="shipping-returns-process-step">
+            <div class="shipping-returns-process-number">1</div>
+            <div class="shipping-returns-process-content">
+              <h4 class="shipping-returns-process-step-title">Contact Us Within 2 Days</h4>
+              <p class="shipping-returns-process-step-text">
+                Returns can only be initiated within 2 days of receiving your product.
+              </p>
+            </div>
+          </div>
+          <div class="shipping-returns-process-step">
+            <div class="shipping-returns-process-number">2</div>
+            <div class="shipping-returns-process-content">
+              <h4 class="shipping-returns-process-step-title">Reach Out Via WhatsApp or Email</h4>
+              <p class="shipping-returns-process-step-text">
+                Contact us via WhatsApp at <span class="shipping-returns-intro-bold">9816136022</span> or email at
+                <span class="shipping-returns-intro-bold">contact.urbnmyth@gmail.com</span>
+              </p>
+            </div>
+          </div>
+          <div class="shipping-returns-process-step">
+            <div class="shipping-returns-process-number">3</div>
+            <div class="shipping-returns-process-content">
+              <h4 class="shipping-returns-process-step-title">Provide Video Evidence (If Applicable)</h4>
+              <p class="shipping-returns-process-step-text">
+                For damage claims, include your unboxing video along with order details.
+              </p>
+            </div>
+          </div>
+          <div class="shipping-returns-process-step">
+            <div class="shipping-returns-process-number">4</div>
+            <div class="shipping-returns-process-content">
+              <h4 class="shipping-returns-process-step-title">Await Approval</h4>
+              <p class="shipping-returns-process-step-text">
+                All returns and exchanges are subject to approval based on our policy conditions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Refund Information -->
+      <div class="shipping-returns-refund">
+        <h2 class="shipping-returns-refund-title">Refund Policy</h2>
+        <div class="shipping-returns-refund-content">
+          <div class="shipping-returns-refund-item">
+            <div class="shipping-returns-refund-icon shipping-returns-refund-icon-check">✅</div>
+            <p class="shipping-returns-refund-text">Refunds will be processed to the original payment method</p>
+          </div>
+          <div class="shipping-returns-refund-item">
+            <div class="shipping-returns-refund-icon shipping-returns-refund-icon-cross">❌</div>
+            <p class="shipping-returns-refund-text">
+              Shipping fees are non-refundable, except when the return is due to our error (incorrect or damaged item)
+            </p>
+          </div>
+          <div class="shipping-returns-refund-item">
+            <div class="shipping-returns-refund-icon shipping-returns-refund-icon-cross">❌</div>
+            <p class="shipping-returns-refund-text">
+              For quality-related returns, delivery fees will be deducted from your refund
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- General Terms -->
+      <div class="shipping-returns-terms">
+        <h2 class="shipping-returns-terms-title">General Return Terms</h2>
+        <div class="shipping-returns-terms-content">
+          <div class="shipping-returns-terms-item">
+            <span class="shipping-returns-terms-bullet">•</span>
+            <span
+              >Items must be returned in their original condition: unused, unwashed, and in the original packaging</span
+            >
+          </div>
+          <div class="shipping-returns-terms-item">
+            <span class="shipping-returns-terms-bullet">•</span>
+            <span>All returns and exchanges are subject to approval based on the conditions outlined above</span>
+          </div>
+          <div class="shipping-returns-terms-item">
+            <span class="shipping-returns-terms-bullet">•</span>
+            <span
+              >Keep the original packaging and any tags intact until you are fully satisfied with your purchase</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shipping-returns-footer">
+      <p class="shipping-returns-footer-text">
+        Thank you for shopping with URBNMYTH. We are committed to delivering your orders promptly and in excellent
+        condition.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="shipping-returns-contact">
+    <div class="shipping-returns-contact-container">
+      <h2 class="shipping-returns-contact-title">Need Help?</h2>
+      <p class="shipping-returns-contact-text">
+        Have questions about shipping or returns? Our customer support team is here to assist you.
+      </p>
+      <div class="shipping-returns-contact-grid">
+        <a
+          href="mailto:contact.urbnmyth@gmail.com"
+          class="shipping-returns-contact-button shipping-returns-contact-email"
+        >
+          <span class="shipping-returns-contact-icon">✉️</span>
+          Email Us
+        </a>
+        <a
+          href="https://wa.me/8967961603"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="shipping-returns-contact-button shipping-returns-contact-whatsapp"
+        >
+          <span class="shipping-returns-contact-icon">💬</span>
+          WhatsApp
+        </a>
+        <div class="shipping-returns-contact-button shipping-returns-contact-hours">
+          <div class="shipping-returns-contact-hours-label">WEEKDAYS</div>
+          <div class="shipping-returns-contact-hours-time">10:30 AM - 6:30 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
