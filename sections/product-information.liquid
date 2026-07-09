@@ -156,11 +156,27 @@
     gap: 8px;
     margin-bottom: 14px;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
   }
   .pdp-rating-stars {
-    color: #f5c842;
+    position: relative;
+    display: inline-block;
     font-size: 1rem;
     letter-spacing: 1px;
+    line-height: 1;
+  }
+  .pdp-rating-stars-empty {
+    color: #d9d9d9;
+  }
+  .pdp-rating-stars-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #f5c842;
+    pointer-events: none;
   }
   .pdp-rating-count {
     font-size: 0.8rem;
@@ -1247,12 +1263,27 @@
       <!-- 1. Product title -->
       <h1 class="detail-product-name">{{ product.title | escape }}</h1>
 
-      <!-- 2. Inline star rating row -->
-      <div class="pdp-rating-row">
-        <span class="pdp-rating-stars">★★★★★</span>
-        <span style="font-family:'Oswald',sans-serif;font-size:0.85rem;font-weight:600;" id="pdpInlineRating">4.6</span>
-        <span class="pdp-rating-count" id="pdpInlineReviewCount">4 reviews</span>
-      </div>
+      <!-- 2. Inline star rating row (only when Judge.me has synced reviews) -->
+      {%- assign pdp_rating_count = product.metafields.reviews.rating_count | plus: 0 -%}
+      {%- assign pdp_rating_value = product.metafields.reviews.rating.value.rating | plus: 0.0 -%}
+      {%- assign pdp_rating_scale = product.metafields.reviews.rating.value.scale_max | default: 5 | plus: 0.0 -%}
+      {%- if pdp_rating_count > 0 and pdp_rating_value > 0 -%}
+        {%- assign pdp_rating_percent = pdp_rating_value | times: 100.0 | divided_by: pdp_rating_scale -%}
+        <a
+          href="#judgeme_product_reviews"
+          class="pdp-rating-row"
+          onclick="document.getElementById('judgeme_product_reviews')?.scrollIntoView({behavior:'smooth'});"
+        >
+          <span class="pdp-rating-stars" aria-label="Rated {{ pdp_rating_value | round: 1 }} out of {{ pdp_rating_scale | round: 0 }}">
+            <span class="pdp-rating-stars-empty">★★★★★</span>
+            <span class="pdp-rating-stars-fill" style="width: {{ pdp_rating_percent }}%;">★★★★★</span>
+          </span>
+          <span style="font-family:'CoolveticaRg',sans-serif;font-size:0.9rem;font-weight:700;" id="pdpInlineRating">{{ pdp_rating_value | round: 1 }}</span>
+          <span class="pdp-rating-count" id="pdpInlineReviewCount">
+            {{ pdp_rating_count }} {% if pdp_rating_count == 1 %}review{% else %}reviews{% endif %}
+          </span>
+        </a>
+      {%- endif -%}
 
       <!-- 3. Price block -->
       <div class="detail-price-block" id="pdpPriceBlock">
@@ -1679,7 +1710,7 @@
       border-top: 1px solid #e8e8e8;
     }
     .pdp-reviews-heading {
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'CoolveticaRg', sans-serif;
       font-size: 1.75rem;
       font-weight: 700;
       color: #111;
@@ -1689,19 +1720,21 @@
     }
     .pdp-reviews-summary-row {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       gap: 0;
       border: 1px solid #e5e5e5;
       border-radius: 2px;
       max-width: 860px;
       margin: 0 auto 40px;
       overflow: hidden;
+      font-family: 'CoolveticaRg', sans-serif;
     }
     .pdp-reviews-summary-left {
       flex: 1;
       padding: 28px 36px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 8px;
     }
     .pdp-reviews-stars {
@@ -1712,13 +1745,24 @@
       width: 22px;
       height: 22px;
       fill: none;
-      stroke: #4a5c2e;
+      stroke: #111;
       stroke-width: 1.5;
     }
+    .pdp-reviews-stars svg.is-filled {
+      fill: #111;
+    }
+    .pdp-reviews-summary-avg {
+      font-family: 'CoolveticaRg', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #111;
+      margin-right: 4px;
+    }
     .pdp-reviews-summary-text {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 0.92rem;
+      font-family: 'CoolveticaRg', sans-serif;
+      font-size: 0.95rem;
       color: #333;
+      line-height: 1.4;
     }
     .pdp-reviews-divider {
       width: 1px;
@@ -1734,11 +1778,11 @@
       justify-content: center;
     }
     .pdp-reviews-write-btn {
-      background: #2d3b1f;
+      background: #000;
       color: #fff;
       border: none;
       padding: 16px 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'CoolveticaRg', sans-serif;
       font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: 0.04em;
@@ -1747,16 +1791,59 @@
       width: 100%;
       max-width: 320px;
     }
-    .pdp-reviews-write-btn:hover {
-      background: #1e2914;
+    .pdp-reviews-write-btn:hover,
+    .pdp-reviews-write-btn:focus {
+      background: #222;
     }
+
+    /* Judge.me widget: force Coolvetica + replace missing icon-font "G" with real stars */
+    .pdp-reviews-section .jdgm-widget,
+    .pdp-reviews-section .jdgm-widget * {
+      font-family: 'CoolveticaRg', sans-serif !important;
+    }
+    .pdp-reviews-section .jdgm-star {
+      font-size: 0 !important;
+      line-height: 1 !important;
+      color: transparent !important;
+      display: inline-block;
+      width: 1.15em;
+      height: 1.15em;
+    }
+    .pdp-reviews-section .jdgm-star::before {
+      content: '\2605';
+      font-size: 20px;
+      color: #d9d9d9;
+    }
+    .pdp-reviews-section .jdgm-star.jdgm-star--on::before,
+    .pdp-reviews-section .jdgm-star.jdgm--on::before,
+    .pdp-reviews-section .jdgm-star.jdgm-star--sel::before {
+      color: #111;
+    }
+    .pdp-reviews-section .jdgm-star.jdgm-star--half::before {
+      background: linear-gradient(90deg, #111 50%, #d9d9d9 50%);
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    /* Style Judge.me's own "Write a review" button black to match */
+    .pdp-reviews-section .jdgm-write-rev-link,
+    .pdp-reviews-section .jdgm-rev-widg__summary-title,
+    .pdp-reviews-section .jdgm-btn,
+    .pdp-reviews-section .jdgm-btn--solid {
+      background: #000 !important;
+      color: #fff !important;
+      border-color: #000 !important;
+      font-family: 'CoolveticaRg', sans-serif !important;
+    }
+
     @media (max-width: 900px) {
       .pdp-reviews-section {
         padding: 48px 16px 0;
       }
       .pdp-reviews-heading {
         font-size: 1.4rem;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
       }
       .pdp-reviews-summary-row {
         flex-direction: column;
@@ -1768,27 +1855,77 @@
       }
       .pdp-reviews-summary-left,
       .pdp-reviews-summary-right {
-        padding: 20px 24px;
+        padding: 20px 20px;
         width: 100%;
+        text-align: center;
+        align-items: center;
+      }
+      .pdp-reviews-summary-left {
+        align-items: center;
+      }
+      .pdp-reviews-summary-text {
+        text-align: center;
       }
       .pdp-reviews-write-btn {
         max-width: 100%;
+        padding: 14px 24px;
+      }
+      .pdp-reviews-stars svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .pdp-reviews-section {
+        padding: 40px 14px 0;
+      }
+      .pdp-reviews-heading {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+      .pdp-reviews-summary-left,
+      .pdp-reviews-summary-right {
+        padding: 18px 16px;
+      }
+      .pdp-reviews-stars svg {
+        width: 18px;
+        height: 18px;
+      }
+      .pdp-reviews-summary-avg {
+        font-size: 1rem;
+      }
+      .pdp-reviews-summary-text {
+        font-size: 0.88rem;
+      }
+      .pdp-reviews-write-btn {
+        font-size: 0.9rem;
+        padding: 13px 20px;
       }
     }
   </style>
 
+  {%- assign summary_rating_count = product.metafields.reviews.rating_count | plus: 0 -%}
+  {%- assign summary_rating_value = product.metafields.reviews.rating.value.rating | plus: 0.0 -%}
+  {%- assign summary_filled = summary_rating_value | round -%}
   <div class="pdp-reviews-section">
     <h2 class="pdp-reviews-heading">Customer Reviews</h2>
     <div class="pdp-reviews-summary-row">
       <div class="pdp-reviews-summary-left">
         <div class="pdp-reviews-stars">
           {%- for i in (1..5) -%}
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="{% if summary_rating_count > 0 and i <= summary_filled %}is-filled{% endif %}">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
             </svg>
           {%- endfor -%}
         </div>
-        <span class="pdp-reviews-summary-text">Be the first to write a review</span>
+        <span class="pdp-reviews-summary-text">
+          {%- if summary_rating_count > 0 -%}
+            <span class="pdp-reviews-summary-avg">{{ summary_rating_value | round: 1 }}</span>
+            out of 5 &middot; {{ summary_rating_count }} {% if summary_rating_count == 1 %}review{% else %}reviews{% endif %}
+          {%- else -%}
+            Be the first to write a review
+          {%- endif -%}
+        </span>
       </div>
       <div class="pdp-reviews-divider"></div>
       <div class="pdp-reviews-summary-right">
