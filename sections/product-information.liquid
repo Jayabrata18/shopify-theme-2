@@ -1705,6 +1705,46 @@
   {%- endif -%}
   <!-- Customer Reviews Section -->
   <style>
+    /* Global star-glyph fix for Judge.me — their icon font sometimes fails and shows
+       "G / q" letters. Replace with real Unicode stars everywhere the widget appears,
+       including the write-review modal that renders outside .pdp-reviews-section. */
+    .jdgm-star {
+      font-size: 0 !important;
+      line-height: 1 !important;
+      color: transparent !important;
+      display: inline-block !important;
+      width: 1.15em !important;
+      height: 1.15em !important;
+      background: none !important;
+    }
+    .jdgm-star::before {
+      content: '\2605' !important;
+      font-family: 'CoolveticaRg', Arial, sans-serif !important;
+      font-size: 22px !important;
+      color: #d9d9d9 !important;
+      line-height: 1 !important;
+      display: inline-block !important;
+    }
+    .jdgm-star.jdgm-star--on::before,
+    .jdgm-star.jdgm--on::before,
+    .jdgm-star.jdgm-star--sel::before,
+    .jdgm-star.jdgm-star--hover::before {
+      color: #111 !important;
+    }
+    .jdgm-star.jdgm-star--half::before {
+      background: linear-gradient(90deg, #111 50%, #d9d9d9 50%) !important;
+      -webkit-background-clip: text !important;
+              background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      color: transparent !important;
+    }
+    /* Modal-specific star sizing so they read as stars, not oversized letters */
+    .jdgm-form .jdgm-star::before,
+    .jdgm-form-wrapper .jdgm-star::before,
+    .jdgm-rev-form .jdgm-star::before {
+      font-size: 32px !important;
+    }
+
     .pdp-reviews-section {
       padding: 64px 40px 0;
       border-top: 1px solid #e8e8e8;
@@ -1796,45 +1836,92 @@
       background: #222;
     }
 
-    /* Judge.me widget: force Coolvetica + replace missing icon-font "G" with real stars */
+    /* Judge.me widget: force Coolvetica typography */
     .pdp-reviews-section .jdgm-widget,
     .pdp-reviews-section .jdgm-widget * {
       font-family: 'CoolveticaRg', sans-serif !important;
     }
-    .pdp-reviews-section .jdgm-star {
-      font-size: 0 !important;
-      line-height: 1 !important;
-      color: transparent !important;
-      display: inline-block;
-      width: 1.15em;
-      height: 1.15em;
+
+    /* Hide Judge.me's built-in header/summary/write-button entirely — our custom card
+       above already provides these. We keep #judgeme_product_reviews itself in the DOM
+       for the reviews body and for the write-review modal's click target. */
+    .pdp-reviews-section .jdgm-rev-widg__header,
+    .pdp-reviews-section .jdgm-rev-widg__title,
+    .pdp-reviews-section .jdgm-rev-widg__summary,
+    .pdp-reviews-section .jdgm-rev-widg__summary-stars,
+    .pdp-reviews-section .jdgm-rev-widg__summary-text,
+    .pdp-reviews-section .jdgm-widget-actions-wrapper,
+    .pdp-reviews-section .jdgm-rev-widg__actions,
+    #judgeme_product_reviews .jdgm-rev-widg__header,
+    #judgeme_product_reviews .jdgm-rev-widg__title,
+    #judgeme_product_reviews .jdgm-rev-widg__summary,
+    #judgeme_product_reviews .jdgm-widget-actions-wrapper,
+    #judgeme_product_reviews .jdgm-rev-widg__actions {
+      display: none !important;
     }
-    .pdp-reviews-section .jdgm-star::before {
-      content: '\2605';
-      font-size: 20px;
-      color: #d9d9d9;
+    /* Keep the write-rev-link element in DOM but visually gone, so our custom button
+       can still trigger its click handler to open the review-form modal. */
+    #judgeme_product_reviews .jdgm-write-rev-link,
+    .pdp-reviews-section .jdgm-write-rev-link {
+      position: absolute !important;
+      left: -10000px !important;
+      top: auto !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      display: block !important;
     }
-    .pdp-reviews-section .jdgm-star.jdgm-star--on::before,
-    .pdp-reviews-section .jdgm-star.jdgm--on::before,
-    .pdp-reviews-section .jdgm-star.jdgm-star--sel::before {
+
+    /* Judge.me reviews body (list) — align spacing/typography with the page */
+    .pdp-reviews-section #judgeme_product_reviews {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .pdp-reviews-section .jdgm-rev-widg__body {
+      margin-top: 8px;
+    }
+    .pdp-reviews-section .jdgm-rev {
+      border-top: 1px solid #e8e8e8;
+      padding: 24px 4px;
       color: #111;
     }
-    .pdp-reviews-section .jdgm-star.jdgm-star--half::before {
-      background: linear-gradient(90deg, #111 50%, #d9d9d9 50%);
-      -webkit-background-clip: text;
-              background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+    .pdp-reviews-section .jdgm-rev:first-child {
+      border-top: none;
     }
-    /* Style Judge.me's own "Write a review" button black to match */
-    .pdp-reviews-section .jdgm-write-rev-link,
-    .pdp-reviews-section .jdgm-rev-widg__summary-title,
+    .pdp-reviews-section .jdgm-rev__author {
+      font-weight: 700;
+      color: #111;
+    }
+    .pdp-reviews-section .jdgm-rev__timestamp,
+    .pdp-reviews-section .jdgm-rev__location {
+      color: #666;
+      font-size: 0.85rem;
+    }
+    .pdp-reviews-section .jdgm-rev__title {
+      font-weight: 700;
+      color: #111;
+      margin: 6px 0 4px;
+    }
+    .pdp-reviews-section .jdgm-rev__body {
+      color: #333;
+      line-height: 1.55;
+    }
+    /* Pagination + any leftover Judge.me action buttons */
+    .pdp-reviews-section .jdgm-paginate__page {
+      color: #666;
+    }
+    .pdp-reviews-section .jdgm-paginate__page.jdgm-curr {
+      color: #111;
+      font-weight: 700;
+    }
     .pdp-reviews-section .jdgm-btn,
     .pdp-reviews-section .jdgm-btn--solid {
       background: #000 !important;
       color: #fff !important;
       border-color: #000 !important;
       font-family: 'CoolveticaRg', sans-serif !important;
+      border-radius: 0 !important;
     }
 
     @media (max-width: 900px) {
@@ -2039,40 +2126,47 @@
       <table class="size-table">
         <thead>
           <tr>
-            <th>SIZE</th>
-            <th>CHEST (IN)</th>
-            <th>LENGTH (IN)</th>
-            <th>SHOULDER (IN)</th>
-            <th>SLEEVE (IN)</th>
+            <th>INCHES</th>
+            <th>SHOULDER</th>
+            <th>CHEST</th>
+            <th>LENGTH</th>
+            <th>HEM</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>S</strong></td>
-            <td>38</td>
-            <td>27</td>
-            <td>16.5</td>
-            <td>23.5</td>
+            <td>20.5</td>
+            <td>21</td>
+            <td>25</td>
+            <td>21</td>
           </tr>
           <tr>
             <td><strong>M</strong></td>
-            <td>40</td>
-            <td>28</td>
-            <td>17.5</td>
-            <td>24</td>
+            <td>21.5</td>
+            <td>22</td>
+            <td>26</td>
+            <td>22</td>
           </tr>
           <tr>
             <td><strong>L</strong></td>
-            <td>42</td>
-            <td>29</td>
-            <td>18.5</td>
-            <td>24.5</td>
+            <td>22.5</td>
+            <td>23</td>
+            <td>27</td>
+            <td>23</td>
           </tr>
           <tr>
             <td><strong>XL</strong></td>
-            <td>44</td>
-            <td>30</td>
-            <td>19.5</td>
+            <td>23.5</td>
+            <td>24</td>
+            <td>28</td>
+            <td>24</td>
+          </tr>
+          <tr>
+            <td><strong>XXL</strong></td>
+            <td>24.5</td>
+            <td>25</td>
+            <td>29</td>
             <td>25</td>
           </tr>
         </tbody>
