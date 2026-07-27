@@ -9,6 +9,10 @@
  */
 {
   "current": {
+    "flexy_buynow_content": "BUY IT NOW",
+    "flexy_checkout_content": "CHECKOUT",
+    "flexy_theme": "custom",
+    "flexy_border_radius": 0,
     "logo_height": 36,
     "logo_height_mobile": 28,
     "favicon": "shopify://shop_images/URBNMYTH_letter_mark_2.svg",
@@ -43,6 +47,10 @@
       "footer": {
         "type": "footer",
         "settings": {}
+      },
+      "customer-support": {
+        "type": "customer-support",
+        "settings": {}
       }
     },
     "content_for_index": [],
@@ -54,6 +62,11 @@
       },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "7924418359578431505": {
+        "type": "shopify://apps/seoant-ai-seo/blocks/seoant-core/8e57283b-dcb0-4f7b-a947-fb5c57a0d59d",
         "disabled": false,
         "settings": {}
       }

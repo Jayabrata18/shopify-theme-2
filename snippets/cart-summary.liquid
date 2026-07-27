@@ -258,7 +258,7 @@
 </div>
 
 <div class="cart__ctas">
-  <button
+  {% comment %} <button
     type="submit"
     id="checkout"
     class="cart__checkout-button button"
@@ -271,7 +271,8 @@
     <span class="button-text">
       {{ 'content.checkout' | t }}
     </span>
-  </button>
+  </button> {% endcomment %}
+  {% render 'flexype-button', type: 'checkout' %}
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div

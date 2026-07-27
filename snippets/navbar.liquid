@@ -714,15 +714,16 @@
         + '</div></li>';
     }).join('');
 
-    miniInner.innerHTML = '<ul class="mini-cart__items">' + items + '</ul>'
-      + '<div class="mini-cart__footer">'
-      +   '<div class="mini-cart__subtotal"><span>Subtotal</span><span>' + formatMoney(cart.total_price) + '</span></div>'
-      +   '<p class="mini-cart__note">Tax included. Shipping calculated at checkout.</p>'
-      +   '<div class="mini-cart__actions">'
-      +     '<a href="/checkout" class="mini-cart__checkout">Checkout</a>'
-      +     '<a href="/cart" class="mini-cart__view">View Cart</a>'
-      +   '</div>'
-      + '</div>';
+    miniInner.innerHTML =
+    '<ul class="mini-cart__items">' + items + '</ul>' +
+    '<div class="mini-cart__footer">' +
+      '<div class="mini-cart__subtotal"><span>Subtotal</span><span>' + formatMoney(cart.total_price) + '</span></div>' +
+      '<p class="mini-cart__note">Tax included. Shipping calculated at checkout.</p>' +
+      '<div class="mini-cart__actions">' +
+        `{% render 'flexype-button', type: 'checkout' %}` +
+        '<a href="/cart" class="mini-cart__view">View Cart</a>' +
+      '</div>' +
+    '</div>';
 
     miniInner.querySelectorAll('.mini-cart__qty-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {

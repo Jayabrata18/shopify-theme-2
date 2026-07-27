@@ -362,7 +362,8 @@
           While the content of your cart is currently displayed in {{ cart.currency.iso_code }},
           the checkout will use {{ cart.currency.iso_code }} at the most current exchange rate.
         </p>
-        <a href="/checkout" class="uc-sidebar__checkout">Checkout</a>
+        {% comment %} <a href="/checkout" class="uc-sidebar__checkout">Checkout</a> {% endcomment %}
+        {% render 'flexype-button', type: 'checkout' %}
       </aside>
 
     </div>
