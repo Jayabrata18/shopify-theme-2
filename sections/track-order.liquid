@@ -290,12 +290,8 @@
     </button>
 
     <div class="to-result" id="toResult">
-      <p class="to-result__label">Order</p>
-      <p class="to-result__value" id="toResultOrder"></p>
-      <div class="to-result__status" id="toResultStatus"></div>
-      <p class="to-result__label">Details</p>
-      <p class="to-result__value" id="toResultDetails"></p>
-      <a class="to-result__link" id="toResultLink" href="#" target="_blank">View Full Order Details →</a>
+      <div class="to-status-hero" id="toStatusHero"></div>
+      <div class="to-timeline" id="toTimeline"></div>
     </div>
   </div>
 
@@ -357,15 +353,26 @@
 
 <script>
 (function () {
+  var SFX_CONFIG = {
+    token: {{ shop.metafields.custom.shadowfox_delivery_tracking_key.value | default: '' | json }},
+    base: {% if section.settings.use_staging %}'https://dale.staging.shadowfax.in/api'{% else %}'https://dale.shadowfax.in/api'{% endif %},
+    terminalIds: {{ section.settings.terminal_status_ids | default: 'delivered,rts_d,rto_d' | split: ',' | json }},
+    failedIds:   {{ section.settings.failed_status_ids   | default: 'rto_i,ndr,lost'         | split: ',' | json }}
+  };
+
   var submitBtn   = document.getElementById('toSubmit');
-  var orderInput  = document.getElementById('toOrderNum');
-  var emailInput  = document.getElementById('toEmail');
+  var awbInput    = document.getElementById('toAwbInput');
   var errorBox    = document.getElementById('toError');
   var resultPanel = document.getElementById('toResult');
-  var resOrder    = document.getElementById('toResultOrder');
-  var resStatus   = document.getElementById('toResultStatus');
-  var resDetails  = document.getElementById('toResultDetails');
-  var resLink     = document.getElementById('toResultLink');
+  var heroBox     = document.getElementById('toStatusHero');
+  var timelineBox = document.getElementById('toTimeline');
+
+  var ERROR_NOT_FOUND    = 'No shipment found for {AWB}. Double-check the number in your shipping email.';
+  var ERROR_UNAVAILABLE  = 'Tracking is temporarily unavailable. Please try again later.';
+  var ERROR_NETWORK      = "Couldn't reach the tracking service. Try again in a minute.";
+
+  var SUBMIT_IDLE_HTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Track Order';
+  var SUBMIT_BUSY_HTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:to-spin 0.8s linear infinite;width:16px;height:16px"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Tracking…';
 
   function showError(msg) {
     errorBox.textContent = msg;
@@ -378,40 +385,92 @@
     errorBox.textContent = '';
   }
 
+  function classify(statusId) {
+    if (!statusId) return 'transit';
+    var id = String(statusId).toLowerCase();
+    if (SFX_CONFIG.terminalIds.indexOf(id) !== -1) return 'delivered';
+    if (SFX_CONFIG.failedIds.indexOf(id)   !== -1) return 'failed';
+    return 'transit';
+  }
+
+  function normalise(raw) {
+    var o = (raw && raw.order_details) || {};
+    var scans = (raw && raw.tracking_details) || [];
+    var last = scans[scans.length - 1] || {};
+    return {
+      awb:          o.awb_number || null,
+      orderId:      o.client_order_id || null,
+      status:       o.status_display || last.status || 'Unknown',
+      statusId:     o.status || last.status_id || null,
+      lastLocation: last.location || null,
+      edd:          o.promised_delivery_date || null,
+      trackUrl:     o.customer_track_url || null,
+      scans: scans.map(function (s) {
+        return {
+          status:   s.status,
+          location: s.location,
+          time:     s.created,
+          note:     s.remarks,
+          statusId: s.status_id || null
+        };
+      })
+    };
+  }
+
+  function fetchTracking(awb) {
+    if (!SFX_CONFIG.token) {
+      console.warn('[track-order] Shadowfax token metafield is empty.');
+      return Promise.reject(new Error('no-token'));
+    }
+    var url = SFX_CONFIG.base + '/v4/clients/orders/' + encodeURIComponent(awb) + '/track/';
+    return fetch(url, {
+      headers: {
+        'Authorization': 'Token ' + SFX_CONFIG.token,
+        'Accept': 'application/json'
+      }
+    }).then(function (res) {
+      if (res.status === 400 || res.status === 404) return null;
+      if (res.status === 401) throw new Error('unauthorized');
+      if (!res.ok) throw new Error('http-' + res.status);
+      return res.json().then(normalise);
+    });
+  }
+
+  function setBusy(busy) {
+    submitBtn.disabled = busy;
+    submitBtn.innerHTML = busy ? SUBMIT_BUSY_HTML : SUBMIT_IDLE_HTML;
+  }
+
+  function renderMinimal(data) {
+    heroBox.textContent = data.status + ' — ' + (data.awb || '');
+    timelineBox.textContent = '';
+    resultPanel.style.display = 'block';
+    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   submitBtn.addEventListener('click', function () {
     clearError();
-    var orderNum = orderInput.value.trim().replace(/^#/, '');
-    var email    = emailInput.value.trim();
+    var awb = awbInput.value.trim().toUpperCase();
+    if (!awb) { showError('Please enter your tracking number.'); awbInput.focus(); return; }
 
-    if (!orderNum) { showError('Please enter your order number.'); orderInput.focus(); return; }
-    if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); emailInput.focus(); return; }
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:to-spin 0.8s linear infinite;width:16px;height:16px"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Searching...';
-
-    /* Shopify doesn't expose a public order-lookup API from the storefront.
-       We show order details and link the customer to log in and view their orders. */
-    setTimeout(function () {
-      resOrder.textContent   = '#' + orderNum;
-      resStatus.className    = 'to-result__status to-result__status--processing';
-      resStatus.textContent  = 'Details Found';
-      resDetails.textContent = 'Log in with ' + email + ' to view full order details, shipping updates, and tracking information.';
-      resLink.href = '{{ routes.account_login_url }}?return_url=%2Faccount%2Forders';
-      resLink.textContent = 'Log in to View Order →';
-
-      resultPanel.style.display = 'block';
-      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Track Order';
-    }, 800);
+    setBusy(true);
+    fetchTracking(awb).then(function (data) {
+      setBusy(false);
+      if (!data) {
+        showError(ERROR_NOT_FOUND.replace('{AWB}', awb));
+        return;
+      }
+      renderMinimal(data);
+    }).catch(function (err) {
+      setBusy(false);
+      if (err && err.message === 'unauthorized') return showError(ERROR_UNAVAILABLE);
+      if (err && err.message === 'no-token')     return showError(ERROR_UNAVAILABLE);
+      showError(ERROR_NETWORK);
+    });
   });
 
-  /* Enter key support */
-  [orderInput, emailInput].forEach(function(inp) {
-    inp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') submitBtn.click();
-    });
+  awbInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') submitBtn.click();
   });
 })();
 </script>
