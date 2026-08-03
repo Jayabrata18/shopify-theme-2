@@ -191,46 +191,56 @@
 /* ── Result: timeline ── */
 .to-timeline {
   position: relative;
-  padding-left: 22px;
+  padding-left: 40px;
 }
 .to-timeline::before {
   content: '';
   position: absolute;
-  left: 5px;
-  top: 6px;
-  bottom: 6px;
+  left: 13px;
+  top: 26px;
+  bottom: 8px;
   width: 1px;
   background: #e8e8e8;
 }
 
 .to-scan {
   position: relative;
-  padding: 0 0 20px 0;
-  opacity: 0.8;
+  min-height: 26px;
+  padding: 0 0 22px 0;
+  opacity: 0.75;
 }
 .to-scan:last-child { padding-bottom: 0; }
 .to-scan--latest { opacity: 1; }
 
-.to-scan__dot {
+.to-scan__icon {
   position: absolute;
-  left: -22px;
-  top: 4px;
-  width: 11px;
-  height: 11px;
+  left: -40px;
+  top: 0;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: #cbd5e1;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px #cbd5e1;
+  background: #fff;
+  border: 1.5px solid #cbd5e1;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.to-scan--latest .to-scan__dot--delivered { background: #047857; box-shadow: 0 0 0 1px #047857; }
-.to-scan--latest .to-scan__dot--failed    { background: #b91c1c; box-shadow: 0 0 0 1px #b91c1c; }
-.to-scan--latest .to-scan__dot--transit   { background: #b45309; box-shadow: 0 0 0 1px #b45309; }
+.to-scan__icon svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+.to-scan--latest .to-scan__icon { border-width: 2px; }
+.to-scan--latest .to-scan__icon--delivered { border-color: #047857; color: #047857; background: #ecfdf5; }
+.to-scan--latest .to-scan__icon--failed    { border-color: #b91c1c; color: #b91c1c; background: #fef2f2; }
+.to-scan--latest .to-scan__icon--transit   { border-color: #b45309; color: #b45309; background: #fff7ed; }
 
 .to-scan__head {
   font-size: 0.86rem;
   font-weight: 600;
   color: #111;
-  margin: 0 0 3px;
+  margin: 3px 0 3px;
   line-height: 1.4;
 }
 
@@ -238,13 +248,6 @@
   font-size: 0.74rem;
   color: #888;
   margin: 0;
-  line-height: 1.5;
-}
-
-.to-scan__remarks {
-  font-size: 0.76rem;
-  color: #666;
-  margin: 4px 0 0;
   line-height: 1.5;
 }
 
@@ -481,19 +484,16 @@
     var scans = (raw && raw.tracking_details) || [];
     var last = scans[scans.length - 1] || {};
     return {
-      awb:          o.awb_number || null,
-      orderId:      o.client_order_id || null,
-      status:       o.status_display || last.status || 'Unknown',
-      statusId:     o.status || last.status_id || null,
-      lastLocation: last.location || null,
-      edd:          o.promised_delivery_date || null,
-      trackUrl:     o.customer_track_url || null,
+      awb:      o.awb_number || null,
+      orderId:  o.client_order_id || null,
+      status:   o.status_display || last.status || 'Unknown',
+      statusId: o.status || last.status_id || null,
+      edd:      o.promised_delivery_date || null,
+      trackUrl: o.customer_track_url || null,
       scans: scans.map(function (s) {
         return {
           status:   s.status,
-          location: s.location,
           time:     s.created,
-          note:     s.remarks,
           statusId: s.status_id || null
         };
       })
@@ -539,8 +539,7 @@
 
   function renderStatusHero(data, bucket) {
     var parts = [];
-    if (data.awb)          parts.push('<strong>' + esc(data.awb) + '</strong>');
-    if (data.lastLocation) parts.push(esc(data.lastLocation));
+    if (data.awb) parts.push('<strong>' + esc(data.awb) + '</strong>');
     if (data.edd && bucket !== 'delivered' && bucket !== 'failed') {
       parts.push('ETA ' + esc(formatEdd(data.edd)));
     }
@@ -554,6 +553,26 @@
       '<span class="to-status-pill to-status-pill--' + bucket + '">' + esc(data.status) + '</span>' +
       (parts.length ? '<p class="to-status-hero__meta">' + parts.join(' &middot; ') + '</p>' : '') +
       linkHtml;
+  }
+
+  var ICON_CHECK  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  var ICON_TRUCK  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="14" height="12"/><path d="M15 8h5l3 3v5h-8V8z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>';
+  var ICON_PERSON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+  var ICON_BOX    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>';
+  var ICON_RETURN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+  var ICON_CLOCK  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+
+  function iconFor(scan) {
+    var id    = String(scan.statusId || '').toLowerCase();
+    var label = String(scan.status   || '').toLowerCase();
+    var t     = id + ' ' + label;
+
+    if (id === 'delivered' || /\bdelivered\b/.test(label)) return ICON_CHECK;
+    if (/\bofd\b|out for delivery|in transit|dispatched|bag_in_transit/.test(t)) return ICON_TRUCK;
+    if (/\bofp\b|out for pickup|pickup|picked up/.test(t)) return ICON_PERSON;
+    if (/rto|return|failed|lost|undeliver|ndr/.test(t)) return ICON_RETURN;
+    if (/receiv|bag|manifest|hub|new|added|arrived/.test(t)) return ICON_BOX;
+    return ICON_CLOCK;
   }
 
   function formatScanTime(iso) {
@@ -573,19 +592,13 @@
     var ordered = scans.slice().reverse();
     var html = ordered.map(function (scan, i) {
       var latestCls = i === 0 ? ' to-scan--latest' : '';
-      var dotCls    = i === 0 ? ' to-scan__dot--' + bucket : '';
-      var metaBits  = [];
-      if (scan.location) metaBits.push(esc(scan.location));
-      if (scan.time)     metaBits.push(esc(formatScanTime(scan.time)));
-      var remarksHtml = scan.note
-        ? '<p class="to-scan__remarks">' + esc(scan.note) + '</p>'
-        : '';
+      var iconCls   = i === 0 ? ' to-scan__icon--' + bucket : '';
+      var meta      = scan.time ? esc(formatScanTime(scan.time)) : '';
       return '' +
         '<div class="to-scan' + latestCls + '">' +
-          '<span class="to-scan__dot' + dotCls + '"></span>' +
+          '<span class="to-scan__icon' + iconCls + '">' + iconFor(scan) + '</span>' +
           '<p class="to-scan__head">' + esc(scan.status || 'Update') + '</p>' +
-          (metaBits.length ? '<p class="to-scan__meta">' + metaBits.join(' · ') + '</p>' : '') +
-          remarksHtml +
+          (meta ? '<p class="to-scan__meta">' + meta + '</p>' : '') +
         '</div>';
     }).join('');
     timelineBox.innerHTML = html;
