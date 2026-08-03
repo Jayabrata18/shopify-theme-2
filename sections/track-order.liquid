@@ -188,6 +188,66 @@
 }
 .to-track-link:hover { opacity: 0.6; }
 
+/* ── Result: timeline ── */
+.to-timeline {
+  position: relative;
+  padding-left: 22px;
+}
+.to-timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: #e8e8e8;
+}
+
+.to-scan {
+  position: relative;
+  padding: 0 0 20px 0;
+  opacity: 0.8;
+}
+.to-scan:last-child { padding-bottom: 0; }
+.to-scan--latest { opacity: 1; }
+
+.to-scan__dot {
+  position: absolute;
+  left: -22px;
+  top: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #cbd5e1;
+}
+.to-scan--latest .to-scan__dot--delivered { background: #047857; box-shadow: 0 0 0 1px #047857; }
+.to-scan--latest .to-scan__dot--failed    { background: #b91c1c; box-shadow: 0 0 0 1px #b91c1c; }
+.to-scan--latest .to-scan__dot--transit   { background: #b45309; box-shadow: 0 0 0 1px #b45309; }
+
+.to-scan__head {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 3px;
+  line-height: 1.4;
+}
+
+.to-scan__meta {
+  font-size: 0.74rem;
+  color: #888;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.to-scan__remarks {
+  font-size: 0.76rem;
+  color: #666;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
 /* ── Divider ── */
 .to-divider {
   display: flex;
@@ -496,8 +556,39 @@
       linkHtml;
   }
 
+  function formatScanTime(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return esc(iso);
+    var date = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    var time = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    return date + ' · ' + time;
+  }
+
   function renderTimeline(scans, bucket) {
-    timelineBox.innerHTML = '';
+    if (!scans || !scans.length) {
+      timelineBox.innerHTML = '';
+      return;
+    }
+    var ordered = scans.slice().reverse();
+    var html = ordered.map(function (scan, i) {
+      var latestCls = i === 0 ? ' to-scan--latest' : '';
+      var dotCls    = i === 0 ? ' to-scan__dot--' + bucket : '';
+      var metaBits  = [];
+      if (scan.location) metaBits.push(esc(scan.location));
+      if (scan.time)     metaBits.push(esc(formatScanTime(scan.time)));
+      var remarksHtml = scan.note
+        ? '<p class="to-scan__remarks">' + esc(scan.note) + '</p>'
+        : '';
+      return '' +
+        '<div class="to-scan' + latestCls + '">' +
+          '<span class="to-scan__dot' + dotCls + '"></span>' +
+          '<p class="to-scan__head">' + esc(scan.status || 'Update') + '</p>' +
+          (metaBits.length ? '<p class="to-scan__meta">' + metaBits.join(' · ') + '</p>' : '') +
+          remarksHtml +
+        '</div>';
+    }).join('');
+    timelineBox.innerHTML = html;
   }
 
   submitBtn.addEventListener('click', function () {
