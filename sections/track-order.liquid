@@ -123,38 +123,61 @@
   padding: 24px;
 }
 
-.to-result__label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #999;
-  margin-bottom: 4px;
-}
-
-.to-result__value {
-  font-size: 0.9rem;
-  color: #111;
-  margin-bottom: 16px;
-}
-
-.to-result__status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  margin-bottom: 16px;
-}
-
-.to-result__status--processing { background: #fef9c3; color: #854d0e; }
 @keyframes to-spin { to { transform: rotate(360deg); } }
 
-.to-result__link {
+/* ── Result: status hero ── */
+.to-status-hero {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.to-status-hero__label {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #111;
+  letter-spacing: 0.01em;
+  margin: 0 0 10px;
+}
+
+.to-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.to-status-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.to-status-pill--delivered { background: #ecfdf5; color: #047857; }
+.to-status-pill--failed    { background: #fef2f2; color: #b91c1c; }
+.to-status-pill--transit   { background: #fff7ed; color: #b45309; }
+
+.to-status-hero__meta {
+  font-size: 0.82rem;
+  color: #666;
+  line-height: 1.55;
+  margin: 6px 0 0;
+}
+
+.to-status-hero__meta strong {
+  color: #111;
+  font-weight: 600;
+}
+
+.to-track-link {
   display: inline-block;
+  margin-top: 10px;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -163,7 +186,7 @@
   text-decoration: underline;
   transition: opacity 0.2s;
 }
-.to-result__link:hover { opacity: 0.6; }
+.to-track-link:hover { opacity: 0.6; }
 
 /* ── Divider ── */
 .to-divider {
@@ -441,11 +464,40 @@
     submitBtn.innerHTML = busy ? SUBMIT_BUSY_HTML : SUBMIT_IDLE_HTML;
   }
 
-  function renderMinimal(data) {
-    heroBox.textContent = data.status + ' — ' + (data.awb || '');
-    timelineBox.textContent = '';
-    resultPanel.style.display = 'block';
-    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  function esc(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function formatEdd(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return esc(iso);
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderStatusHero(data, bucket) {
+    var parts = [];
+    if (data.awb)          parts.push('<strong>' + esc(data.awb) + '</strong>');
+    if (data.lastLocation) parts.push(esc(data.lastLocation));
+    if (data.edd && bucket !== 'delivered' && bucket !== 'failed') {
+      parts.push('ETA ' + esc(formatEdd(data.edd)));
+    }
+
+    var linkHtml = data.trackUrl
+      ? '<a class="to-track-link" href="' + esc(data.trackUrl) + '" target="_blank" rel="noopener">View on Shadowfax →</a>'
+      : '';
+
+    heroBox.innerHTML =
+      '<p class="to-status-hero__label">' + esc(data.status) + '</p>' +
+      '<span class="to-status-pill to-status-pill--' + bucket + '">' + esc(data.status) + '</span>' +
+      (parts.length ? '<p class="to-status-hero__meta">' + parts.join(' &middot; ') + '</p>' : '') +
+      linkHtml;
+  }
+
+  function renderTimeline(scans, bucket) {
+    timelineBox.innerHTML = '';
   }
 
   submitBtn.addEventListener('click', function () {
@@ -460,7 +512,11 @@
         showError(ERROR_NOT_FOUND.replace('{AWB}', awb));
         return;
       }
-      renderMinimal(data);
+      var bucket = classify(data.statusId);
+      renderStatusHero(data, bucket);
+      renderTimeline(data.scans, bucket);
+      resultPanel.style.display = 'block';
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }).catch(function (err) {
       setBusy(false);
       if (err && err.message === 'unauthorized') return showError(ERROR_UNAVAILABLE);
