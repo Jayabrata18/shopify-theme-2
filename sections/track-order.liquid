@@ -319,10 +319,11 @@
 }
 
 .to-info-tile svg {
-  width: 24px;
-  height: 24px;
+  display: block;
+  width: 28px;
+  height: 28px;
   color: #111;
-  margin-bottom: 10px;
+  margin: 0 auto 14px;
 }
 
 .to-info-tile__title {
@@ -331,7 +332,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #111;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .to-info-tile__text {
@@ -399,37 +400,33 @@
         </svg>
         Contact Us
       </a>
-      <a href="{{ routes.account_url }}" class="to-support-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-        My Account
-      </a>
     </div>
   </div>
 
   <div class="to-info-strip">
     <div class="to-info-tile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/>
-        <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
       </svg>
       <p class="to-info-tile__title">Shipping</p>
       <p class="to-info-tile__text">Orders dispatched within 2–4 business days</p>
     </div>
     <div class="to-info-tile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-        <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="14" height="12"/>
+        <path d="M15 8h5l3 3v5h-8V8z"/>
+        <circle cx="5.5" cy="18.5" r="2"/>
+        <circle cx="18.5" cy="18.5" r="2"/>
       </svg>
       <p class="to-info-tile__title">Delivery</p>
       <p class="to-info-tile__text">5–7 business days across India</p>
     </div>
     <div class="to-info-tile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 4 1 10 7 10"/>
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
       </svg>
       <p class="to-info-tile__title">Returns</p>
       <p class="to-info-tile__text">7-day easy returns on eligible items</p>
