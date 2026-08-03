@@ -269,27 +269,17 @@
     <div class="to-error" id="toError"></div>
 
     <div class="to-field">
-      <label class="to-label" for="toOrderNum">Order Number</label>
+      <label class="to-label" for="toAwbInput">Tracking Number (AWB)</label>
       <input
         class="to-input"
-        id="toOrderNum"
+        id="toAwbInput"
         type="text"
-        placeholder="#1001"
+        placeholder="SF1360593963TES"
         autocomplete="off"
-        inputmode="numeric"
+        autocapitalize="characters"
+        spellcheck="false"
       >
-      <p class="to-hint">Found in your confirmation email (e.g. #1042)</p>
-    </div>
-
-    <div class="to-field">
-      <label class="to-label" for="toEmail">Email Address</label>
-      <input
-        class="to-input"
-        id="toEmail"
-        type="email"
-        placeholder="you@example.com"
-        autocomplete="email"
-      >
+      <p class="to-hint">Found in your shipping confirmation email.</p>
     </div>
 
     <button class="to-submit" id="toSubmit" type="button">
@@ -429,6 +419,32 @@
 {% schema %}
 {
   "name": "Track Order",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Shadowfax API"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_staging",
+      "label": "Use Shadowfax staging environment",
+      "default": false,
+      "info": "When on, calls dale.staging.shadowfax.in instead of production."
+    },
+    {
+      "type": "text",
+      "id": "terminal_status_ids",
+      "label": "Delivered status IDs",
+      "default": "delivered,rts_d,rto_d",
+      "info": "Comma-separated Shadowfax status_id values shown with the green pill."
+    },
+    {
+      "type": "text",
+      "id": "failed_status_ids",
+      "label": "Failed status IDs",
+      "default": "rto_i,ndr,lost",
+      "info": "Comma-separated Shadowfax status_id values shown with the red pill."
+    }
+  ]
 }
 {% endschema %}
