@@ -4,24 +4,16 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 50;
-  transition: background 0.5s ease, box-shadow 0.5s ease;
-  background: transparent;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+  background: #000;
   animation: slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transform: translateY(-100%);
+  border-bottom: 1px solid transparent;
 }
 @keyframes slideDown { to { transform: translateY(0); } }
 
-/* scrolled = dark bg → icons white */
 .navbar.scrolled {
-  background: rgba(0,0,0,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-/* white-bg = light bg → icons black */
-.navbar.white-bg {
-  background: transparent;
 }
 
 .navbar-container {
@@ -63,23 +55,12 @@
   height: clamp(1.6rem, 4vw, 3rem);
   display: block;
   transition: filter 0.3s ease, transform 0.4s ease;
-  filter: brightness(10);    /* white logo by default (transparent bg) */
-}
-/* Scrolled: always white logo regardless of device */
-.navbar.scrolled .navbar-logo img {
   filter: brightness(10);
 }
 
-/* When white-bg, tint logo dark */
-.navbar.white-bg .navbar-logo img {
-  filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(6000%) hue-rotate(350deg) brightness(95%);
-}
 .navbar-logo:hover img {
   filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.35));
   transform: scale(1.05);
-}
-.navbar.white-bg .navbar-logo:hover img {
-  filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(6000%) hue-rotate(350deg) brightness(115%) drop-shadow(0 0 6px rgba(180,0,0,0.3));
 }
 
 /* ===== Icon buttons ===== */
@@ -92,7 +73,6 @@
   display: flex; align-items: center; justify-content: center;
   text-decoration: none;
   border-radius: 50%;
-  /* default: transparent navbar → white icons */
   color: rgba(255,255,255,0.85);
 }
 .icon-btn:hover {
@@ -107,16 +87,6 @@
   height: clamp(1.1rem, 2.5vw, 1.6rem);
   display: block;
 }
-
-/* ── White-bg state: icons become red ── */
-.navbar.white-bg .icon-btn {
-  color: rgba(180,0,0,0.85);
-}
-.navbar.white-bg .icon-btn:hover {
-  color: #cc0000;
-  background: rgba(180,0,0,0.07);
-}
-
 
 /* Cart badge */
 .cart-count {
@@ -497,8 +467,15 @@
   <div class="navbar-container">
     <div class="navbar-inner">
 
-      <!-- Left: hamburger -->
+      <!-- Left: back button (product pages only) + hamburger -->
       <div class="navbar-left">
+        {%- if template.name == 'product' -%}
+          <button class="icon-btn" onclick="history.back()" aria-label="Go back">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+          </button>
+        {%- endif -%}
         <button class="icon-btn" id="menuToggle" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="6" x2="20" y2="6"/>
@@ -565,65 +542,18 @@
   var searchClose = document.getElementById('navSearchClose');
 
   /* ── Detect page background colour and pick icon colour ── */
-  function detectBg() {
-    /* Walk up from the element at the top-centre of the viewport,
-       skipping the navbar itself, to find the first element with
-       a non-transparent background — works at every device width. */
-    var vw = window.innerWidth;
-    var navH = navbar.getBoundingClientRect().height || 60;
-    var sampleX = vw / 2;
-    var sampleY = navH + 4;                        /* just below the bar */
-
-    /* elementsFromPoint includes navbar — skip it */
-    var elements = document.elementsFromPoint
-      ? document.elementsFromPoint(sampleX, sampleY)
-      : [];
-    var bg = 'rgba(0,0,0,0)';
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i] === navbar || navbar.contains(elements[i])) continue;
-      var computed = window.getComputedStyle(elements[i]).backgroundColor;
-      if (computed && computed !== 'rgba(0, 0, 0, 0)' && computed !== 'transparent') {
-        bg = computed;
-        break;
-      }
-    }
-    /* Fall back to <main> / <body> if nothing found under pointer */
-    if (bg === 'rgba(0,0,0,0)') {
-      var fallback = document.querySelector('main') || document.body;
-      bg = window.getComputedStyle(fallback).backgroundColor;
-    }
-
-    var m = bg.match(/\d+/g);
-    if (m) {
-      /* Perceived luminance (0–255) */
-      var lum = 0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2];
-      if (lum > 160) {
-        /* Light page → white navbar, red icons/logo */
-        if (!navbar.classList.contains('scrolled')) {
-          navbar.classList.add('white-bg');
-        }
-      } else {
-        navbar.classList.remove('white-bg');
-      }
-    }
-  }
-
   /* ── Scroll handler ── */
   function onScroll() {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
-      navbar.classList.remove('white-bg');
     } else {
       navbar.classList.remove('scrolled');
-      detectBg();   /* re-check page bg when near top */
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* Run on load + after images/fonts settle */
-  detectBg();
   onScroll();
-  window.addEventListener('load', function () { detectBg(); onScroll(); });
+  window.addEventListener('load', onScroll);
 
   /* ── Sidebar ── */
   function openSidebar() {
@@ -672,9 +602,9 @@
     });
   }
 
-  window.addEventListener('resize', function () { detectBg(); onScroll(); });
+  window.addEventListener('resize', onScroll);
   window.addEventListener('orientationchange', function () {
-    setTimeout(function () { detectBg(); onScroll(); }, 300);
+    setTimeout(onScroll, 300);
   });
 
   /* ── Mini Cart ── */

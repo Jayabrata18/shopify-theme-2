@@ -15,6 +15,54 @@
   color: #111;
 }
 
+/* ── Top bar: back link + subtotal + free shipping ── */
+.uc-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.uc-topbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.uc-topbar__back:hover { opacity: 0.55; }
+.uc-topbar__back svg { width: 15px; height: 15px; }
+.uc-topbar__summary {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.uc-topbar__subtotal {
+  font-size: 0.85rem;
+  color: #111;
+}
+.uc-topbar__subtotal strong { font-weight: 700; }
+.uc-topbar__shipping {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111;
+}
+.uc-topbar__shipping svg { width: 14px; height: 14px; flex-shrink: 0; }
+
 /* ── Layout ── */
 .uc-layout {
   display: grid;
@@ -285,6 +333,24 @@
     </div>
 
   {%- else -%}
+    <div class="uc-topbar">
+      <a href="{{ routes.all_products_collection_url }}" class="uc-topbar__back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Continue Shopping
+      </a>
+      <div class="uc-topbar__summary">
+        <span class="uc-topbar__subtotal">Subtotal (<span data-cart-item-count>{{ cart.item_count }}</span> item{% if cart.item_count != 1 %}s{% endif %}): <strong data-cart-subtotal>{{ cart.total_price | money }}</strong></span>
+        <span class="uc-topbar__shipping">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Free Shipping
+        </span>
+      </div>
+    </div>
+
     <div class="uc-layout">
 
       <!-- ── Items table ── -->
@@ -355,9 +421,8 @@
 
       <!-- ── Sidebar ── -->
       <aside class="uc-sidebar">
-<p class="uc-sidebar__subtotal">Subtotal: {{ cart.total_price | money }}</p>
         <p class="uc-sidebar__note">
-          Tax included. Shipping calculated at checkout.<br><br>
+          Tax included. Free shipping on all orders.<br><br>
           All charges are billed in {{ cart.currency.iso_code }}.
           While the content of your cart is currently displayed in {{ cart.currency.iso_code }},
           the checkout will use {{ cart.currency.iso_code }} at the most current exchange rate.
@@ -384,8 +449,13 @@
   }
 
   function updateSubtotal(total) {
-    var el = document.querySelector('.uc-sidebar__subtotal');
-    if (el) el.textContent = 'Subtotal: ' + formatMoney(total);
+    var el = document.querySelector('[data-cart-subtotal]');
+    if (el) el.textContent = formatMoney(total);
+  }
+
+  function updateItemCount(count) {
+    var el = document.querySelector('[data-cart-item-count]');
+    if (el) el.textContent = count;
   }
 
   function changeQty(key, qty) {
@@ -396,7 +466,12 @@
     })
     .then(function(r) { return r.json(); })
     .then(function(cart) {
+      if (typeof cart.total_price !== 'number') {
+        if (cart.description) alert(cart.description);
+        return;
+      }
       updateSubtotal(cart.total_price);
+      updateItemCount(cart.item_count);
       if (qty === 0) {
         var tr = document.querySelector('[data-key="' + key + '"]');
         if (tr) tr.remove();

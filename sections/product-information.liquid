@@ -1315,26 +1315,7 @@
         </div>
       {%- endif -%}
 
-      <!-- 6. Short description -->
-      {%- assign short_desc = '' -%}
-      {%- if product.metafields.descriptors.subtitle.value != blank -%}
-        {%- assign short_desc = product.metafields.descriptors.subtitle.value -%}
-      {%- elsif product.description != blank -%}
-        {%- assign short_desc = product.description | strip_html | truncate: 300 -%}
-      {%- endif -%}
-      {%- if short_desc != blank -%}
-        <p class="pdp-short-desc">{{ short_desc }}</p>
-      {%- endif -%}
-
-      <!-- 7. Divider -->
-      <hr class="detail-divider">
-
-      <!-- 8. Color swatches -->
-      {%- if section.settings.show_color_swatches -%}
-        {%- render 'pdp-color-swatches', product: product -%}
-      {%- endif -%}
-
-      <!-- 9. Size selector -->
+      <!-- 6. Size selector -->
       {%- unless product.has_only_default_variant -%}
         <div class="detail-size-section-wrap" style="margin-bottom:4px;">
           <div class="detail-size-header">
@@ -1401,6 +1382,25 @@
           </p>
         </div>
       {%- endunless -%}
+
+      <!-- 7. Short description -->
+      {%- assign short_desc = '' -%}
+      {%- if product.metafields.descriptors.subtitle.value != blank -%}
+        {%- assign short_desc = product.metafields.descriptors.subtitle.value -%}
+      {%- elsif product.description != blank -%}
+        {%- assign short_desc = product.description | strip_html | truncate: 300 -%}
+      {%- endif -%}
+      {%- if short_desc != blank -%}
+        <p class="pdp-short-desc">{{ short_desc }}</p>
+      {%- endif -%}
+
+      <!-- 8. Divider -->
+      <hr class="detail-divider">
+
+      <!-- 9. Color swatches -->
+      {%- if section.settings.show_color_swatches -%}
+        {%- render 'pdp-color-swatches', product: product -%}
+      {%- endif -%}
 
       <!-- 10. Quantity stepper -->
       <span class="detail-section-label detail-section-label-qty">QUANTITY</span>
