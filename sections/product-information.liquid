@@ -137,16 +137,19 @@
     gap: 0;
   }
 
-  /* Product name */
   .detail-product-name {
     font-family: 'Oswald', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: lowercase;
     letter-spacing: 0.5px;
     line-height: 1.15;
     margin-bottom: 14px;
     color: #000;
+    display: inline-block;
+  }
+  .detail-product-name::first-letter {
+    text-transform: uppercase;
   }
 
   /* Inline rating row */
@@ -1167,15 +1170,18 @@
     font-family: 'CoolveticaRg', sans-serif !important;
   }
   .pdp-product-grid .urbnmyth-product-info {
-    padding: 14px 4px 20px;
+    padding: 14px 16px 20px;
   }
   .pdp-product-grid .urbnmyth-product-title {
     font-family: 'CoolveticaRg', sans-serif !important;
     font-size: 0.95rem;
     margin-bottom: 6px;
     line-height: 1.4;
-    text-transform: uppercase;
+    text-transform: lowercase;
     letter-spacing: 0.02em;
+  }
+  .pdp-product-grid .urbnmyth-product-title::first-letter {
+    text-transform: uppercase;
   }
   .pdp-product-grid .urbnmyth-product-price {
     font-family: 'CoolveticaRg', sans-serif !important;
@@ -1785,11 +1791,12 @@
       width: 22px;
       height: 22px;
       fill: none;
-      stroke: #111;
+      stroke: #d9d9d9;
       stroke-width: 1.5;
     }
     .pdp-reviews-stars svg.is-filled {
-      fill: #111;
+      fill: #f5c842;
+      stroke: #f5c842;
     }
     .pdp-reviews-summary-avg {
       font-family: 'CoolveticaRg', sans-serif;
@@ -1840,6 +1847,17 @@
     .pdp-reviews-section .jdgm-widget,
     .pdp-reviews-section .jdgm-widget * {
       font-family: 'CoolveticaRg', sans-serif !important;
+    }
+
+    /* Judge.me's newer review widget renders each review's star rating as an
+       icon-font glyph (.jm-star-rating__font-icon, font: JudgemeStar). The
+       blanket Coolvetica override above was clobbering that font, so every
+       star glyph rendered as a literal "G" instead of a star. Restore the
+       icon font here (needs to out-specificity the rule above) and recolor
+       the stars gold to match the rating color used elsewhere on the PDP. */
+    .pdp-reviews-section .jdgm-widget .jm-star-rating__font-icon {
+      font-family: 'JudgemeStar', monospace !important;
+      color: #f5c842 !important;
     }
 
     /* Hide Judge.me's built-in header/summary/write-button entirely — our custom card

@@ -20,6 +20,8 @@
     position: relative;
     border-radius: var(--um-r-3, 10px);
     overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   /* ── Image wrap ── */
@@ -97,77 +99,6 @@
     border-radius: var(--um-r-1, 4px);
   }
 
-  /* ── Right-side action buttons (wishlist / cycle / quick view) ── */
-  .urbnmyth-right-actions {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 20;
-  }
-  .urbnmyth-circle-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--um-r-round, 999px);
-    background: var(--um-surface, #fff);
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--um-ink, #1a1a1a);
-    box-shadow: var(--um-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.12));
-    flex-shrink: 0;
-    position: relative;
-    opacity: 0;
-    transform: translateX(14px);
-    pointer-events: none;
-    transition:
-      opacity var(--um-dur-2, 0.3s) ease,
-      transform var(--um-dur-2, 0.3s) ease,
-      background var(--um-dur-1, 0.2s) ease;
-  }
-  .urbnmyth-product-card:hover .urbnmyth-circle-btn {
-    pointer-events: auto;
-  }
-  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(1) {
-    opacity: 1; transform: translateX(0); transition-delay: 0ms;
-  }
-  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(2) {
-    opacity: 1; transform: translateX(0); transition-delay: 80ms;
-  }
-  .urbnmyth-product-card:hover .urbnmyth-circle-btn:nth-child(3) {
-    opacity: 1; transform: translateX(0); transition-delay: 160ms;
-  }
-  .urbnmyth-circle-btn:hover {
-    background: #f2f2f2;
-    transform: translateX(0) scale(1.07);
-  }
-  .urbnmyth-wishlist-btn.urbnmyth-wishlisted svg { fill: var(--um-ink, #1a1a1a); }
-
-  /* Tooltip */
-  .urbnmyth-circle-btn::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    right: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--um-ink, #1a1a1a);
-    color: var(--um-surface, #fff);
-    padding: 4px 9px;
-    font-size: 0.68rem;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    border-radius: var(--um-r-1, 4px);
-    transition: opacity 0.15s ease;
-    font-family: inherit;
-  }
-  .urbnmyth-circle-btn:hover::before { opacity: 1; }
-
   /* ── Add to Cart bar (slides up from bottom on hover) ── */
   .urbnmyth-hover-add {
     position: absolute;
@@ -205,7 +136,7 @@
   }
 
   /* ── Info block (title, price, sizes, colors) ── */
-  .urbnmyth-product-info { padding: 12px 2px 18px; }
+  .urbnmyth-product-info { padding: 14px 16px 18px; }
 
   .urbnmyth-product-title {
     display: block;
@@ -216,8 +147,10 @@
     color: var(--um-ink, #1a1a1a);
     line-height: 1.45;
     letter-spacing: 0.05px;
+    text-transform: lowercase;
     transition: opacity var(--um-dur-1, 0.2s);
   }
+  .urbnmyth-product-title::first-letter { text-transform: uppercase; }
   .urbnmyth-product-title:hover { opacity: 0.6; }
 
   .urbnmyth-product-price {
@@ -227,7 +160,7 @@
     margin-bottom: 10px;
     font-size: 0.88rem;
     flex-wrap: wrap;
-    color: var(--um-ink, #1a1a1a);
+    color: #767676;
   }
   .urbnmyth-price-compare {
     font-size: 0.82rem;
