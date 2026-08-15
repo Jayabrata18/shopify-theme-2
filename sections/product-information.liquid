@@ -2654,7 +2654,16 @@
     };
   }
 </script>
-
+<script>
+  fbq('track', 'ViewContent', {
+    content_ids: ['{{ product.selected_or_first_available_variant.id }}'],
+    content_type: 'product',
+    content_name: '{{ product.title | escape }}',
+    content_category: '{{ product.type | escape }}',
+    value: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+    currency: '{{ cart.currency.iso_code }}'
+  });
+</script>
 {% schema %}
 {
   "name": "URBNMYTH Product Page",
