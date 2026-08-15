@@ -25,7 +25,23 @@
         s.parentNode.insertBefore(t, s);
       })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '3422980447860388');
-      fbq('track', 'PageView');
+      fbq('track', 'PageView', {
+    {% if customer %}
+      em: '{{ customer.email | strip | downcase }}',
+      fn: '{{ customer.first_name | strip | downcase }}',
+      ln: '{{ customer.last_name | strip | downcase }}',
+      {% if customer.default_address.phone %}
+        ph: '{{ customer.default_address.phone | remove: "+" | remove: "-" | remove: " " | remove: "(" | remove: ")" }}',
+      {% endif %}
+      {% if customer.default_address %}
+        ct: '{{ customer.default_address.city | strip | downcase | remove: " " }}',
+        st: '{{ customer.default_address.province_code | strip | downcase }}',
+        zp: '{{ customer.default_address.zip | strip | downcase }}',
+        country: '{{ customer.default_address.country_code | strip | downcase }}',
+      {% endif %}
+      external_id: '{{ customer.id }}',
+    {% endif %}
+  });
       {% comment %} fbq('track', 'AddPaymentInfo');
       fbq('track', 'AddToCart');
       fbq('track', 'InitiateCheckout');
