@@ -1711,46 +1711,326 @@
   {%- endif -%}
   <!-- Customer Reviews Section -->
   <style>
-    /* Global star-glyph fix for Judge.me — their icon font sometimes fails and shows
-       "G / q" letters. Replace with real Unicode stars everywhere the widget appears,
-       including the write-review modal that renders outside .pdp-reviews-section. */
+    /* ─────────────────────────────────────────────────────────────
+       Judge.me star-glyph fallback.
+       Their icon font sometimes fails to load and renders "G / q"
+       letters instead of stars, so we swap in a real Unicode star.
+       Sizes MUST be absolute px — font-size is forced to 0 to hide
+       the broken glyph, so any em-based width/height collapses to 0
+       and takes the whole rating row with it.
+       ───────────────────────────────────────────────────────────── */
     .jdgm-star {
       font-size: 0 !important;
       line-height: 1 !important;
       color: transparent !important;
-      display: inline-block !important;
-      width: 1.15em !important;
-      height: 1.15em !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 30px !important;
+      height: 30px !important;
+      min-width: 30px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
       background: none !important;
+      cursor: pointer;
     }
     .jdgm-star::before {
       content: '\2605' !important;
       font-family: 'CoolveticaRg', Arial, sans-serif !important;
-      font-size: 22px !important;
-      color: #d9d9d9 !important;
+      font-size: 28px !important;
       line-height: 1 !important;
-      display: inline-block !important;
+      color: #dcdcdc !important;
+      display: block !important;
+      transition: color 0.15s ease, transform 0.15s ease;
     }
     .jdgm-star.jdgm-star--on::before,
     .jdgm-star.jdgm--on::before,
     .jdgm-star.jdgm-star--sel::before,
-    .jdgm-star.jdgm-star--hover::before {
+    .jdgm-star.jdgm-star--hover::before,
+    .jdgm-star:hover::before {
       color: #111 !important;
     }
+    .jdgm-star:hover::before {
+      transform: scale(1.12);
+    }
     .jdgm-star.jdgm-star--half::before {
-      background: linear-gradient(90deg, #111 50%, #d9d9d9 50%) !important;
+      background: linear-gradient(90deg, #111 50%, #dcdcdc 50%) !important;
       -webkit-background-clip: text !important;
               background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
       color: transparent !important;
     }
-    /* Modal-specific star sizing so they read as stars, not oversized letters */
-    .jdgm-form .jdgm-star::before,
-    .jdgm-form-wrapper .jdgm-star::before,
-    .jdgm-rev-form .jdgm-star::before {
-      font-size: 32px !important;
+
+    /* ─────────────────────────────────────────────────────────────
+       Write-a-review modal (rendered by Judge.me at <body> level,
+       so these rules are intentionally outside .pdp-reviews-section)
+       ───────────────────────────────────────────────────────────── */
+    .jdgm-write-review-modal,
+    .jdgm-write-review-modal * {
+      font-family: 'CoolveticaRg', sans-serif !important;
+    }
+    /* NEVER set `display` on .jdgm-write-review-modal itself. Judge.me opens and
+       closes the modal by writing an inline `display: block` / `display: none`
+       onto that element, and an !important rule here outranks the inline style —
+       which pins an empty modal permanently open and makes the close button a
+       no-op. Centre the card with absolute positioning instead; the modal root is
+       already position: fixed with inset 0, so it is the containing block. */
+    .jdgm-write-review-modal__overlay {
+      /* Judge.me already applies opacity: 0.5 to the overlay, so use a solid
+         colour here rather than a second alpha channel on top of it. */
+      background: #000 !important;
+      opacity: 0.55 !important;
+    }
+    .jdgm-write-review-modal__container {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      margin: 0 !important;
+      max-width: 520px !important;
+      width: calc(100% - 32px) !important;
+      height: auto !important;
+      max-height: calc(100vh - 48px) !important;
+      border-radius: 0 !important;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22) !important;
+      overflow: hidden !important;
+    }
+    .jdgm-write-review-modal__content {
+      background: #fff !important;
+      border-radius: 0 !important;
+      padding: 40px 36px 32px !important;
+      height: auto !important;
+      max-height: calc(100vh - 48px) !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
+    .jdgm-write-review-modal__close-btn {
+      top: 14px !important;
+      right: 14px !important;
+      width: 34px !important;
+      height: 34px !important;
+      border: 1px solid #e5e5e5 !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: #111 !important;
+      opacity: 1 !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .jdgm-write-review-modal__close-btn:hover {
+      background: #111 !important;
+      border-color: #111 !important;
+      color: #fff !important;
+    }
+    .jdgm-write-review-modal__close-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+    .jdgm-write-review-modal__page-header {
+      text-align: center !important;
+    }
+    .jdgm-write-review-modal__title {
+      font-size: 1.35rem !important;
+      font-weight: 700 !important;
+      color: #111 !important;
+      line-height: 1.25 !important;
+      letter-spacing: 0.01em !important;
+      margin: 0 0 8px !important;
+    }
+    .jdgm-write-review-modal__intro {
+      font-size: 0.92rem !important;
+      color: #666 !important;
+      line-height: 1.5 !important;
+      max-width: 340px;
+      margin: 0 auto !important;
+    }
+    .jdgm-write-review-modal__form {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0 !important;
+      margin-top: 24px !important;
+    }
+    .jdgm-write-review-modal__product-image {
+      width: 132px !important;
+      height: 132px !important;
+      margin: 0 auto !important;
+      border-radius: 0 !important;
+      background: #f6f6f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .jdgm-write-review-modal__product-image img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      mix-blend-mode: multiply;
+    }
+    .jdgm-write-review-modal__product-title {
+      font-size: 0.95rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      color: #111 !important;
+      text-align: center !important;
+      margin: 18px 0 0 !important;
+    }
+    /* Star picker. The "Poor" / "Great" captions are ::before / ::after on the
+       row — kept as static flex items so they sit beside the stars instead of
+       being absolutely positioned on top of them. */
+    .jdgm-write-review-modal__stars {
+      position: relative !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: auto !important;
+      height: auto !important;
+      gap: 8px !important;
+      margin: 24px auto 0 !important;
+      padding: 0 !important;
+    }
+    .jdgm-write-review-modal__stars::before,
+    .jdgm-write-review-modal__stars::after {
+      position: static !important;
+      transform: none !important;
+      align-self: center !important;
+      flex: 0 0 auto !important;
+      margin: 0 6px !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      line-height: 1 !important;
+      color: #9a9a9a !important;
+    }
+    /* Step 2 — compact recap header (product title + chosen rating) */
+    .jdgm-write-review-modal__page--review-details .jdgm-write-review-modal__page-header {
+      padding-bottom: 20px !important;
+      border-bottom: 1px solid #ededed !important;
+      margin-bottom: 24px !important;
+    }
+    .jdgm-write-review-modal__field-group--stars {
+      display: flex !important;
+      justify-content: center !important;
+      margin-top: 10px !important;
+    }
+    .jdgm-write-review-modal__field-group--stars .jdgm-write-review-modal__stars {
+      margin-top: 8px !important;
+      gap: 6px !important;
+    }
+    .jdgm-write-review-modal__field-group--stars .jdgm-write-review-modal__stars::before,
+    .jdgm-write-review-modal__field-group--stars .jdgm-write-review-modal__stars::after {
+      content: none !important;
+    }
+    .jdgm-write-review-modal__field-group--stars .jdgm-star {
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+    }
+    .jdgm-write-review-modal__field-group--stars .jdgm-star::before {
+      font-size: 20px !important;
+    }
+    /* Form fields */
+    .jdgm-write-review-modal__page--review-details .jdgm-write-review-modal__form {
+      align-items: stretch !important;
+      width: 100% !important;
+      margin-top: 0 !important;
+    }
+    .jdgm-write-review-modal__field-group {
+      width: 100% !important;
+    }
+    .jdgm-write-review-modal__field-label {
+      display: block !important;
+      font-size: 0.72rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase !important;
+      color: #111 !important;
+      margin-bottom: 8px !important;
+    }
+    .jdgm-write-review-modal__field-input {
+      width: 100% !important;
+      border: 1px solid #dcdcdc !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      padding: 14px !important;
+      font-size: 0.95rem !important;
+      line-height: 1.55 !important;
+      color: #111 !important;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    textarea.jdgm-write-review-modal__field-input {
+      flex: 0 0 auto !important;
+      height: 150px !important;
+      min-height: 150px !important;
+      max-height: 260px !important;
+      resize: vertical !important;
+    }
+    .jdgm-write-review-modal__field-input::placeholder {
+      color: #a8a8a8 !important;
+    }
+    .jdgm-write-review-modal__field-input:focus {
+      border-color: #111 !important;
+      box-shadow: inset 0 0 0 1px #111 !important;
+      outline: none !important;
+    }
+    .jdgm-write-review-modal__gdpr-statement {
+      font-size: 0.75rem !important;
+      color: #8a8a8a !important;
+      line-height: 1.5 !important;
+      text-align: center !important;
+      margin-top: 20px !important;
+    }
+    .jdgm-write-review-modal__gdpr-statement a {
+      color: #111 !important;
+      text-decoration: underline !important;
+    }
+    /* Step navigation */
+    .jdgm-write-review-modal__navigation {
+      align-items: center !important;
+      margin-top: 22px !important;
+      padding-top: 18px !important;
+      border-top: 1px solid #ededed !important;
+    }
+    .jdgm-write-review-modal__nav-btn {
+      border-radius: 0 !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+    .jdgm-write-review-modal__nav-btn-next {
+      width: auto !important;
+      flex: 0 0 auto !important;
+      min-width: 150px;
+      padding: 15px 40px !important;
+      background: #111 !important;
+      border: 1px solid #111 !important;
+      color: #fff !important;
+    }
+    .jdgm-write-review-modal__nav-btn-next:hover {
+      background: #333 !important;
+      border-color: #333 !important;
+    }
+    .jdgm-write-review-modal__nav-btn-back {
+      background: transparent !important;
+      border: none !important;
+      color: #666 !important;
+      padding: 15px 4px !important;
+    }
+    .jdgm-write-review-modal__nav-btn-back:hover {
+      color: #111 !important;
     }
 
+    /* ─────────────────────────────────────────────────────────────
+       Reviews section on the PDP
+       ───────────────────────────────────────────────────────────── */
     .pdp-reviews-section {
       padding: 64px 40px 0;
       border-top: 1px solid #e8e8e8;
@@ -1761,86 +2041,38 @@
       font-weight: 700;
       color: #111;
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 16px;
       letter-spacing: 0.01em;
     }
-    .pdp-reviews-summary-row {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      border: 1px solid #e5e5e5;
-      border-radius: 2px;
-      max-width: 860px;
-      margin: 0 auto 40px;
-      overflow: hidden;
-      font-family: 'CoolveticaRg', sans-serif;
-    }
-    .pdp-reviews-summary-left {
-      flex: 1;
-      padding: 28px 36px;
+    .pdp-reviews-summary {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 8px;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 28px;
+      font-family: 'CoolveticaRg', sans-serif;
     }
     .pdp-reviews-stars {
       display: flex;
-      gap: 4px;
+      gap: 5px;
     }
     .pdp-reviews-stars svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
-      stroke: #d9d9d9;
-      stroke-width: 1.5;
+      width: 20px;
+      height: 20px;
+      fill: #e0e0e0;
     }
     .pdp-reviews-stars svg.is-filled {
       fill: #f5c842;
-      stroke: #f5c842;
+    }
+    .pdp-reviews-summary-text {
+      font-size: 0.92rem;
+      color: #666;
+      letter-spacing: 0.02em;
     }
     .pdp-reviews-summary-avg {
-      font-family: 'CoolveticaRg', sans-serif;
       font-size: 1.05rem;
       font-weight: 700;
       color: #111;
-      margin-right: 4px;
-    }
-    .pdp-reviews-summary-text {
-      font-family: 'CoolveticaRg', sans-serif;
-      font-size: 0.95rem;
-      color: #333;
-      line-height: 1.4;
-    }
-    .pdp-reviews-divider {
-      width: 1px;
-      align-self: stretch;
-      background: #e0e0e0;
-      flex-shrink: 0;
-    }
-    .pdp-reviews-summary-right {
-      flex: 1;
-      padding: 28px 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pdp-reviews-write-btn {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 16px 40px;
-      font-family: 'CoolveticaRg', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      transition: background 0.2s;
-      width: 100%;
-      max-width: 320px;
-    }
-    .pdp-reviews-write-btn:hover,
-    .pdp-reviews-write-btn:focus {
-      background: #222;
     }
 
     /* Judge.me widget: force Coolvetica typography */
@@ -1848,98 +2080,142 @@
     .pdp-reviews-section .jdgm-widget * {
       font-family: 'CoolveticaRg', sans-serif !important;
     }
-
-    /* Judge.me's newer review widget renders each review's star rating as an
-       icon-font glyph (.jm-star-rating__font-icon, font: JudgemeStar). The
-       blanket Coolvetica override above was clobbering that font, so every
-       star glyph rendered as a literal "G" instead of a star. Restore the
-       icon font here (needs to out-specificity the rule above) and recolor
-       the stars gold to match the rating color used elsewhere on the PDP. */
+    /* Judge.me renders each review's rating as an icon-font glyph
+       (.jm-star-rating__font-icon, font: JudgemeStar). The blanket Coolvetica
+       override above clobbers that font and every star renders as a literal
+       "G", so restore the icon font here and recolour it to match the PDP. */
     .pdp-reviews-section .jdgm-widget .jm-star-rating__font-icon {
       font-family: 'JudgemeStar', monospace !important;
       color: #f5c842 !important;
     }
 
-    /* Hide Judge.me's built-in header/summary/write-button entirely — our custom card
-       above already provides these. We keep #judgeme_product_reviews itself in the DOM
-       for the reviews body and for the write-review modal's click target. */
+    /* Drop the widget's own title + score — the section heading and summary
+       above already say the same thing. The toolbar row is kept. */
+    .pdp-reviews-section .jm-review-widget-minimal-header__title,
+    .pdp-reviews-section .jm-average-rating-display--minimal-header,
     .pdp-reviews-section .jdgm-rev-widg__header,
     .pdp-reviews-section .jdgm-rev-widg__title,
-    .pdp-reviews-section .jdgm-rev-widg__summary,
-    .pdp-reviews-section .jdgm-rev-widg__summary-stars,
-    .pdp-reviews-section .jdgm-rev-widg__summary-text,
-    .pdp-reviews-section .jdgm-widget-actions-wrapper,
-    .pdp-reviews-section .jdgm-rev-widg__actions,
-    #judgeme_product_reviews .jdgm-rev-widg__header,
-    #judgeme_product_reviews .jdgm-rev-widg__title,
-    #judgeme_product_reviews .jdgm-rev-widg__summary,
-    #judgeme_product_reviews .jdgm-widget-actions-wrapper,
-    #judgeme_product_reviews .jdgm-rev-widg__actions {
+    .pdp-reviews-section .jdgm-rev-widg__summary {
       display: none !important;
     }
-    /* Keep the write-rev-link element in DOM but visually gone, so our custom button
-       can still trigger its click handler to open the review-form modal. */
-    #judgeme_product_reviews .jdgm-write-rev-link,
-    .pdp-reviews-section .jdgm-write-rev-link {
-      position: absolute !important;
-      left: -10000px !important;
-      top: auto !important;
-      width: 1px !important;
-      height: 1px !important;
-      overflow: hidden !important;
-      opacity: 0 !important;
-      display: block !important;
+    /* The widget ships with 48px of its own top padding, which stacks on top of
+       the summary's margin and leaves a hole between the two. */
+    .pdp-reviews-section .jm-review-widget {
+      padding-top: 0 !important;
+    }
+    .pdp-reviews-section .jm-review-widget__header {
+      padding-bottom: 18px !important;
+      border-bottom: 1px solid #e8e8e8 !important;
+      margin-bottom: 4px !important;
+    }
+    .pdp-reviews-section .jm-review-widget-minimal-header__button-and-filters {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      flex-wrap: wrap !important;
+      width: 100% !important;
+      gap: 12px !important;
+    }
+    .pdp-reviews-section .jm-action-buttons__button {
+      background: #111 !important;
+      border: 1px solid #111 !important;
+      color: #fff !important;
+      border-radius: 0 !important;
+      padding: 13px 30px !important;
+      font-size: 0.8rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.09em !important;
+      text-transform: uppercase !important;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+    .pdp-reviews-section .jm-action-buttons__button:hover {
+      background: #333 !important;
+      border-color: #333 !important;
+    }
+    .pdp-reviews-section .jm-custom-answer-filter,
+    .pdp-reviews-section .jm-sort-filter {
+      height: 44px !important;
+      padding: 0 14px !important;
+      border: 1px solid #dcdcdc !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: #111 !important;
+      font-size: 0.8rem !important;
+      letter-spacing: 0.06em !important;
+      text-transform: uppercase !important;
+      transition: border-color 0.15s ease;
+    }
+    .pdp-reviews-section .jm-custom-answer-filter:hover,
+    .pdp-reviews-section .jm-sort-filter:hover {
+      border-color: #111 !important;
+    }
+    /* The sort control is icon-only in compact mode: the <select> is a 32px-wide
+       invisible hit target sitting under the icon, so its label must stay
+       transparent or it renders as clipped garbage on top of the icon. */
+    .pdp-reviews-section .jm-sort-filter__select {
+      border: none !important;
+      background: transparent !important;
+      color: transparent !important;
+      cursor: pointer;
+    }
+    .pdp-reviews-section .jm-sort-filter__select option {
+      color: #111 !important;
     }
 
-    /* Judge.me reviews body (list) — align spacing/typography with the page */
+    /* Review list */
     .pdp-reviews-section #judgeme_product_reviews {
       max-width: 860px;
       margin: 0 auto;
     }
-    .pdp-reviews-section .jdgm-rev-widg__body {
-      margin-top: 8px;
-    }
-    .pdp-reviews-section .jdgm-rev {
-      border-top: 1px solid #e8e8e8;
-      padding: 24px 4px;
-      color: #111;
-    }
-    .pdp-reviews-section .jdgm-rev:first-child {
-      border-top: none;
-    }
-    .pdp-reviews-section .jdgm-rev__author {
-      font-weight: 700;
-      color: #111;
-    }
-    .pdp-reviews-section .jdgm-rev__timestamp,
-    .pdp-reviews-section .jdgm-rev__location {
-      color: #666;
-      font-size: 0.85rem;
-    }
-    .pdp-reviews-section .jdgm-rev__title {
-      font-weight: 700;
-      color: #111;
-      margin: 6px 0 4px;
-    }
-    .pdp-reviews-section .jdgm-rev__body {
-      color: #333;
-      line-height: 1.55;
-    }
-    /* Pagination + any leftover Judge.me action buttons */
-    .pdp-reviews-section .jdgm-paginate__page {
-      color: #666;
-    }
-    .pdp-reviews-section .jdgm-paginate__page.jdgm-curr {
-      color: #111;
-      font-weight: 700;
-    }
-    .pdp-reviews-section .jdgm-btn,
-    .pdp-reviews-section .jdgm-btn--solid {
-      background: #000 !important;
-      color: #fff !important;
-      border-color: #000 !important;
-      font-family: 'CoolveticaRg', sans-serif !important;
+    .pdp-reviews-section .jm-review-item {
+      padding: 28px 0 !important;
+      border-top: 1px solid #ededed !important;
       border-radius: 0 !important;
+      background: transparent !important;
+    }
+    .pdp-reviews-section .jm-review-item:first-child {
+      border-top: none !important;
+    }
+    .pdp-reviews-section .jm-reviewer-avatar {
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 50% !important;
+      background: #111 !important;
+    }
+    .pdp-reviews-section .jm-reviewer-avatar__initial span {
+      color: #fff !important;
+      font-weight: 700 !important;
+    }
+    .pdp-reviews-section .jm-reviewer-info__name {
+      font-weight: 700 !important;
+      color: #111 !important;
+    }
+    .pdp-reviews-section .jm-review-content__title {
+      font-size: 1.02rem !important;
+      font-weight: 700 !important;
+      color: #111 !important;
+    }
+    .pdp-reviews-section .jm-review-body-wrapper {
+      color: #444 !important;
+      line-height: 1.6 !important;
+    }
+
+    /* Pagination */
+    .pdp-reviews-section .jm-pagination-controls {
+      margin-top: 12px !important;
+    }
+    .pdp-reviews-section .jm-pagination-controls__button {
+      min-width: 38px !important;
+      height: 38px !important;
+      border: 1px solid #dcdcdc !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: #111 !important;
+    }
+    .pdp-reviews-section .jm-pagination-controls__button--active {
+      background: #111 !important;
+      border-color: #111 !important;
+      color: #fff !important;
     }
 
     @media (max-width: 900px) {
@@ -1948,36 +2224,19 @@
       }
       .pdp-reviews-heading {
         font-size: 1.4rem;
-        margin-bottom: 24px;
       }
-      .pdp-reviews-summary-row {
-        flex-direction: column;
-      }
-      .pdp-reviews-divider {
-        width: 100%;
-        height: 1px;
-        align-self: auto;
-      }
-      .pdp-reviews-summary-left,
-      .pdp-reviews-summary-right {
-        padding: 20px 20px;
-        width: 100%;
-        text-align: center;
-        align-items: center;
-      }
-      .pdp-reviews-summary-left {
-        align-items: center;
-      }
-      .pdp-reviews-summary-text {
-        text-align: center;
-      }
-      .pdp-reviews-write-btn {
-        max-width: 100%;
-        padding: 14px 24px;
+      .pdp-reviews-summary {
+        margin-bottom: 20px;
       }
       .pdp-reviews-stars svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
+      }
+      .pdp-reviews-section .jm-review-widget-minimal-header__button-and-filters {
+        justify-content: center !important;
+      }
+      .pdp-reviews-section .jm-action-buttons__button {
+        width: 100% !important;
       }
     }
     @media (max-width: 480px) {
@@ -1986,25 +2245,30 @@
       }
       .pdp-reviews-heading {
         font-size: 1.2rem;
-        margin-bottom: 20px;
-      }
-      .pdp-reviews-summary-left,
-      .pdp-reviews-summary-right {
-        padding: 18px 16px;
-      }
-      .pdp-reviews-stars svg {
-        width: 18px;
-        height: 18px;
-      }
-      .pdp-reviews-summary-avg {
-        font-size: 1rem;
       }
       .pdp-reviews-summary-text {
         font-size: 0.88rem;
       }
-      .pdp-reviews-write-btn {
-        font-size: 0.9rem;
-        padding: 13px 20px;
+      .jdgm-write-review-modal__content {
+        padding: 34px 20px 24px !important;
+      }
+      .jdgm-write-review-modal__title {
+        font-size: 1.15rem !important;
+      }
+      .jdgm-write-review-modal__product-image {
+        width: 108px !important;
+        height: 108px !important;
+      }
+      .jdgm-write-review-modal__stars {
+        gap: 4px !important;
+      }
+      .jdgm-write-review-modal__stars::before,
+      .jdgm-write-review-modal__stars::after {
+        margin: 0 2px !important;
+      }
+      .jdgm-write-review-modal__nav-btn-next {
+        min-width: 128px;
+        padding: 14px 28px !important;
       }
     }
   </style>
@@ -2014,33 +2278,22 @@
   {%- assign summary_filled = summary_rating_value | round -%}
   <div class="pdp-reviews-section">
     <h2 class="pdp-reviews-heading">Customer Reviews</h2>
-    <div class="pdp-reviews-summary-row">
-      <div class="pdp-reviews-summary-left">
-        <div class="pdp-reviews-stars">
-          {%- for i in (1..5) -%}
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="{% if summary_rating_count > 0 and i <= summary_filled %}is-filled{% endif %}">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-          {%- endfor -%}
-        </div>
-        <span class="pdp-reviews-summary-text">
-          {%- if summary_rating_count > 0 -%}
-            <span class="pdp-reviews-summary-avg">{{ summary_rating_value | round: 1 }}</span>
-            out of 5 &middot; {{ summary_rating_count }} {% if summary_rating_count == 1 %}review{% else %}reviews{% endif %}
-          {%- else -%}
-            Be the first to write a review
-          {%- endif -%}
-        </span>
+    <div class="pdp-reviews-summary">
+      <div class="pdp-reviews-stars">
+        {%- for i in (1..5) -%}
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="{% if summary_rating_count > 0 and i <= summary_filled %}is-filled{% endif %}">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        {%- endfor -%}
       </div>
-      <div class="pdp-reviews-divider"></div>
-      <div class="pdp-reviews-summary-right">
-        <button
-          class="pdp-reviews-write-btn"
-          onclick="document.querySelector('.jdgm-write-rev-link, [data-jdgm-target=write-review]')?.click() || document.getElementById('judgeme_product_reviews')?.scrollIntoView({behavior:'smooth'})"
-        >
-          Write a review
-        </button>
-      </div>
+      <span class="pdp-reviews-summary-text">
+        {%- if summary_rating_count > 0 -%}
+          <span class="pdp-reviews-summary-avg">{{ summary_rating_value | round: 1 }}</span>
+          out of 5 &middot; {{ summary_rating_count }} {% if summary_rating_count == 1 %}review{% else %}reviews{% endif %}
+        {%- else -%}
+          Be the first to write a review
+        {%- endif -%}
+      </span>
     </div>
 
     <!-- Start of Judge.me code -->
